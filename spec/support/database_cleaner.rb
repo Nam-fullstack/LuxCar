@@ -4,7 +4,8 @@ Rspec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  conf.before(:each) do
+#   config.before(:each, :js => true) do
+  config.before(:each) do
     DatabaseCleaner.strategy = :transaction
   end
 
