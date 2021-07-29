@@ -1,6 +1,7 @@
 class Variant < ApplicationRecord
-  belongs_to :engine
-  belongs_to :transmission
-  belongs_to :fuel
-  belongs_to :body_type
+  belongs_to :model
+  has_many :engines
+  has_one :transmission
+  has_many :fuel
+  has_one :body_type
 end

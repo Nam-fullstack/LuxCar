@@ -1,5 +1,5 @@
 class Model < ApplicationRecord
   belongs_to :make
-  belongs_to :variant
-  belongs_to :year
+  has_many :variants
+  has_one :year
 end

@@ -1,4 +1,4 @@
 class Purchase < ApplicationRecord
-  belongs_to :invoice
+  has_one :invoice
   belongs_to :listing
 end
