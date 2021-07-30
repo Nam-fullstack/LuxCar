@@ -9,6 +9,7 @@
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
 years = 1950..2021
 transmissions = ['Automatic', 'Manual']
+fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 
 if User.count.zero?
   User.create(
@@ -44,5 +45,12 @@ if Transmission.count.zero?
   transmissions.each do |transmission|
     Transmission.create(name: transmission)
     puts "Created #{transmission} transmission"
+  end
+end
+
+if Fuel.count.zero?
+  fuel_types.each do |fuel|
+    Fuel.create(name: fuel)
+    puts "Created #{fuel} fuel type"
   end
 end
