@@ -11,6 +11,8 @@ years = 1950..2021
 transmissions = ['Automatic', 'Manual']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 engines = ['Electric', 'V2', 'V3', 'V4', 'Inline 5', 'V6', 'Inline 6', 'V8', 'V10', 'V12', 'W16']
+body_types = ['Convertible', 'Coupe', 'Hatch', 'Sedan', 'SUV', 'Wagon']
+colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 
 if User.count.zero?
   User.create(
@@ -62,3 +64,4 @@ if Engine.count.zero?
     puts "Created #{engine} engine"
   end
 end
+
