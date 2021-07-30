@@ -1,4 +1,4 @@
-class ListingsController < ApplicationController
+class EventsController < ApplicationController
     def index
     end
 
@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
 
     def new
     end
-
+    
     def show
     end
 

@@ -1,0 +1,50 @@
+<div class='container d-flex flex-column flex-md-row px-2 my-2 my-md-5'>
+  <div class='content col-12 col-md-7 col-lg-8 p-0 pr-md-3'> 
+      <div class='col-12 p-0 main-preview mb-4'>
+          <%=image_tag image_select(@listing), class:'thumbnail card-img top'%>
+      </div>
+  </div>
+    <div class= 'sidebar col-lg-4 p-0 mx-2 d-md-block'>
+      <h1 class='mb-sm-2 mb-md-5'><%=@listing.title%></h1>
+      <h4 class='text-muted'>Condition: <%=@listing.condition.capitalize%></h4>
+      <%@listing.features.each do |feature|%>
+        <span class='badge badge-pill badge-info'><%=feature.name%></span>
+        <%end%>
+            <p class='blockquote mt-2'><%=@listing.description%></p>
+        <%if current_user && @listing.sold == false%>
+          <button data-stripe="payment" class="btn btn-primary p-3">Buy: $<%=@listing.price%></button>
+        <%elsif @listing.sold == true%>
+          <button class='btn btn-secondary' disabled>SOLD</button>
+        <%else%>
+          <%=button_to "Login to buy", new_user_session_path, class: "btn btn-info"%>
+        <%end%>
+    </div>
+  </div>
+</div>
+<div class='container'>
+  <div class ='d-flex justify-content-evenly'>
+  <%=link_to "Edit", edit_listing_path(@listing.id), class: "btn btn-warning mr-3"%>
+  <%=link_to "Delete", @listing, method: :delete, data: {confirm: "Are you sure?"} , class: "btn btn-danger mr-3"%>
+  </div>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  document.querySelector("[data-stripe='payment']")
+      .addEventListener("click", () => {
+        const stripe = Stripe(
+          "<%=Rails.application.credentials.dig(:stripe, :public_key)%>"
+        );
+        stripe.redirectToCheckout({
+          sessionId: "<%=@session_id%>"
+        });
+      });
+</script>
+
+
+
+  
+
+  
+
+

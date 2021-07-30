@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_28_135633) do
+ActiveRecord::Schema.define(version: 2021_07_30_064404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,9 +22,7 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
   end
 
   create_table "engines", force: :cascade do |t|
-    t.string "type"
-    t.decimal "displacement", precision: 10, scale: 1
-    t.integer "power"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -44,8 +42,15 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
     t.index ["seller_id"], name: "index_events_on_seller_id"
   end
 
+  create_table "features", force: :cascade do |t|
+    t.string "name"
+    t.text "extra"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "fuels", force: :cascade do |t|
-    t.string "type"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -66,6 +71,7 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
     t.bigint "user_id", null: false
     t.bigint "make_id", null: false
     t.bigint "model_id", null: false
+    t.integer "year", null: false
     t.integer "price"
     t.integer "mileage"
     t.string "title"
@@ -76,6 +82,15 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
     t.index ["make_id"], name: "index_listings_on_make_id"
     t.index ["model_id"], name: "index_listings_on_model_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "listings_features", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "feature_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["feature_id"], name: "index_listings_features_on_feature_id"
+    t.index ["listing_id"], name: "index_listings_features_on_listing_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -119,7 +134,7 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
   end
 
   create_table "transmissions", force: :cascade do |t|
-    t.string "type"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -145,14 +160,14 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
 
   create_table "variants", force: :cascade do |t|
     t.string "name"
-    t.bigint "engine_id", null: false
-    t.bigint "transmission_id", null: false
-    t.bigint "fuel_id", null: false
-    t.bigint "body_type_id", null: false
+    t.bigint "engine_id"
+    t.bigint "transmission_id"
+    t.bigint "fuel_id"
+    t.bigint "body_type_id"
+    t.integer "safety_rating"
+    t.decimal "displacement", precision: 10, scale: 1
+    t.integer "power"
     t.integer "weight"
-    t.integer "width"
-    t.integer "length"
-    t.integer "height"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["body_type_id"], name: "index_variants_on_body_type_id"
@@ -176,6 +191,8 @@ ActiveRecord::Schema.define(version: 2021_07_28_135633) do
   add_foreign_key "listings", "makes"
   add_foreign_key "listings", "models"
   add_foreign_key "listings", "users"
+  add_foreign_key "listings_features", "features"
+  add_foreign_key "listings_features", "listings"
   add_foreign_key "models", "makes"
   add_foreign_key "models", "variants"
   add_foreign_key "models", "years"

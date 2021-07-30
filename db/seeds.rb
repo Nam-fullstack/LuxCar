@@ -6,15 +6,28 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-if User.size.zero?
+makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
+
+
+if User.count.zero?
   User.create(
-    username: "administrator"
-    email: "admin@admin.com"
+    username: "administrator",
+    email: "admin@admin.com",
     password: "administrator"
   )
+  puts "Created Admin"
+  
   User.create(
-    username: "test"
-    email: "test@test.com"
+    username: "test",
+    email: "test@test.com",
     password: "testing"
   )
+  puts "Created test User"
+end
+
+if Make.count.zero?
+  makes.each do |make|
+    Make.create(name: make)
+    puts "Created #{make} make"
+  end
 end
