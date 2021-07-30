@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
-
+years = 1950..2021
 
 if User.count.zero?
   User.create(
@@ -29,5 +29,12 @@ if Make.count.zero?
   makes.each do |make|
     Make.create(name: make)
     puts "Created #{make} make"
+  end
+end
+
+if Year.count.zero?
+  years.each do |year|
+    Year.create(year: year)
+    puts "Created #{year} year"
   end
 end
