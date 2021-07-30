@@ -8,6 +8,7 @@
 
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
 years = 1950..2021
+transmissions = ['Automatic', 'Manual']
 
 if User.count.zero?
   User.create(
@@ -36,5 +37,12 @@ if Year.count.zero?
   years.each do |year|
     Year.create(year: year)
     puts "Created #{year} year"
+  end
+end
+
+if Transmission.count.zero?
+  transmissions.each do |transmission|
+    Transmission.create(name: transmission)
+    puts "Created #{transmission} transmission"
   end
 end
