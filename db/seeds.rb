@@ -70,16 +70,23 @@ if Engine.count.zero?
   end
 end
 
-if Drives.count.zero?
+if Drive.count.zero?
   drives.each do |drive|
     Drive.create(name: drive)
     puts "Created #{drive} drivetrain"
   end
 end
 
-if States.count.zero?
+if State.count.zero?
   states.each do |state|
-    Drive.create(name: state)
+    State.create(name: state)
     puts "Created #{state} state"
+  end
+end
+
+if Door.count.zero?
+  doors.each do |door|
+    Door.create(name: door)
+    puts "Created #{door} doors"
   end
 end
