@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
   resources :messages
   resources :conversations
-  get 'pages/home'
-  get 'pages/restricted'
   resources :listings
   resources :events
-  devise_for :users
+  devise_for :admins, controllers: { sessions: 'admins/sessions' }
+  devise_for :users, controllers: { sessions: 'users/sessions' }
+
   root to: 'pages#home'
+  get 'pages/restricted'
   # get '/success', to: "payments#success", as: "payment_success"
   # post '/payments/webhook', to: "payments#webhook", as: "webhook"
+  # post '/payments', to: "payments#create_payment_intent", as: "create_payment_intent"
 end
