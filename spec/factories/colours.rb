@@ -1,6 +1,5 @@
 FactoryBot.define do
-  factory :body_type do
+  factory :colour do
     name { "MyString" }
-    door { nil }
   end
 end

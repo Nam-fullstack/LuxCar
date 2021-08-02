@@ -1,0 +1,2 @@
+class DriveType < ApplicationRecord
+end
