@@ -1,4 +1,4 @@
 class Event < ApplicationRecord
   belongs_to :listing
-  belongs_to :location
+  has_one :location
 end

@@ -5,9 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :lockable, :timeoutable
 
-  has_many :listings
-  has_many :purchases
-  # has_many :conversations
-  # has_many :comments
-  has_one :location
+  # Associations
+  has_one :profile, dependent: :destroy
+  has_many :chats, dependent: :destroy
+  has_many :messages, dependent: :destroy
+  has_many :listings, dependent: :destroy
+  has_many :purchases, dependent: :destroy
 end

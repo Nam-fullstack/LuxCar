@@ -1,3 +1,4 @@
 class Transmission < ApplicationRecord
-  belongs_to :variant
+  has_many :variant
+  has_one :speed
 end
