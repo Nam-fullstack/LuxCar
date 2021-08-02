@@ -7,7 +7,7 @@ class CreateVariants < ActiveRecord::Migration[6.1]
       t.references :transmission, foreign_key: true
       t.references :fuel, foreign_key: true
       t.references :body_type, foreign_key: true
-      t.references :drive, foreign_key: true
+      t.references :drive_type, foreign_key: true
       t.integer :fuel_consumption
       t.integer :safety_rating
       t.integer :weight
