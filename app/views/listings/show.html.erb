@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @listing.user_id %>
+</p>
+
+<p>
+  <strong>Variant:</strong>
+  <%= @listing.variant_id %>
+</p>
+
+<p>
+  <strong>Colour:</strong>
+  <%= @listing.colour_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @listing.title %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @listing.price %>
+</p>
+
+<p>
+  <strong>Mileage:</strong>
+  <%= @listing.mileage %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @listing.description %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @listing.state_id %>
+</p>
+
+<p>
+  <strong>Sold:</strong>
+  <%= @listing.sold %>
+</p>
+
+<%= link_to 'Edit', edit_listing_path(@listing) %> |
+<%= link_to 'Back', listings_path %>
