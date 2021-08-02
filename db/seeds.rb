@@ -90,3 +90,10 @@ if Door.count.zero?
     puts "Created #{door} doors"
   end
 end
+
+if BodyType.count.zero?
+  body_types.each do |body_type|
+    BodyType.create(name: body_type)
+    puts "Created #{body_type} body type"
+  end
+end
