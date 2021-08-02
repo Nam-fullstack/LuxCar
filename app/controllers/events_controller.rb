@@ -1,9 +1,11 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
 
-  # GET /events or /events.json
+  # Scopes query to the dates being shown
   def index
-    @events = Event.all
+    # @events = Event.all
+    start_date = params.fetch(:start_date, Date.today).to_date
+    @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
   end
 
   # GET /events/1 or /events/1.json

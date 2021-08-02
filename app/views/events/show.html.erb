@@ -1,5 +1,18 @@
 <p id="notice"><%= notice %></p>
 
+<%= t('date.abbr_month_names')[start_date.month] %> <%= start_date.year %>
+
+
+<%= month_calendar(events: @events) do |date, events| %>
+  <%= date %>
+
+  <% events.each do |event| %>
+    <div>
+      <%= event.name %>
+    </div>
+  <% end %>
+<% end %>
+
 <p>
   <strong>Listing:</strong>
   <%= @event.listing_id %>
