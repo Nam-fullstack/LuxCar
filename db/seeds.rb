@@ -33,6 +33,13 @@ if User.count.zero?
     password: "testing"
   )
   puts "Created test User"
+
+  User.create(
+    username: "test2",
+    email: "test2@test.com",
+    password: "testing"
+  )
+  puts "Created test User 2"
 end
 
 if Make.count.zero?
@@ -46,6 +53,13 @@ if Year.count.zero?
   years.each do |year|
     Year.create(year: year)
     puts "Created #{year} year"
+  end
+end
+
+if Speed.count.zero?
+  speeds.each do |speed|
+    BodyType.create(name: speed)
+    puts "Created #{speed}sp"
   end
 end
 
