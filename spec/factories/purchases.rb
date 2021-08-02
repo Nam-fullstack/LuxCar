@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :purchase do
-    invoice { nil }
+    user { nil }
     listing { nil }
+    invoice { nil }
     payment_intent { "MyString" }
     receipt_url { "MyString" }
   end

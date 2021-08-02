@@ -1,3 +1,3 @@
 class BodyType < ApplicationRecord
-  belongs_to :variant
+  belongs_to :door
 end

@@ -1,12 +1,13 @@
 FactoryBot.define do
   factory :listing do
     user { nil }
-    make { nil }
-    model { nil }
+    variant { nil }
+    colour { nil }
+    title { "MyString" }
     price { 1 }
     mileage { 1 }
-    title { "MyString" }
     description { "MyText" }
+    state { nil }
     sold { false }
   end
 end

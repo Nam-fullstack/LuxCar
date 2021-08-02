@@ -3,6 +3,5 @@ FactoryBot.define do
     name { "MyString" }
     make { nil }
     variant { nil }
-    year { nil }
   end
 end

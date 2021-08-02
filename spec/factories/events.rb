@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :event do
-    date { "2021-07-28" }
-    time { "2021-07-28 21:11:48" }
+    listing { nil }
     location { nil }
+    name { "MyString" }
+    start_time { "2021-08-02 16:15:56" }
     message { "MyText" }
     confirmed { false }
   end
