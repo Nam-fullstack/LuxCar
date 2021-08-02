@@ -58,7 +58,7 @@ end
 
 if Speed.count.zero?
   speeds.each do |speed|
-    BodyType.create(name: speed)
+    Speed.create(name: speed)
     puts "Created #{speed}sp"
   end
 end
@@ -84,9 +84,9 @@ if Engine.count.zero?
   end
 end
 
-if Drive.count.zero?
+if DriveType.count.zero?
   drives.each do |drive|
-    Drive.create(name: drive)
+    DriveType.create(name: drive)
     puts "Created #{drive} drivetrain"
   end
 end
