@@ -10,12 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_064404) do
+ActiveRecord::Schema.define(version: 2021_08_02_140604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "admins", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "last_sign_in_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_admins_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
   create_table "body_types", force: :cascade do |t|
+    t.string "name"
+    t.bigint "door_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["door_id"], name: "index_body_types_on_door_id"
+  end
+
+  create_table "colours", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "doors", force: :cascade do |t|
+    t.integer "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "drive_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -23,28 +63,26 @@ ActiveRecord::Schema.define(version: 2021_07_30_064404) do
 
   create_table "engines", force: :cascade do |t|
     t.string "name"
+    t.decimal "displacement", precision: 10, scale: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "events", force: :cascade do |t|
-    t.date "date"
-    t.time "time"
-    t.bigint "location_id"
+    t.bigint "listing_id", null: false
+    t.bigint "location_id", null: false
+    t.string "name"
+    t.datetime "start_time"
     t.text "message"
     t.boolean "confirmed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "buyer_id"
-    t.bigint "seller_id"
-    t.index ["buyer_id"], name: "index_events_on_buyer_id"
+    t.index ["listing_id"], name: "index_events_on_listing_id"
     t.index ["location_id"], name: "index_events_on_location_id"
-    t.index ["seller_id"], name: "index_events_on_seller_id"
   end
 
   create_table "features", force: :cascade do |t|
     t.string "name"
-    t.text "extra"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -56,32 +94,28 @@ ActiveRecord::Schema.define(version: 2021_07_30_064404) do
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.bigint "listing_id", null: false
     t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "buyer_id"
-    t.bigint "seller_id"
-    t.index ["buyer_id"], name: "index_invoices_on_buyer_id"
-    t.index ["listing_id"], name: "index_invoices_on_listing_id"
-    t.index ["seller_id"], name: "index_invoices_on_seller_id"
   end
 
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "make_id", null: false
-    t.bigint "model_id", null: false
-    t.integer "year", null: false
+    t.bigint "variant_id", null: false
+    t.bigint "colour_id"
+    t.string "title"
     t.integer "price"
     t.integer "mileage"
-    t.string "title"
     t.text "description"
+    t.bigint "state_id", null: false
+    t.integer "postcode", null: false
     t.boolean "sold"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["make_id"], name: "index_listings_on_make_id"
-    t.index ["model_id"], name: "index_listings_on_model_id"
+    t.index ["colour_id"], name: "index_listings_on_colour_id"
+    t.index ["state_id"], name: "index_listings_on_state_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
+    t.index ["variant_id"], name: "index_listings_on_variant_id"
   end
 
   create_table "listings_features", force: :cascade do |t|
@@ -94,12 +128,8 @@ ActiveRecord::Schema.define(version: 2021_07_30_064404) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.integer "postcode"
-    t.float "longitude"
-    t.float "latitude"
+    t.string "address", null: false
+    t.integer "postcode", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -110,31 +140,61 @@ ActiveRecord::Schema.define(version: 2021_07_30_064404) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.bigint "conversations_id"
+    t.bigint "users_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversations_id"], name: "index_messages_on_conversations_id"
+    t.index ["users_id"], name: "index_messages_on_users_id"
+  end
+
   create_table "models", force: :cascade do |t|
-    t.string "name"
     t.bigint "make_id", null: false
     t.bigint "variant_id", null: false
-    t.bigint "year_id", null: false
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["make_id"], name: "index_models_on_make_id"
     t.index ["variant_id"], name: "index_models_on_variant_id"
-    t.index ["year_id"], name: "index_models_on_year_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "purchases", force: :cascade do |t|
-    t.bigint "invoice_id", null: false
+    t.bigint "user_id", null: false
     t.bigint "listing_id", null: false
+    t.bigint "invoice_id", null: false
     t.string "payment_intent"
     t.string "receipt_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["invoice_id"], name: "index_purchases_on_invoice_id"
     t.index ["listing_id"], name: "index_purchases_on_listing_id"
+    t.index ["user_id"], name: "index_purchases_on_user_id"
+  end
+
+  create_table "speeds", force: :cascade do |t|
+    t.integer "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "transmissions", force: :cascade do |t|
     t.string "name"
+    t.integer "speed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -160,20 +220,34 @@ ActiveRecord::Schema.define(version: 2021_07_30_064404) do
 
   create_table "variants", force: :cascade do |t|
     t.string "name"
+    t.bigint "year_id", null: false
     t.bigint "engine_id"
     t.bigint "transmission_id"
     t.bigint "fuel_id"
     t.bigint "body_type_id"
+    t.bigint "drive_type_id"
+    t.integer "fuel_consumption"
     t.integer "safety_rating"
-    t.decimal "displacement", precision: 10, scale: 1
-    t.integer "power"
     t.integer "weight"
+    t.integer "displacement"
+    t.integer "power"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["body_type_id"], name: "index_variants_on_body_type_id"
+    t.index ["drive_type_id"], name: "index_variants_on_drive_type_id"
     t.index ["engine_id"], name: "index_variants_on_engine_id"
     t.index ["fuel_id"], name: "index_variants_on_fuel_id"
     t.index ["transmission_id"], name: "index_variants_on_transmission_id"
+    t.index ["year_id"], name: "index_variants_on_year_id"
+  end
+
+  create_table "watches", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "listing_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["listing_id"], name: "index_watches_on_listing_id"
+    t.index ["profile_id"], name: "index_watches_on_profile_id"
   end
 
   create_table "years", force: :cascade do |t|
@@ -182,24 +256,27 @@ ActiveRecord::Schema.define(version: 2021_07_30_064404) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "body_types", "doors"
+  add_foreign_key "events", "listings"
   add_foreign_key "events", "locations"
-  add_foreign_key "events", "users", column: "buyer_id"
-  add_foreign_key "events", "users", column: "seller_id"
-  add_foreign_key "invoices", "listings"
-  add_foreign_key "invoices", "users", column: "buyer_id"
-  add_foreign_key "invoices", "users", column: "seller_id"
-  add_foreign_key "listings", "makes"
-  add_foreign_key "listings", "models"
+  add_foreign_key "listings", "colours"
+  add_foreign_key "listings", "states"
   add_foreign_key "listings", "users"
+  add_foreign_key "listings", "variants"
   add_foreign_key "listings_features", "features"
   add_foreign_key "listings_features", "listings"
   add_foreign_key "models", "makes"
   add_foreign_key "models", "variants"
-  add_foreign_key "models", "years"
+  add_foreign_key "profiles", "users"
   add_foreign_key "purchases", "invoices"
   add_foreign_key "purchases", "listings"
+  add_foreign_key "purchases", "users"
   add_foreign_key "variants", "body_types"
+  add_foreign_key "variants", "drive_types"
   add_foreign_key "variants", "engines"
   add_foreign_key "variants", "fuels"
   add_foreign_key "variants", "transmissions"
+  add_foreign_key "variants", "years"
+  add_foreign_key "watches", "listings"
+  add_foreign_key "watches", "profiles"
 end
