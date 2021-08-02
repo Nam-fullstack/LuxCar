@@ -11,4 +11,12 @@ class Listing < ApplicationRecord
   has_one :purchase, dependent: :destroy
   has_one :state
   has_many :watches, dependent: :destroy
+
+  # Validations
+  validates :description, length: { maximum: 1000 }
+  validates :mileage, numericality: { greater_than: 0 }
+  validates :price, presence: true, numericality: { greater_than: 50000 }
+  validates :state_id, presence: true
+  validates :title, length: { maximum: 50 }
+  # validates :variant_id, presence: true
 end
