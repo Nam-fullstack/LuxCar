@@ -3,6 +3,16 @@
 class Admins::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
+
+  def admin_signed_in?
+  end
+
+  def current_admin
+  end
+
+  def admin_session
+  end
+
   # GET /resource/sign_in
   # def new
   #   super

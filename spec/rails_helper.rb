@@ -62,6 +62,10 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # adds factory boy syntax for tests
+  # Adds factory bot syntax for tests
   config.include FactoryBot::Syntax::Methods
+
+  # Tests Devise Controllers
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :view
 end
