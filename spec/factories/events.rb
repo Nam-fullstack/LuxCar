@@ -3,7 +3,7 @@ FactoryBot.define do
     listing { nil }
     location { nil }
     name { "MyString" }
-    start_time { "2021-08-02 16:08:42" }
+    start_time { "2021-08-02 16:15:56" }
     message { "MyText" }
     confirmed { false }
   end
