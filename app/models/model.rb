@@ -1,4 +1,4 @@
 class Model < ApplicationRecord
   belongs_to :make
-  belongs_to :variant
+  has_many :variants
 end

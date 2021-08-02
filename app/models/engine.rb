@@ -1,3 +1,3 @@
 class Engine < ApplicationRecord
-  belongs_to :variant
+  has_many :variants
 end
