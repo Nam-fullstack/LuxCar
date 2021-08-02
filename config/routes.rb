@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :listings
   resources :events
   devise_for :admins
-  devise_for :users
+  devise_for :users, controllers: { sessions: 'users/sessions' }
 
   root to: 'pages#home'
   get 'pages/restricted'
