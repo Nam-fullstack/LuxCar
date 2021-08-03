@@ -21,6 +21,7 @@ class Listing < ApplicationRecord
   # validates :variant_id, presence: true
   
   before_save :remove_whitespace
+  before_validation :convert_price_to_cents, if :price_changed?
 
   private
 
@@ -29,4 +30,7 @@ class Listing < ApplicationRecord
     self.description = description.strip
   end
 
+  def convert_price_to_cents
+    self.price = price * 100
+  end
 end
