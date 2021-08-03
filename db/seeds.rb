@@ -9,24 +9,26 @@
 body_types = ['Convertible', 'Coupe', 'Hatch', 'Sedan', 'SUV', 'Wagon']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
-drives = ['4WD', 'FWD', 'RWD', 'AWD']
+drives = ['4WD', 'AWD', 'FWD', 'RWD']
 engines = ['Electric', 'V2', 'V3', 'V4', 'Inline 5', 'V6', 'Inline 6', 'V8', 'V10', 'V12', 'W16']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
-speeds = [1, 5, 6, 7, 8, 9]
+speeds = [5, 6, 7, 8, 9]
 states = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 transmissions = ['Automatic', 'Manual']
 years = 1990..2021
 
 
-if User.count.zero?
-  User.create(
-    username: "administrator",
+if Admin.count.zero?
+  Admin.create(
+    username: "Administrator",
     email: "admin@admin.com",
     password: "administrator"
   )
   puts "Created Admin"
-  
+end
+
+if User.count.zero?  
   User.create(
     username: "test",
     email: "test@test.com",
@@ -65,8 +67,10 @@ end
 
 if Transmission.count.zero?
   transmissions.each do |transmission|
-    Transmission.create(name: transmission)
-    puts "Created #{transmission} transmission"
+    Speed.each do |speed|
+      Transmission.create(name: transmission, speed_id: speed)
+      puts "Created #{speed} #{transmission} transmission"
+    end
   end
 end
 

@@ -1,3 +1,3 @@
 class Year < ApplicationRecord
-  has_many :variant
+  has_many :variants
 end
