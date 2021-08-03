@@ -18,30 +18,29 @@ states = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 transmissions = ['Automatic', 'Manual']
 years = 1990..2021
 
-
 if Admin.count.zero?
   Admin.create(
-    username: "Administrator",
-    email: "admin@admin.com",
-    password: "administrator"
+    username: 'Administrator',
+    email: 'admin@admin.com',
+    password: 'administrator'
   )
-  puts "Created Admin"
+  puts 'Created Admin'
 end
 
 if User.count.zero?  
   User.create(
-    username: "test",
-    email: "test@test.com",
-    password: "testing"
+    username: 'test',
+    email: 'test@test.com',
+    password: 'testing'
   )
-  puts "Created test User"
+  puts 'Created test User'
 
   User.create(
-    username: "test2",
-    email: "test2@test.com",
-    password: "testing"
+    username: 'test2',
+    email: 'test2@test.com',
+    password: 'testing'
   )
-  puts "Created test User 2"
+  puts 'Created test User 2'
 end
 
 if Make.count.zero?
