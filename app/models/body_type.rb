@@ -1,4 +1,4 @@
 class BodyType < ApplicationRecord
-  has_one :door
+  has_many :doors
   has_many :variants
 end

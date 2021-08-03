@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_03_024345) do
+ActiveRecord::Schema.define(version: 2021_08_03_041654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,10 +54,8 @@ ActiveRecord::Schema.define(version: 2021_08_03_024345) do
 
   create_table "body_types", force: :cascade do |t|
     t.string "name"
-    t.bigint "door_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["door_id"], name: "index_body_types_on_door_id"
   end
 
   create_table "colours", force: :cascade do |t|
@@ -75,8 +73,10 @@ ActiveRecord::Schema.define(version: 2021_08_03_024345) do
 
   create_table "doors", force: :cascade do |t|
     t.integer "name"
+    t.bigint "body_type_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["body_type_id"], name: "index_doors_on_body_type_id"
   end
 
   create_table "drive_types", force: :cascade do |t|
@@ -206,8 +206,10 @@ ActiveRecord::Schema.define(version: 2021_08_03_024345) do
 
   create_table "speeds", force: :cascade do |t|
     t.integer "name"
+    t.bigint "transmission_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["transmission_id"], name: "index_speeds_on_transmission_id"
   end
 
   create_table "states", force: :cascade do |t|
@@ -218,7 +220,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_024345) do
 
   create_table "transmissions", force: :cascade do |t|
     t.string "name"
-    t.integer "speed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -282,7 +283,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_024345) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "body_types", "doors"
+  add_foreign_key "doors", "body_types"
   add_foreign_key "events", "listings"
   add_foreign_key "events", "locations"
   add_foreign_key "listings", "colours"
@@ -297,6 +298,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_024345) do
   add_foreign_key "purchases", "invoices"
   add_foreign_key "purchases", "listings"
   add_foreign_key "purchases", "users"
+  add_foreign_key "speeds", "transmissions"
   add_foreign_key "variants", "body_types"
   add_foreign_key "variants", "drive_types"
   add_foreign_key "variants", "engines"

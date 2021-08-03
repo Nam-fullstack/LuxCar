@@ -1,3 +1,3 @@
 class Door < ApplicationRecord
-  has_many :body_types
+  belongs_to :body_type
 end

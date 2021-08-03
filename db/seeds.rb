@@ -58,27 +58,23 @@ if Year.count.zero?
   end
 end
 
-if Speed.count.zero?
-  speeds.each do |speed|
-    Speed.create(name: speed)
-    puts "Created #{speed}sp"
-  end
-end
-
 # Only have 5 and 6 speed Manual transmissions (and a few with 7sp). 
 # Added an exceptional case to have a 1-sp transmission 
 # for Koenigsegg Regera which only has a single gear.
 if Transmission.count.zero?
   transmissions.each do |transmission|
+    Transmission.create(name: transmission)
+    puts "Created #{transmission} transmission"
+    
     if transmission == 'Manual'
       3.times do |i|
-        Transmission.create(name: transmission, speed: speeds[i])
-        puts "Created #{speeds[i]}sp #{transmission} transmission"
+        Speed.create(name: speeds[i], transmission_id: 1)
+        puts "Created #{speeds[i]}sp Manual transmission"
       end
     else
       speeds.each do |speed|
-        Transmission.create(name: transmission, speed: speed)
-        puts "Created #{speed}sp #{transmission} transmission"
+        Speed.create(name: speed, transmission_id: 0)
+        puts "Created #{speed}sp Automatic transmission"
       end
     end
   end
@@ -112,16 +108,16 @@ if State.count.zero?
   end
 end
 
-if Door.count.zero?
-  doors.each do |door|
-    Door.create(name: door)
-    puts "Created #{door} doors"
-  end
-end
-
 if BodyType.count.zero?
   body_types.each do |body_type|
     BodyType.create(name: body_type)
     puts "Created #{body_type} body type"
+  end
+end
+
+if Door.count.zero?
+  doors.each do |door|
+    Door.create(name: door)
+    puts "Created #{door} doors"
   end
 end

@@ -1,3 +1,3 @@
 class Speed < ApplicationRecord
-  # has_many :transmissions
+  belongs_to :transmission
 end
