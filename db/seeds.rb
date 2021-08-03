@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-body_types = ['Convertible', 'Coupe', 'Hatch', 'Sedan', 'SUV', 'Wagon']
+body_types = ['Convertible', 'Coupe', 'Sedan', 'SUV', 'Wagon', 'Hatch']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
 drives = ['4WD', 'AWD', 'FWD', 'RWD']
@@ -108,16 +108,27 @@ if State.count.zero?
   end
 end
 
-if BodyType.count.zero?
-  body_types.each do |body_type|
-    BodyType.create(name: body_type)
-    puts "Created #{body_type} body type"
-  end
+# Refactored door selection to create entries based on body type,
+# with hatches having odd number of doors.
+def door_selection(door, i, body_type)
+  Door.create(name: door, body_type_id: i)
+  puts "Created #{door}door #{body_type}"
 end
 
-if Door.count.zero?
-  doors.each do |door|
-    Door.create(name: door)
-    puts "Created #{door} doors"
+if BodyType.count.zero?
+  body_types.each_with_index do |body_type, i|
+    BodyType.create(name: body_type)
+    puts "Created #{body_type} body type"
+
+    # assigns odd no. of doors to Hatch body type and even for rest
+    if body_type == 'Hatch'
+      doors.select(&:odd?).each do |door|
+        door_selection(door, i, body_type)
+      end
+    else
+      doors.select(&:even?).each do |door|
+        door_selection(door, i, body_type)
+      end
+    end        
   end
 end
