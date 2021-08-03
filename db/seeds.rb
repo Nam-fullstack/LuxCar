@@ -13,7 +13,7 @@ drives = ['4WD', 'AWD', 'FWD', 'RWD']
 engines = ['Electric', 'V2', 'V3', 'V4', 'Inline 5', 'V6', 'Inline 6', 'V8', 'V10', 'V12', 'W16']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
-speeds = [5, 6, 7, 8, 9]
+speeds = [5, 6, 7, 8, 9, 1]
 states = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 transmissions = ['Automatic', 'Manual']
 years = 1990..2021
@@ -65,11 +65,21 @@ if Speed.count.zero?
   end
 end
 
+# Only have 5 and 6 speed Manual transmissions (and a few with 7sp). 
+# Added an exceptional case to have a 1-sp transmission 
+# for Koenigsegg Regera which only has a single gear.
 if Transmission.count.zero?
   transmissions.each do |transmission|
-    Speed.each do |speed|
-      Transmission.create(name: transmission, speed_id: speed)
-      puts "Created #{speed} #{transmission} transmission"
+    if transmission == 'Manual'
+      3.times do |i|
+        Transmission.create(name: transmission, speed: speeds[i])
+        puts "Created #{speeds[i]}sp #{transmission} transmission"
+      end
+    else
+      speeds.each do |speed|
+        Transmission.create(name: transmission, speed: speed)
+        puts "Created #{speed}sp #{transmission} transmission"
+      end
     end
   end
 end
