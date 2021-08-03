@@ -2,6 +2,7 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: %i[ index show ]
   before_action :authorize_user!, only: %i[ edit update destroy ]
+  skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
     @listings = Listing.all
