@@ -1,25 +1,22 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[ index show ]
+  before_action :authorize_user!, only: %i[ edit update destroy ]
 
-  # GET /listings or /listings.json
   def index
     @listings = Listing.all
   end
 
-  # GET /listings/1 or /listings/1.json
   def show
   end
 
-  # GET /listings/new
   def new
     @listing = Listing.new
   end
 
-  # GET /listings/1/edit
   def edit
   end
 
-  # POST /listings or /listings.json
   def create
     @listing = Listing.new(listing_params)
 
@@ -34,7 +31,6 @@ class ListingsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /listings/1 or /listings/1.json
   def update
     respond_to do |format|
       if @listing.update(listing_params)
@@ -47,7 +43,6 @@ class ListingsController < ApplicationController
     end
   end
 
-  # DELETE /listings/1 or /listings/1.json
   def destroy
     @listing.destroy
     respond_to do |format|
@@ -57,13 +52,21 @@ class ListingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_listing
-      @listing = Listing.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def listing_params
-      params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_listing
+    @listing = Listing.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def listing_params
+    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :images [])
+  end
+
+  def authorize_user!
+    if current_user.id != @listing.user.id
+      flash[:alert] = "Unauthorized Request!"
+      redirect_to @listing
     end
+  end
 end
