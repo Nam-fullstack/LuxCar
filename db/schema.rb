@@ -126,14 +126,13 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "variant_id", null: false
-    t.bigint "colour_id"
-    t.string "title"
-    t.integer "price"
-    t.integer "mileage"
+    t.bigint "colour_id", null: false
+    t.integer "price", null: false
+    t.integer "mileage", null: false
     t.text "description"
     t.bigint "state_id", null: false
     t.integer "postcode", null: false
-    t.boolean "sold"
+    t.boolean "sold", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["colour_id"], name: "index_listings_on_colour_id"
@@ -168,6 +167,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
     t.text "body"
     t.bigint "conversations_id"
     t.bigint "users_id"
+    t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["conversations_id"], name: "index_messages_on_conversations_id"
