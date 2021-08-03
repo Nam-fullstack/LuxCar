@@ -19,4 +19,14 @@ class Listing < ApplicationRecord
   validates :state_id, presence: true
   validates :title, length: { maximum: 50 }
   # validates :variant_id, presence: true
+  
+  before_save :remove_whitespace
+
+  private
+
+  def remove_whitespace
+    self.title = title.strip
+    self.description = description.strip
+  end
+
 end
