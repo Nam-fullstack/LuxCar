@@ -9,19 +9,33 @@
         <%= image_tag "profile-default.png", alt: 'Profile picure', class: "user-profile-picture" %>
       <% end %>
 
-      <h3 class="recipient-name"><%= @recipient.username %></h3>
+      <h3 class="conversation-recipient-name">
+        <%= @recipient.username %>
+      </h3>
     </div>
-        <% @messages.each do |message| %>
+
+    </ul class="conversation-messages">
+      <% @messages.each do |message| %>
         <% if message.body %>
-        <% user = User.find(message.user_id) %>
-        <%= user.email %><%= message.message_time %>
-        <%= message.body %>
+        <% #user = User.find(message.user_id) %>
+          <li class="conversation-message <%= current_user.id == message.user_id ? 'conversation-message-sent' : 'conversation-message-received' %>">
+            <p class="conversation-message-body"><%= message.body %></p>
+            <p class="conversation-message-sent"><%= message.message_time %></p>
+          </li>
         <% end %>
-        <% end %>
-        <%= form_for [@conversation, @message] do |f| %>
-        <%= f.text_area :body %>
-        <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+      <% end %>
+    </ul>
+
+    <button class="conversation-send btn btn-primary">New Message</button>
+
+    <div class="conversation-new-message">
+      <h3 class="conversation-new-message-header">New Message</h2>
+      <%= form_for [@conversation, @message] do |f| %>
+        <div class="form-field">
+          <%= f.text_area :body, class: "form-text", placeholder: "Text Message" %>
+          <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
+        </div>
         <%= f.submit "Send" %>
-        <% end %>
+      <% end %>
   </div>
 </div>
