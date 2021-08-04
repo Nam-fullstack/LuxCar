@@ -23,6 +23,8 @@ class Listing < ApplicationRecord
   before_save :remove_whitespace
   before_validation :convert_price_to_cents, if: :price_changed?
 
+  # @door_join = Door.left_joins :body_type
+
   private
 
   def remove_whitespace

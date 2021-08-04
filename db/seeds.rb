@@ -10,7 +10,7 @@ body_types = ['Convertible', 'Coupe', 'Sedan', 'SUV', 'Wagon', 'Hatch']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
 drives = ['4WD', 'AWD', 'FWD', 'RWD']
-engines = ['Electric', 'V2', 'V3', 'V4', 'Inline 5', 'V6', 'Inline 6', 'V8', 'V10', 'V12', 'W16']
+engines = ['Electric', 'Rotary', 'V2', 'V3', 'V4', 'Inline 5', 'Inline 6', 'V6', 'V8', 'V10', 'V12', 'W16']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
 speeds = [5, 6, 7, 8, 9, 1]
@@ -129,5 +129,12 @@ if BodyType.count.zero?
         door_selection(door, i, body_type)
       end
     end        
+  end
+end
+
+if Colour.count.zero?
+  colours.each do |colour|
+    Colour.create(name: colour)
+    puts "Created #{colour} colour"
   end
 end
