@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :variant do
-    name { "MyString" }
+    model { nil }
     year { nil }
     engine { nil }
-    transmission { nil }
+    speed { nil }
     fuel { nil }
-    body_type { nil }
-    drive { nil }
-    fuel_consumtion { 1 }
+    door { nil }
+    drive_type { nil }
+    fuel_consumption { 1 }
     safety_rating { 1 }
     weight { 1 }
     displacement { 1 }

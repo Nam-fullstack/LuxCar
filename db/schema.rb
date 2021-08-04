@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_03_041654) do
+ActiveRecord::Schema.define(version: 2021_08_04_065220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
     t.string "name"
     t.datetime "start_time"
     t.text "message"
-    t.boolean "confirmed"
+    t.boolean "confirmed", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["listing_id"], name: "index_events_on_listing_id"
@@ -126,14 +126,14 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "variant_id", null: false
-    t.bigint "colour_id"
+    t.bigint "colour_id", null: false
+    t.integer "price", null: false
+    t.integer "mileage", null: false
     t.string "title"
-    t.integer "price"
-    t.integer "mileage"
     t.text "description"
     t.bigint "state_id", null: false
     t.integer "postcode", null: false
-    t.boolean "sold"
+    t.boolean "sold", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["colour_id"], name: "index_listings_on_colour_id"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
     t.text "body"
     t.bigint "conversations_id"
     t.bigint "users_id"
+    t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["conversations_id"], name: "index_messages_on_conversations_id"
@@ -176,12 +177,10 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
 
   create_table "models", force: :cascade do |t|
     t.bigint "make_id", null: false
-    t.bigint "variant_id", null: false
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["make_id"], name: "index_models_on_make_id"
-    t.index ["variant_id"], name: "index_models_on_variant_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -192,9 +191,9 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
   end
 
   create_table "purchases", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.bigint "listing_id", null: false
-    t.bigint "invoice_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "invoice_id"
     t.string "payment_intent"
     t.string "receipt_url"
     t.datetime "created_at", precision: 6, null: false
@@ -206,7 +205,7 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
 
   create_table "speeds", force: :cascade do |t|
     t.integer "name"
-    t.bigint "transmission_id"
+    t.bigint "transmission_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["transmission_id"], name: "index_speeds_on_transmission_id"
@@ -244,13 +243,13 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
   end
 
   create_table "variants", force: :cascade do |t|
-    t.string "name"
+    t.bigint "model_id", null: false
     t.bigint "year_id", null: false
-    t.bigint "engine_id"
-    t.bigint "transmission_id"
-    t.bigint "fuel_id"
-    t.bigint "body_type_id"
-    t.bigint "drive_type_id"
+    t.bigint "engine_id", null: false
+    t.bigint "speed_id", null: false
+    t.bigint "fuel_id", null: false
+    t.bigint "door_id", null: false
+    t.bigint "drive_type_id", null: false
     t.integer "fuel_consumption"
     t.integer "safety_rating"
     t.integer "weight"
@@ -258,11 +257,12 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
     t.integer "power"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["body_type_id"], name: "index_variants_on_body_type_id"
+    t.index ["door_id"], name: "index_variants_on_door_id"
     t.index ["drive_type_id"], name: "index_variants_on_drive_type_id"
     t.index ["engine_id"], name: "index_variants_on_engine_id"
     t.index ["fuel_id"], name: "index_variants_on_fuel_id"
-    t.index ["transmission_id"], name: "index_variants_on_transmission_id"
+    t.index ["model_id"], name: "index_variants_on_model_id"
+    t.index ["speed_id"], name: "index_variants_on_speed_id"
     t.index ["year_id"], name: "index_variants_on_year_id"
   end
 
@@ -293,17 +293,17 @@ ActiveRecord::Schema.define(version: 2021_08_03_041654) do
   add_foreign_key "listings_features", "features"
   add_foreign_key "listings_features", "listings"
   add_foreign_key "models", "makes"
-  add_foreign_key "models", "variants"
   add_foreign_key "profiles", "users"
   add_foreign_key "purchases", "invoices"
   add_foreign_key "purchases", "listings"
   add_foreign_key "purchases", "users"
   add_foreign_key "speeds", "transmissions"
-  add_foreign_key "variants", "body_types"
+  add_foreign_key "variants", "doors"
   add_foreign_key "variants", "drive_types"
   add_foreign_key "variants", "engines"
   add_foreign_key "variants", "fuels"
-  add_foreign_key "variants", "transmissions"
+  add_foreign_key "variants", "models"
+  add_foreign_key "variants", "speeds"
   add_foreign_key "variants", "years"
   add_foreign_key "watches", "listings"
   add_foreign_key "watches", "profiles"

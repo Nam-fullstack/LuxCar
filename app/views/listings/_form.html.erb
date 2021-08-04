@@ -11,49 +11,94 @@
     </div>
   <% end %>
 
+  <h3 class="listing-question">Where will you be selling your car?</h3>
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+    <%= form.label :state_id %>
+    <%= form.collection_select(:state_id, State.all, :id, :name) %>
   </div>
 
   <div class="field">
-    <%= form.label :variant_id %>
-    <%= form.text_field :variant_id %>
+    <%= form.label :postcode %>
+    <%= form.text_field :postcode %>
   </div>
 
   <div class="field">
-    <%= form.label :colour_id %>
-    <%= form.text_field :colour_id %>
+    <%= form.label :year %>
+    <%= form.collection_select(:year_id, Year.all, :id, :year) %>
   </div>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.label :make %>
+    <%= form.collection_select(:make_id, Make.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :model %>
+    <%= form.collection_select(:model_id, Model.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :variant %>
+    <%= form.collection_select(:variant_id, Variant.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :engine %>
+    <%= form.collection_select(:engine_id, Engine.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :transmission %>
+    <%= form.collection_select(:transmission_id, Transmission.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :speed %>
+    <%= form.collection_select(:speed_id, Speed.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :body_type %>
+    <%= form.collection_select(:body_type_id, BodyType.all, :id, :name) %>
+  </div>
+
+<p>************************ </p>
+<%= @door_join %>
+
+  <div class="field">
+    <%= form.label :door %>
+    <%= form.collection_select(:door_id, Door.all, :id, :name) %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :drive_type %>
+    <%= form.collection_select(:drive_type_id, DriveType.all, :id, :name) %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :fuel %>
+    <%= form.collection_select(:fuel_id, Fuel.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :colour %>
+    <%= form.collection_select(:colour_id, Colour.all, :id, :name) %>
   </div>
 
   <div class="field">
     <%= form.label :price %>
-    <%= form.number_field :price %>
+    <%= form.number_field :price, placeholder: '$AUD' %>
   </div>
 
   <div class="field">
     <%= form.label :mileage %>
-    <%= form.number_field :mileage %>
+    <%= form.number_field :mileage, placeholder: 'in kms' %>
   </div>
 
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :state_id %>
-    <%= form.text_field :state_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :sold %>
-    <%= form.check_box :sold %>
   </div>
 
   <div class="actions">

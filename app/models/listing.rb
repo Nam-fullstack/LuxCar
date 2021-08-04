@@ -1,12 +1,12 @@
 class Listing < ApplicationRecord
   # Associations
   belongs_to :user
-  belongs_to :variant
+  has_one :variant
   has_one :colour
   has_many :features, through: :listings_features, dependent: :destroy
-  has_many_attached :images
   has_many :listings_features
   accepts_nested_attributes_for :listings_features
+  has_many_attached :images
   has_many :profiles, through: :watches
   has_one :purchase, dependent: :destroy
   has_one :state
@@ -21,7 +21,9 @@ class Listing < ApplicationRecord
   # validates :variant_id, presence: true
   
   before_save :remove_whitespace
-  before_validation :convert_price_to_cents, if :price_changed?
+  before_validation :convert_price_to_cents, if: :price_changed?
+
+  # @door_join = Door.left_joins :body_type
 
   private
 

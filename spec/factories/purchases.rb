@@ -1,9 +1,10 @@
 FactoryBot.define do
   factory :purchase do
-    user { nil }
     listing { nil }
+    user { nil }
     invoice { nil }
     payment_intent { "MyString" }
     receipt_url { "MyString" }
+    status { false }
   end
 end

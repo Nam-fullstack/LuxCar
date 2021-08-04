@@ -10,13 +10,36 @@ body_types = ['Convertible', 'Coupe', 'Sedan', 'SUV', 'Wagon', 'Hatch']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
 drives = ['4WD', 'AWD', 'FWD', 'RWD']
-engines = ['Electric', 'V2', 'V3', 'V4', 'Inline 5', 'V6', 'Inline 6', 'V8', 'V10', 'V12', 'W16']
+engines = ['Electric', 'Rotary', 'V2', 'V3', 'V4', 'Inline 5', 'Inline 6', 'V6', 'V8', 'V10', 'V12', 'W16']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
-makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Porsche', 'Rolls-Royce', 'SSC', 'Tesla', 'W Motors']
+makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Pagani', 'Porsche', 'Rolls-Royce', 'Tesla', 'W Motors']
 speeds = [5, 6, 7, 8, 9, 1]
 states = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 transmissions = ['Automatic', 'Manual']
 years = 1990..2021
+
+aston_martin = ['DB9', 'DB11', 'DBS', 'DBX', 'Rapid', 'Valkyrie', 'Vanquish', 'Vantage', 'Virage']
+audi = ['R8','RS Q8', 'RS3', 'RS4','RS5', 'RS6', 'RS7', 'TT RS']
+bentley = ['Bacalar', 'Bentagyas', 'Continental GT', 'Flying Spur']
+bmw = ['7-Series', '8-Series', 'i8', 'M3', 'M4', 'M5', 'M6', 'M7', 'X6', 'X7']
+bugatti = ['Chiron', 'Veyron', 'Veyron Supersport']
+ferrari = ['458', '488', '599', '812 GTS', '812 Superfast', 'California', 'Enzo', 'F12', 'F430', 'F8 Spider', 'F8 Tributo', 'FF', 'FFX', 'GTC4Lusso', 'LaFerrari', 'Monza SP1', 'Monza SP2', 'Portifino M', 'Roma', 'SF90 Spider', 'SF90 Stradale']
+hennessey = ['Venom GT', 'Venom F5']
+koenigsegg = ['Agera', 'Agera R', 'Agera S', 'Agera RS', 'Agera Final', 'CCX', 'CCXR', 'CCXR Special Edition', 'Gemera', 'Jesko', 'Jesko Absolut', 'One:1', 'Regera']
+lamborghini = ['Aventador', 'Centenario', 'Gallardo', 'Huracan', 'Murcieglago', 'Reventon', 'Sian', 'Urus', 'Veneno']
+land_rover = ['Range Rover', 'Range Rover Autobiography', 'Range Rover SV', 'Range Rover Velar', 'Range Rover Vogue', 'Range Rover Vogue SE']
+lexus = ['LFA', 'RC F', 'LC F']
+lotus = ['Elise Cup220', 'Elise R', 'Elise S', 'Elise Sport 220', 'Elise Sprint', 'Elise Sprint 220', 'Evija', 'Evora 400', 'Evora GT', 'Exige']
+maserati = ['GranTurismo', 'Levante', 'MC20', 'Quattroporte']
+mclaren = ['12C', '540C', '570S', '600LT', '620R', '625C', '650S', '675LT', '720S', '765LT', 'Artura', 'Elva', 'F1', 'GT', 'P1', 'Senna', 'Speedtail']
+mercedes_benz = ['AMG GT', 'AMG GT Coupe', 'AMG GT 4-Doors Coupe', 'AMG GT Roadster', 'C63 AMG', 'E63 AMG', 'G-class', 'GLS AMG', 'Maybach Exelero', 'Maybach GLS-class', 'Maybach S-class', 'S-class', 'SLR McLaren', 'SLS AMG']
+pagani = ['Huayra', 'Huayra BC', 'Huayra Imola', 'Huayra R', 'Huayra Roadster', 'Huayra Roadster BC', 'Zonda Cinque', 'Zonda Cinque Roadster', 'Zonda F', 'Zonda Roadster F', 'Zonda R', 'Zonda Roadster']
+porsche = ['718 Cayman', '718 Boxster', '718 Cayman S', '718 Boxster S', '718 Cayman GTS 4.0', '718 Boxster GTS 4.0', '718 Cayman GT4', '718 Spyder', '911 Carrera', '911 Carrera S', '911 Carrera 4S', '911 Carrera GTS', '911 Carrera 4 GTS', '911 Targa 4 GTS', '911 Turbo', '911 Turbo S', '911 GT3', 'Carrera GT', 'Cayenne GTS', 'Cayenne Turbo GT', 'Panamera 4 Executive', 'Panamera GTS', 'Panamera Turbo S', 'Panamera GTS Sport Turismo']
+rolls_royce = ['Cullinan', 'Dawn', 'Ghost', 'Phantom', 'Wraith']
+tesla = ['Model S', 'Model X']
+w_motors = ['Fenyr SuperSport', 'Lykan Hypersport']
+
+allmakes = [aston_martin, audi, bentley, bmw, bugatti, ferrari, hennessey, koenigsegg, lamborghini, land_rover, lexus, lotus, maserati, mclaren, mercedes_benz, pagani, porsche, rolls_royce, tesla, w_motors]
 
 if Admin.count.zero?
   Admin.create(
@@ -50,6 +73,15 @@ if Make.count.zero?
   end
 end
 
+def populates_model(name, id)
+  Model.create(name: name, make_id: id)
+  puts "Created Make ID:#{id} #{name}"
+end
+
+if Model.count.zero?
+  allmakes.each_with_index { |make, index| make.each { |model| populates_model(model, index) } }
+end
+
 if Year.count.zero?
   years.each do |year|
     Year.create(year: year)
@@ -60,7 +92,7 @@ end
 # Only have 5 and 6 speed Manual transmissions (and a few with 7sp). 
 # Added an exceptional case to have a 1-sp transmission 
 # for Koenigsegg Regera which only has a single gear.
-if Transmission.count.zero?
+if Speed.count.zero?
   transmissions.each do |transmission|
     Transmission.create(name: transmission)
     puts "Created #{transmission} transmission"
@@ -114,7 +146,7 @@ def door_selection(door, i, body_type)
   puts "Created #{door}door #{body_type}"
 end
 
-if BodyType.count.zero?
+if Door.count.zero?
   body_types.each_with_index do |body_type, i|
     BodyType.create(name: body_type)
     puts "Created #{body_type} body type"
@@ -129,5 +161,12 @@ if BodyType.count.zero?
         door_selection(door, i, body_type)
       end
     end        
+  end
+end
+
+if Colour.count.zero?
+  colours.each do |colour|
+    Colour.create(name: colour)
+    puts "Created #{colour} colour"
   end
 end
