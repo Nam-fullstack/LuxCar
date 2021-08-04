@@ -6,7 +6,7 @@ class CreateEvents < ActiveRecord::Migration[6.1]
       t.string :name
       t.datetime :start_time
       t.text :message
-      t.boolean :confirmed
+      t.boolean :confirmed, default: false
 
       t.timestamps
     end

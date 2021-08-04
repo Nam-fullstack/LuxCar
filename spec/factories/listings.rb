@@ -3,11 +3,12 @@ FactoryBot.define do
     user { nil }
     variant { nil }
     colour { nil }
-    title { "MyString" }
     price { 1 }
     mileage { 1 }
+    title { "MyString" }
     description { "MyText" }
     state { nil }
+    postcode { 1 }
     sold { false }
   end
 end
