@@ -39,23 +39,7 @@ rolls_royce = ['Cullinan', 'Dawn', 'Ghost', 'Phantom', 'Wraith']
 tesla = ['Model S', 'Model X']
 w_motors = ['Fenyr SuperSport', 'Lykan Hypersport']
 
-allmakes = [austin_martin, audi, bentley, bmw, bugatti, ferrari, hennessey, koenigsigg, lamborghini, land_rover, lexus, lotus, maserati, mclaren, mercedes_benz, pagani, porsche, rolls_royce, tesla, w_motors]
-
-
-def populates_model(name, id)
-  Model.create(name: name, make_id: id)
-
-end
-
-if Model.count.zero?
-  allmakess.each(&:each(&:populates_model))
-    # make.each do |model|
-  end
-  doors.select(&:odd?).each do |door|
-    door_selection(door, i, body_type)
-  end
-
-end
+allmakes = [aston_martin, audi, bentley, bmw, bugatti, ferrari, hennessey, koenigsegg, lamborghini, land_rover, lexus, lotus, maserati, mclaren, mercedes_benz, pagani, porsche, rolls_royce, tesla, w_motors]
 
 if Admin.count.zero?
   Admin.create(
@@ -87,6 +71,15 @@ if Make.count.zero?
     Make.create(name: make)
     puts "Created #{make} make"
   end
+end
+
+def populates_model(name, id)
+  Model.create(name: name, make_id: id)
+  puts "Created Make ID:#{id} #{name}"
+end
+
+if Model.count.zero?
+  allmakes.each_with_index { |make, index| make.each { |model| populates_model(model, index) } }
 end
 
 if Year.count.zero?
