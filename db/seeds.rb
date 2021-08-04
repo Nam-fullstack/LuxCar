@@ -60,7 +60,7 @@ end
 # Only have 5 and 6 speed Manual transmissions (and a few with 7sp). 
 # Added an exceptional case to have a 1-sp transmission 
 # for Koenigsegg Regera which only has a single gear.
-if Transmission.count.zero?
+if Speed.count.zero?
   transmissions.each do |transmission|
     Transmission.create(name: transmission)
     puts "Created #{transmission} transmission"
@@ -114,7 +114,7 @@ def door_selection(door, i, body_type)
   puts "Created #{door}door #{body_type}"
 end
 
-if BodyType.count.zero?
+if Door.count.zero?
   body_types.each_with_index do |body_type, i|
     BodyType.create(name: body_type)
     puts "Created #{body_type} body type"
