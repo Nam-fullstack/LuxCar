@@ -10,13 +10,13 @@ body_types = ['Convertible', 'Coupe', 'Sedan', 'SUV', 'Wagon', 'Hatch']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
 drives = ['4WD', 'AWD', 'FWD', 'RWD']
-engines = ['Electric', 'Rotary', 'V2', 'V3', 'V4', 'Inline 5', 'Inline 6', 'V6', 'V8', 'V10', 'V12', 'W16']
+engines = ['Electric', 'Rotary', 'V2', 'V3', 'V4', 'Inline 5', 'Inline 6', 'V6', 'V8', 'V10', 'V12', 'W12', 'W16']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Pagani', 'Porsche', 'Rolls-Royce', 'Tesla', 'W Motors']
 speeds = [5, 6, 7, 8, 9, 1]
 states = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 transmissions = ['Automatic', 'Manual']
-years = 1990..2021
+years = 2000..2021
 
 aston_martin = ['DB9', 'DB11', 'DBS', 'DBX', 'Rapid', 'Valkyrie', 'Vanquish', 'Vantage', 'Virage']
 audi = ['R8','RS Q8', 'RS3', 'RS4','RS5', 'RS6', 'RS7', 'TT RS']
@@ -50,20 +50,23 @@ if Admin.count.zero?
   puts 'Created Admin'
 end
 
+def create_users(index)
+  User.create(
+    username: "user#{index}",
+    email: "user#{index}@test.com",
+    password: 'testing'
+  )
+  puts "Created User #{index}"
+end
+
 if User.count.zero?  
   User.create(
     username: 'test',
     email: 'test@test.com',
     password: 'testing'
   )
-  puts 'Created test User'
-
-  User.create(
-    username: 'test2',
-    email: 'test2@test.com',
-    password: 'testing'
-  )
-  puts 'Created test User 2'
+  puts 'Created Test User'
+  10.times.with_index { |index| create_users(index + 1) }
 end
 
 if Make.count.zero?
@@ -141,25 +144,21 @@ end
 
 # Refactored door selection to create entries based on body type,
 # with hatches having odd number of doors.
-def door_selection(door, i, body_type)
-  Door.create(name: door, body_type_id: i)
+def door_selection(door, id, body_type)
+  Door.create(name: door, body_type_id: id)
   puts "Created #{door}door #{body_type}"
 end
 
 if Door.count.zero?
-  body_types.each_with_index do |body_type, i|
+  body_types.each_with_index do |body_type, id|
     BodyType.create(name: body_type)
     puts "Created #{body_type} body type"
 
     # assigns odd no. of doors to Hatch body type and even for rest
     if body_type == 'Hatch'
-      doors.select(&:odd?).each do |door|
-        door_selection(door, i, body_type)
-      end
+      doors.select(&:odd?).each { |door| door_selection(door, id, body_type) }
     else
-      doors.select(&:even?).each do |door|
-        door_selection(door, i, body_type)
-      end
+      doors.select(&:even?).each { |door| door_selection(door, id, body_type) }
     end        
   end
 end
