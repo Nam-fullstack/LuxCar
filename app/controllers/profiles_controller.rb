@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
-  before_action :authorize_iser!, only: %i[ edit destroy ]
+  before_action :authorize_user!, only: %i[ edit destroy ]
 
   def show
     if current_user.profile.id == params[:id].to_i
