@@ -1,22 +1,34 @@
-<h1><%= "#{current_user.username}" %> Inbox</h1>
+<h1><%= "#{current_user.username} Inbox" %></h1>
+
 <div class="container">
-  <h2 class="inbox-heading">Messages</h2>
-  <div class="inbox">  
+  <h2 class="inbox-heading">Inbox</h2>
+  <div class="inbox">
     <% @conversations.each do |conversation| %>
-    <% if conversation.sender_id == current_user.id || conversation.recipient_id == current_user.id %>
-    <% if conversation.sender_id == current_user.id %>
-    <% recipient = User.find(conversation.recipient_id) %>
-    <% else %>
-    <% recipient = User.find(conversation.sender_id) %>
+      <% @recipient = @conversation.recipient(current_user) %>
+
+      <% if !conversation.messages.empty? %>
+        <a class="inbox-conversation" href="<%= conversation_messages_path(conversation) %>">
+          <div class="inbox-messages-list">
+            <div class="inbox-user-display">
+              <% if @recipient.profile.image.attached? %>
+                <%= image_tag @recipient.profile.image, alt: 'Profile picure', class: "user-profile-picture" %>
+              <% else %>
+                <%= image_tag "profile-default.png", alt: 'Profile picure', class: "user-profile-picture" %>
+              <% end %>
+              <span class="conversation-receiver"><%= @recipient.username.capitalize %></span>
+            </div> <!-- Close inbox-user-display -->
+            <div class="inbox-message-display">
+              <% most_recent_message = conversation.messages.last %>
+              <p class="inbox-most-recent-message"><%= most_recent_message.body %></p>
+              <p class="inbox-time-sent"><%= time_ago_in_words(most_recent_message.created_at) %> ago</p>
+            </div>
+          </div> <!-- Close inbox-messages-list -->
+        </a>
+      <% end %>
     <% end %>
-    <h3><%= link_to recipient.email, conversation_messages_path(conversation)%></h3>
+
+    <% if @conversations.empty? %>
+      <p>There are no conversations</p>
     <% end %>
-    <% end %>
-    <h1>All Users:</h1>
-    <% @users.each do |user| %>
-    <% if user.id != current_user.id %><h3>
-    <%= link_to user.email, conversations_path(sender_id: current_user.id, recipient_id: user.id), method: "post"%></h3>
-    <% end %>
-    <% end %>
-  </div>
-</div>
+  </div> <!-- Close inbox -->
+</div> <!-- Close container -->

@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer "sender_id"
-    t.integer "recipient_id"
+    t.integer "receiver_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
 
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "variant_id", null: false
+    t.bigint "variant_id"
     t.bigint "colour_id", null: false
     t.integer "price", null: false
     t.integer "mileage", null: false

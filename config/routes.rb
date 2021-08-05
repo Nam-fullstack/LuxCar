@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  get 'conversations/index'
   resources :profiles
-  resources :messages
-  resources :conversations
+  resources :conversations, only: [:index, :create] do
+    resources :messages, only: [:index, :create]
+  end
   resources :listings
   resources :events
   # skip: :all - enables current_user helper methods 
