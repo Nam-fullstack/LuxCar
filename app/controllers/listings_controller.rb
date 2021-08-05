@@ -5,7 +5,8 @@ class ListingsController < ApplicationController
   # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
-    @listing = Listing.all #.search(params[:query], params[:option])#.includes(:car)
+    @listing = Listing.all
+    #.search(params[:query], params[:option])#.includes(:car)
   end
 
   def show

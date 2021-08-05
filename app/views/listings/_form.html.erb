@@ -22,58 +22,53 @@
     <%= form.text_field :postcode %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :year, class:"col form-label" %>
-    <%= form.collection_select(:year_id, Year.all, :id, :year) %>
+    <%= form.collection_select(:year_id, Year.all.order(id: :desc), :id, :year) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :make, class:"col form-label" %>
     <%= form.collection_select(:make_id, Make.all, :id, :name) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :model, class:"col form-label" %>
     <%= form.collection_select(:model_id, Model.all, :id, :name) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
-    <%= form.label :variant, class:"col form-label" %>
-    <%= form.collection_select(:variant_id, Variant.all, :id, :name) %>
-  </div>
-
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :engine, class:"col form-label" %>
     <%= form.collection_select(:engine_id, Engine.all, :id, :name) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :transmission, class:"col form-label" %>
     <%= form.collection_select(:transmission_id, Transmission.all, :id, :name) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :speed, class:"col form-label" %>
     <%= form.collection_select(:speed_id, Speed.all, :id, :name) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :body_type, class:"col form-label" %>
     <%= form.collection_select(:body_type_id, BodyType.all, :id, :name) %>
   </div>
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :door %>
     <%= form.collection_select(:door_id, Door.all, :id, :name) %>
   </div>
 
 
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :drive_type %>
     <%= form.collection_select(:drive_type_id, DriveType.all, :id, :name) %>
   </div>
   
-    <div class="form-group mb-3 ml-2">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :fuel %>
     <%= form.collection_select(:fuel_id, Fuel.all, :id, :name) %>
   </div>
@@ -98,17 +93,9 @@
     <%= form.text_area :description %>
   </div>
 
-  <h3 class="mb-2 ml-2"> Features </h3>
-  <div class="form-check mb-3"> 
-    <%=form.collection_check_boxes :feature_ids, @features, :id, :name do |box| %>
-      <%=box.label class: 'form-check-label'%>
-      <%=box.check_box class: 'form-check-line mr-2'%>
-    <%end%>
-  </div>
-
   <div class="form-group mb-3 ml-2">
-    <%= form.label :picture, class:"col form-label" %>
-    <%= form.file_field :picture, class:"form-control-file", accept: "image/jpg,image/png" %>
+    <%= form.hidden_field :image, class:"col form-label" %>
+    <%= form.file_field :image, class:"form-control-file", accept: "image/jpg,image/png" %>
   </div>
 
   <div class="actions">

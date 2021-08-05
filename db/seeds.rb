@@ -41,6 +41,8 @@ w_motors = ['Fenyr SuperSport', 'Lykan Hypersport']
 
 allmakes = [aston_martin, audi, bentley, bmw, bugatti, ferrari, hennessey, koenigsegg, lamborghini, land_rover, lexus, lotus, maserati, mclaren, mercedes_benz, pagani, porsche, rolls_royce, tesla, w_motors]
 
+features = %w[Heated\ and\ Cooled\ Front\ and\ Rear\ Seats Carbon\ Fibre\ Package Carbon\ Ceramic\ Brakes Custom\ Paint Forged\ Carbon Alcantara\ Steering\ Wheel Navigation\ and\ Infotainment\ System Rear\ View\ Camera\ and\ Parking\ Sensors Removable\ Hard\ Top Travel\ Package Refrigerator\ Compartment Chrome\ Package Pirelli\ P-Zero\ Tyres Vinyl\ Wrap Paint\ Protection Heated\ Windscreen Privacy\ Glass Heated\ Steering\ Wheel Panoramic\ Roof Performance\ Package]
+
 if Admin.count.zero?
   Admin.create(
     username: 'Administrator',
@@ -102,12 +104,12 @@ if Speed.count.zero?
     
     if transmission == 'Manual'
       3.times do |i|
-        Speed.create(name: speeds[i], transmission_id: 1)
+        Speed.create(name: speeds[i], transmission_id: 2)
         puts "Created #{speeds[i]}sp Manual transmission"
       end
     else
       speeds.each do |speed|
-        Speed.create(name: speed, transmission_id: 0)
+        Speed.create(name: speed, transmission_id: 1)
         puts "Created #{speed}sp Automatic transmission"
       end
     end
@@ -167,5 +169,12 @@ if Colour.count.zero?
   colours.each do |colour|
     Colour.create(name: colour)
     puts "Created #{colour} colour"
+  end
+end
+
+if Feature.count.zero?
+  features.each do |feature|
+    Feature.create(name: feature)
+    puts "Created #{feature} feature"
   end
 end
