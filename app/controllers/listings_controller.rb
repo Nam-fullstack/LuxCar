@@ -5,7 +5,7 @@ class ListingsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
-    @listings = Listing.all
+    @listings = Listing.search(params[:query], params[:option]).includes(:car)
   end
 
   def show
@@ -13,13 +13,14 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new
+    # @car = @listing.cars.build
   end
 
   def edit
   end
 
   def create
-    @listing = Listing.new(listing_params)
+    @listing = current_user.listing.new(listing_params)
 
     respond_to do |format|
       if @listing.save
@@ -61,7 +62,7 @@ class ListingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def listing_params
-    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :make, :model, :engine, :transmission, :fuel, :body_type, :drive_type, :door, :speed, :images)
+    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :make_id, :model_id, :engine_id, :transmission_id, :fuel_id, :body_type_id, :drive_type_id, :door_id, :speed_id, :image, feature_ids: [])
   end
 
   def authorize_user!
@@ -69,5 +70,9 @@ class ListingsController < ApplicationController
       flash[:alert] = "Unauthorized Request!"
       redirect_to @listing
     end
+  end
+
+  def set_form_vars
+    @features = Features.all
   end
 end
