@@ -9,31 +9,30 @@ class ListingsController < ApplicationController
   end
 
   def show
-    def show
-      session = Stripe::Checkout::Session.create(
-        payment_method_types: ['card'], 
-        customer_email: current_user&.email, #current_user && current_user.email 
-        line_items: [{
-          name: @listing.title, 
-          description: @listing.description, 
-          amount: @listing.price,
-          currency: 'aud', 
-          quantity: 1
-        }], 
-        payment_intent_data: {
-          metadata: {
-            user_id: current_user&.id,
-            listing_id: @listing.id
-          }
-        }, 
-        success_url: "#{root_url}/success?title=#{@listing.title}", 
-        cancel_url: "#{root_url}/listings"
-      )
-  
-      @session_id = session.id 
-      puts "*********"
-      pp @session_id
-      puts "*********"
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'], 
+      customer_email: current_user&.email, #current_user && current_user.email 
+      line_items: [{
+        name: @listing.title, 
+        description: @listing.description, 
+        amount: @listing.price,
+        currency: 'aud', 
+        quantity: 1
+      }], 
+      payment_intent_data: {
+        metadata: {
+          user_id: current_user&.id,
+          listing_id: @listing.id
+        }
+      }, 
+      success_url: "#{root_url}/success?title=#{@listing.title}", 
+      cancel_url: "#{root_url}/listings"
+    )
+
+    @session_id = session.id 
+    puts "*********"
+    pp @session_id
+    puts "*********"
   end
 
   def new
