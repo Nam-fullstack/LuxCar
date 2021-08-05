@@ -4,20 +4,20 @@
       <h2><%= pluralize(listing.errors.count, "error") %> prohibited this listing from being saved:</h2>
 
       <ul>
-        <% listing.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% listing.errors.full_messages.each do |message| %>
+          <li><%= message.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
   <h3 class="listing-question">Where will you be selling your car?</h3>
-  <div class="field">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :state_id %>
     <%= form.collection_select(:state_id, State.all, :id, :name) %>
   </div>
 
-  <div class="field">
+  <div class="form-group mb-3 ml-2">
     <%= form.label :postcode %>
     <%= form.text_field :postcode %>
   </div>
@@ -61,9 +61,6 @@
     <%= form.label :body_type %>
     <%= form.collection_select(:body_type_id, BodyType.all, :id, :name) %>
   </div>
-
-<p>************************ </p>
-<%= @door_join %>
 
   <div class="field">
     <%= form.label :door %>
