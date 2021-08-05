@@ -2,13 +2,38 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: %i[ index show ]
   before_action :authorize_user!, only: %i[ edit update destroy ]
-  skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
+  # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
     @listing = Listing.all #.search(params[:query], params[:option])#.includes(:car)
   end
 
   def show
+    def show
+      session = Stripe::Checkout::Session.create(
+        payment_method_types: ['card'], 
+        customer_email: current_user&.email, #current_user && current_user.email 
+        line_items: [{
+          name: @listing.title, 
+          description: @listing.description, 
+          amount: @listing.price,
+          currency: 'aud', 
+          quantity: 1
+        }], 
+        payment_intent_data: {
+          metadata: {
+            user_id: current_user&.id,
+            listing_id: @listing.id
+          }
+        }, 
+        success_url: "#{root_url}/success?title=#{@listing.title}", 
+        cancel_url: "#{root_url}/listings"
+      )
+  
+      @session_id = session.id 
+      puts "*********"
+      pp @session_id
+      puts "*********"
   end
 
   def new
@@ -67,12 +92,14 @@ class ListingsController < ApplicationController
 
   def authorize_user!
     if current_user.id != @listing.user.id
-      flash[:alert] = "Unauthorized Request!"
-      redirect_to @listing
+      flash[:error] = "Unauthorized Request!"
+      redirect_to listings_path
     end
   end
 
   def set_form_vars
+    @makes = Make.all
+    @model = Model.all
     @features = Features.all
   end
 end
