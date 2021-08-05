@@ -2,40 +2,36 @@
   <div class="conversation">
     <% @recipient = @conversation.recipient(current_user) %>
 
-    <div class="conversation-recipient">
+    <div class="conversation-receiver">
       <% if @recipient.profile.image.attached? %>
         <%= image_tag @recipient.profile.image, alt: 'Profile picure', class: "user-profile-picture" %>
       <% else %>
         <%= image_tag "profile-default.png", alt: 'Profile picure', class: "user-profile-picture" %>
       <% end %>
+      <h2 class="conversation-receiver"><%= @recipient.username.capitalize %></h2>
+    </div> <!-- Close conversation-receiver -->
 
-      <h3 class="conversation-recipient-name">
-        <%= @recipient.username %>
-      </h3>
-    </div>
-
-    </ul class="conversation-messages">
+    <ul class="conversation-messages">
       <% @messages.each do |message| %>
-        <% if message.body %>
-        <% #user = User.find(message.user_id) %>
-          <li class="conversation-message <%= current_user.id == message.user_id ? 'conversation-message-sent' : 'conversation-message-received' %>">
-            <p class="conversation-message-body"><%= message.body %></p>
-            <p class="conversation-message-sent"><%= message.message_time %></p>
+        <% if message.body%>
+          <li class="conversation-message <%= current_user.id == message.user_id ? "conversation-message-sent" : "conversation-message-received" %>">
+            <p class="conversation-messages-body"><%= message.body %></p>
+            <p class="conversation-messages-sent"><%= time_ago_in_word(message.created_at) %> ago</p>
           </li>
         <% end %>
-      <% end %>
+      <%end %>
     </ul>
-
     <button class="conversation-send btn btn-primary">New Message</button>
-
-    <div class="conversation-new-message">
-      <h3 class="conversation-new-message-header">New Message</h2>
+    <div class="conversation-new-message hidden">
+      <h3 class="conversation-new-message-title">New Message</h2>
       <%= form_for [@conversation, @message] do |f| %>
         <div class="form-field">
+          <%= f.label :body, class: "form-label" %>
           <%= f.text_area :body, class: "form-text", placeholder: "Text Message" %>
           <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
         </div>
-        <%= f.submit "Send" %>
+        <%= f.submit "Send", class: "btn btn-primary" %>
       <% end %>
-  </div>
-</div>
+    </div> <!-- Close conversation-new-message -->
+  </div> <!-- Close conversation -->
+</div> <!-- Close container -->

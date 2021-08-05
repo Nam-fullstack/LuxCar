@@ -1,7 +1,6 @@
-<h1><%= "#{current_user.username} Inbox" %></h1>
+<h1><%= "#{current_user.username}'s Inbox" %></h1>
 
 <div class="container">
-  <h2 class="inbox-heading">Inbox</h2>
   <div class="inbox">
     <% @conversations.each do |conversation| %>
       <% @recipient = @conversation.recipient(current_user) %>
