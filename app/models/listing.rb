@@ -23,7 +23,7 @@ class Listing < ApplicationRecord
   
   before_save :remove_whitespace
   before_validation :convert_price_to_cents, if: :price_changed?
-  before_save :create_variant
+  # before_save :create_variant
 
   # @door_join = Door.left_joins(:body_type)
 
@@ -38,7 +38,8 @@ class Listing < ApplicationRecord
     self.price = price * 100
   end
 
-  def create_variant
-    @new_variant = { params[:listing][:year_id], params[:listing][:model_id], params[:listing][:door_id], params[:listing][:body_type_id], params[:listing][:speed_id], params[:listing][:transmission_id], params[:listing][:engine_id], params[:listing][:petrol_id] }
-  end
+  # def create_variant
+    # @new_variant = { params[:listing][:year_id], params[:listing][:model_id], params[:listing][:door_id], params[:listing][:body_type_id], params[:listing][:speed_id], params[:listing][:transmission_id], params[:listing][:engine_id], params[:listing][:petrol_id] }
+    # Variant.create()
+  # end
 end

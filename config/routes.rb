@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :conversations, only: [:index, :create] do
     resources :messages, only: [:index, :create]
   end
+  resources :variants
   resources :listings
   resources :events
   # skip: :all - enables current_user helper methods 
