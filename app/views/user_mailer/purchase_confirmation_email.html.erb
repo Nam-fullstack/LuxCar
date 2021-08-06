@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1>Congratulations on your car purchase, <%= @user.first_name %>!</h1>
+    <p>
+      You have successfully paid for your <%= @purchase.listing.title %> car.
+      <br>
+      The purchase invoice receipt can be viewed and downloaded here: <%= @purchase.receipt_url %>
+      <br>
+    </p>
+    <p>
+      Congratulations once more on your magnificient purchase!
+      <br>
+      We appreciate and look forward to doing business with you again.
+    </p>
+    <p>
+      <br><br>
+      Max Hollingsworth 
+      <br>
+      LuxuryCar Customer Relations Executive
+    </p> 
+  </body>
+</html>
