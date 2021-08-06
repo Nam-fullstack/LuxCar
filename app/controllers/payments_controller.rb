@@ -38,6 +38,6 @@ class PaymentsController < ApplicationController
     buyer_id = payment.metadata.user_id
     listing = Listing.find(listing_id)
     listing.update(sold: true)
-    Order.create(listing_id: listing_id, buyer_id: buyer_id, seller_id: listing.user_id, payment_id: payment_id, receipt_url: payment.charges.data[0].receipt_url)
+    Purchase.create(listing_id: listing_id, buyer_id: buyer_id, payment_id: payment_id, receipt_url: payment.charges.data[0].receipt_url)
   end 
 end

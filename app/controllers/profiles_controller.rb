@@ -19,11 +19,11 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    @profile = Profile.new(profile_params)
+    @profile = current_user.profile.new(profile_params)
 
     respond_to do |format|
       if @profile.save
-        format.html { redirect_to @profile, notice: "Profile was successfully created." }
+        format.html { redirect_to edit_profile_path, notice: "Profile was successfully created." }
         format.json { render :show, status: :created, location: @profile }
       else
         format.html { render :new, status: :unprocessable_entity }

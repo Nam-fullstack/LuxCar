@@ -40,7 +40,9 @@ class ListingsController < ApplicationController
     @listing = Listing.new
   end
 
+  # Converts the price from cents back to dollars when the form renders.
   def edit
+    @listing.price /= 100
   end
 
   def create

@@ -44,11 +44,6 @@ class VariantsController < ApplicationController
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id)
   end
 
-  #   def set_form_vars
-  #     @makes = Make.all
-  #     @model = Model.all
-  #   end
-
   def update_name
     year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name
@@ -62,12 +57,12 @@ class VariantsController < ApplicationController
     fuel = Fuel.find(params[:variant][:fuel_id]).name
 
     if trans == "Automatic"
-    trans = "Auto"
+      trans = "Auto"
     else
-    trans = "Man"
+      trans = "Man"
     end
 
     Variant.last.update(name: "#{year} #{make} #{model} #{door}dr #{body} #{speed}-sp #{trans} #{engine} #{drive} #{fuel}")
-    puts "\n\nVARIANT NAME: #{Variant.last.name}\n\n"
+    puts "THIS IS THE NAME: #{Variant.last.name}"
   end
 end

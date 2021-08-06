@@ -16,12 +16,4 @@ class Variant < ApplicationRecord
   # validates :fuel_consumption, numericality: { greater_than: 0 }
   # validates :weight, numericality: { greater_than: 0 }
   # validates :safety_rating, numericality: { great_than_or_equal_to: 0, less_than_or_equal_to: 5 }
-
-  # after_save :update_name
-
-  private
-
-  # def update_name  
-  # end
-
 end
