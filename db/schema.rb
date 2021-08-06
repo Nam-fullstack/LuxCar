@@ -242,6 +242,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   end
 
   create_table "variants", force: :cascade do |t|
+    t.string "name"
     t.bigint "make_id", null: false
     t.bigint "model_id", null: false
     t.bigint "year_id", null: false

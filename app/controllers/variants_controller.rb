@@ -1,5 +1,4 @@
 class VariantsController < ApplicationController
-  before_action :set_variant, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
   before_action :authorize_user!, only: %i[ edit update destroy ]
 
@@ -12,6 +11,7 @@ class VariantsController < ApplicationController
 
     respond_to do |format|
       if @variant.save
+        update_name
         format.html { redirect_to @variant, notice: "Your car variant was successfully created." }
         format.json { render :show, status: :created, location: @variant }
       else
@@ -38,17 +38,21 @@ class VariantsController < ApplicationController
 
   private
 
-  def set_variant
-    @variant = variant.find(params[:id])
-  end
-
   # Only allow a list of trusted parameters through.
   def variant_params
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id)
   end
 
-  def set_form_vars
-    @makes = Make.all
-    @model = Model.all
+#   def set_form_vars
+#     @makes = Make.all
+#     @model = Model.all
+#   end
+
+  def update_name
+    @engine_name = Engine.find(params[:variant][:engine_id]).name
+    puts "ENGINE TYPE: #{@engine_name}"
+    @carbody = BodyType.find(params[:variant][:body_type_id]).name
+    puts "BODY TYPE: #{@carbody}"
+    Variant.last.update(name: "#{@engine_name}")
   end
 end
