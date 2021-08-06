@@ -50,7 +50,10 @@
     <% end %>
   </div>
 
-
+ <div class="form-group mb-3 ml-2">
+    <%= form.hidden_field :image %>
+    <%= form.file_field :image, class:"form-control-file", multiple: true, accept: "image/jpg,image/png,image/jpeg" %>
+  </div> 
 
   <div class="actions">
     <%= form.submit %>

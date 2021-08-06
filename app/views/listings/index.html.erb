@@ -21,18 +21,18 @@
   <tbody>
     <% @listing.each do |listing| %>
       <tr>
-        <td><%= listing.user_id %></td>
-        <td><%= listing.variant_id %></td>
-        <td><%= listing.colour_id %></td>
+        <td><%= User.find(listing.user_id).username.capitalize %></td>
+        <td><%= Variant.find(listing.variant_id).name %></td>
+        <td><%= Colour.find(listing.colour_id).name %></td>
         <td><%= listing.title %></td>
-        <td><%= listing.price %></td>
-        <td><%= listing.mileage %></td>
+        <td><%= (listing.price / 100) %></td>
+        <td><%= "#{listing.mileage} kms" %></td>
         <td><%= listing.description %></td>
-        <td><%= listing.state_id %></td>
+        <td><%= State.find(listing.state_id).name %></td>
         <td><%= listing.sold %></td>
         <td><%= link_to 'Show', listing %></td>
         <td><%= link_to 'Edit', edit_listing_path(listing) %></td>
-        <td><%= link_to 'Destroy', listing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', listing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -40,4 +40,4 @@
 
 <br>
 
-<%= link_to 'New Listing', new_listing_path %>
+<%= link_to 'New Listing', new_variant_path %>
