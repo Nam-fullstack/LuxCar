@@ -7,4 +7,9 @@ class UserMailer < ApplicationMailer
         mail(to: @user.email, subject: "Welcome to LuxuryCar! Find your dream now.")
     end
 
+    def purchase_confirmation_email
+        @user = parmas[:user]
+        @purchase = params[:purchase]
+        mail(to: @user.email, subject: "Congratulations on your car purchase!"
+    end
 end
