@@ -5,7 +5,7 @@
 
       <ul>
         <% listing.errors.full_messages.each do |message| %>
-          <li><%= message.full_message %></li>
+          <li><%= message.full_messages %></li>
         <% end %>
       </ul>
     </div>
@@ -42,10 +42,14 @@
     <%= form.text_area :description, size: "80x20" %>
   </div>
 
-  <div class="form-group mb-3 ml-2">
+  <%
+=begin%>
+ <div class="form-group mb-3 ml-2">
     <%= form.hidden_field :image %>
     <%= form.file_field :image, class:"form-control-file", multiple: true, accept: "image/jpg,image/png,image/jpeg" %>
-  </div>
+  </div> 
+<%
+=end%>
 
   <div class="actions">
     <%= form.submit %>

@@ -1,17 +1,25 @@
-<%= form_with(model: profile) do |form| %>
-  <% if profile.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+<div class="profile">
+  <h1>My Profile</h1>
+  <%= form_with(model: profile) do |form| %>
+    <% if profile.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+        <ul>
+          <% profile.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div> <!-- close error_explaination -->
+   <% end %>
 
-      <ul>
-        <% profile.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="form-group mb-3 ml-2">
+      <%= form.hidden_field :image %>
+      <%= form.file_field :image, class:"form-control-file", multiple: true, accept: "image/jpg,image/png,image/jpeg" %>
+    </div>
+
+
+    <div class="actions">
+      <%= form.submit "Update Profile", class: "form-submit btn btn-primary"%>
     </div>
   <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div> <!-- close profile -->
