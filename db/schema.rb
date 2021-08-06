@@ -253,10 +253,10 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.bigint "body_type_id", null: false
     t.bigint "drive_type_id", null: false
     t.bigint "transmission_id", null: false
-    t.integer "fuel_consumption"
-    t.integer "safety_rating"
+    t.decimal "fuel_consumption", precision: 10, scale: 1
+    t.decimal "safety_rating", precision: 10, scale: 1
     t.integer "weight"
-    t.integer "displacement"
+    t.decimal "displacement", precision: 10, scale: 1
     t.integer "power"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

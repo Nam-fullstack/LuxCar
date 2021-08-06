@@ -2,6 +2,8 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: %i[ index show ]
   before_action :authorize_user!, only: %i[ edit update destroy ]
+  before_action :set_form_vars, only: %i[new edit]
+  before_action :set_variant, only: %i[new create]
   # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
@@ -47,9 +49,12 @@ class ListingsController < ApplicationController
 
   def create
     @listing = current_user.listings.new(listing_params)
-
+    @listing.variant_id = @variant.id
+    @listing.title = @variant.name
+    puts "THIS IS THE DAMN POSTCODE, WHY ARE YOU SAYING IT'S BLANK #{@listing.postcode} \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
     respond_to do |format|
       if @listing.save
+    
         format.html { redirect_to @listing, notice: "Listing was successfully created." }
         format.json { render :show, status: :created, location: @listing }
       else
@@ -88,7 +93,7 @@ class ListingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def listing_params
-    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :make_id, :model_id, :engine_id, :transmission_id, :fuel_id, :body_type_id, :drive_type_id, :door_id, :speed_id, :image, feature_ids: [])
+    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, :picture, feature_ids: [])
   end
 
   def authorize_user!
@@ -99,8 +104,10 @@ class ListingsController < ApplicationController
   end
 
   def set_form_vars
-    @makes = Make.all
-    @model = Model.all
-    @features = Features.all
+    @features = Feature.all
+  end
+
+  def set_variant
+    @variant = Variant.last
   end
 end

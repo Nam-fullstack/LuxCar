@@ -5,7 +5,7 @@
 
       <ul>
         <% listing.errors.full_messages.each do |message| %>
-          <li><%= message.full_messages %></li>
+          <li><%= message.full_message %></li>
         <% end %>
       </ul>
     </div>
@@ -19,7 +19,7 @@
 
   <div class="form-group mb-3 ml-2">
     <%= form.label :postcode, class:"col form-label" %>
-    <%= form.text_field :postcode %>
+    <%= form.number_field :postcode %>
   </div>
 
   <div class="form-group mb-3 ml-2">
@@ -42,14 +42,15 @@
     <%= form.text_area :description, size: "80x20" %>
   </div>
 
-  <%
-=begin%>
- <div class="form-group mb-3 ml-2">
-    <%= form.hidden_field :image %>
-    <%= form.file_field :image, class:"form-control-file", multiple: true, accept: "image/jpg,image/png,image/jpeg" %>
-  </div> 
-<%
-=end%>
+  <h5 class="mb-2 ml-2"> Features </h5>
+  <div class="form-check mb-3"> 
+    <%= form.collection_check_boxes :feature_ids, @features, :id, :name do |b| %>
+      <%= b.label class: 'form-check-label' %>
+      <%= b.check_box class: 'form-check-line mr-2' %>
+    <% end %>
+  </div>
+
+
 
   <div class="actions">
     <%= form.submit %>
