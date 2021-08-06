@@ -40,6 +40,10 @@ class VariantsController < ApplicationController
 
   private
 
+  def set_variant
+    @variant = variant.find(params[:id])
+  end
+
   def update_name
     engine_name = Engine.find(params[:engine_id]).name
     pp engine_name
