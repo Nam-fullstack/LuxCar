@@ -10,7 +10,7 @@ body_types = ['Convertible', 'Coupe', 'Sedan', 'SUV', 'Wagon', 'Hatch']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
 drives = ['4WD', 'AWD', 'FWD', 'RWD']
-engines = ['Electric', 'Rotary', 'V2', 'V3', 'V4', 'Inline 5', 'Inline 6', 'V6', 'V8', 'V10', 'V12', 'W12', 'W16']
+engines = ['Electric', 'Hybrid', 'Inline 5', 'Inline 6', 'Rotary', 'V2', 'V3', 'V4', 'V6', 'V8', 'V10', 'V12', 'W12', 'W16']
 fuel_types = ['Diesel', 'Dual Fuel', 'Electric', 'Gas Only', 'Hybrid', 'Petrol', 'Plug in Hybrid']
 makes = ['Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Ferrari', 'Hennessey', 'Koenigsegg', 'Lamborghini', 'Land Rover', 'Lexus', 'Lotus', 'Maserati', 'McLaren', 'Mercedes-Benz', 'Pagani', 'Porsche', 'Rolls-Royce', 'Tesla', 'W Motors']
 speeds = [5, 6, 7, 8, 9, 1]
@@ -94,7 +94,7 @@ if Year.count.zero?
   end
 end
 
-# Only have 5 and 6 speed Manual transmissions (and a few with 7sp). 
+# Only have 5, 6, and 7 speed Manual transmissions (only a handful with 7sp). 
 # Added an exceptional case to have a 1-sp transmission 
 # for Koenigsegg Regera which only has a single gear.
 if Speed.count.zero?

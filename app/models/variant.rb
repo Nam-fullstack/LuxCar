@@ -21,9 +21,7 @@ class Variant < ApplicationRecord
 
   private
 
-  # def update_name
-  #   # @variant.name = "#{@variant.engine_id.name}"
-  #   puts "####################################### This is the variant #{@variant}"
+  # def update_name  
   # end
 
 end

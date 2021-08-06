@@ -12,7 +12,7 @@ class VariantsController < ApplicationController
     respond_to do |format|
       if @variant.save
         update_name
-        format.html { redirect_to @variant, notice: "Your car variant was successfully created." }
+        format.html { redirect_to new_listing_path, notice: "Your car variant was successfully created." }
         format.json { render :show, status: :created, location: @variant }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -27,7 +27,8 @@ class VariantsController < ApplicationController
   def update
     respond_to do |format|
       if @variant.update(variant_params)
-        format.html { redirect_to @variant, notice: "Variant was successfully updated." }
+        update_name
+        format.html { redirect_to new_listing_path, notice: "Variant was successfully updated." }
         format.json { render :show, status: :ok, location: @variant }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -43,10 +44,10 @@ class VariantsController < ApplicationController
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id)
   end
 
-#   def set_form_vars
-#     @makes = Make.all
-#     @model = Model.all
-#   end
+  #   def set_form_vars
+  #     @makes = Make.all
+  #     @model = Model.all
+  #   end
 
   def update_name
     year = Year.find(params[:variant][:year_id]).year
@@ -59,7 +60,13 @@ class VariantsController < ApplicationController
     engine = Engine.find(params[:variant][:engine_id]).name
     drive = DriveType.find(params[:variant][:drive_type_id]).name
     fuel = Fuel.find(params[:variant][:fuel_id]).name
-    
+
+    if trans == "Automatic"
+    trans = "Auto"
+    else
+    trans = "Man"
+    end
+
     Variant.last.update(name: "#{year} #{make} #{model} #{door}dr #{body} #{speed}-sp #{trans} #{engine} #{drive} #{fuel}")
     puts "THIS IS THE NAME: #{Variant.last.name}"
   end
