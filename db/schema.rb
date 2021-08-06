@@ -242,13 +242,16 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   end
 
   create_table "variants", force: :cascade do |t|
+    t.bigint "make_id", null: false
     t.bigint "model_id", null: false
     t.bigint "year_id", null: false
     t.bigint "engine_id", null: false
     t.bigint "speed_id", null: false
     t.bigint "fuel_id", null: false
     t.bigint "door_id", null: false
+    t.bigint "body_type_id", null: false
     t.bigint "drive_type_id", null: false
+    t.bigint "transmission_id", null: false
     t.integer "fuel_consumption"
     t.integer "safety_rating"
     t.integer "weight"
@@ -256,12 +259,15 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.integer "power"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["body_type_id"], name: "index_variants_on_body_type_id"
     t.index ["door_id"], name: "index_variants_on_door_id"
     t.index ["drive_type_id"], name: "index_variants_on_drive_type_id"
     t.index ["engine_id"], name: "index_variants_on_engine_id"
     t.index ["fuel_id"], name: "index_variants_on_fuel_id"
+    t.index ["make_id"], name: "index_variants_on_make_id"
     t.index ["model_id"], name: "index_variants_on_model_id"
     t.index ["speed_id"], name: "index_variants_on_speed_id"
+    t.index ["transmission_id"], name: "index_variants_on_transmission_id"
     t.index ["year_id"], name: "index_variants_on_year_id"
   end
 
@@ -297,12 +303,15 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   add_foreign_key "purchases", "listings"
   add_foreign_key "purchases", "users"
   add_foreign_key "speeds", "transmissions"
+  add_foreign_key "variants", "body_types"
   add_foreign_key "variants", "doors"
   add_foreign_key "variants", "drive_types"
   add_foreign_key "variants", "engines"
   add_foreign_key "variants", "fuels"
+  add_foreign_key "variants", "makes"
   add_foreign_key "variants", "models"
   add_foreign_key "variants", "speeds"
+  add_foreign_key "variants", "transmissions"
   add_foreign_key "variants", "years"
   add_foreign_key "watches", "listings"
   add_foreign_key "watches", "profiles"

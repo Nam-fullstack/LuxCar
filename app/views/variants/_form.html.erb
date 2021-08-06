@@ -37,8 +37,18 @@
   </div>
 
   <div class="form-group mb-3 ml-2">
+    <%= form.label :speed, class:"col form-label" %>
+    <%= form.collection_select(:speed_id, Speed.all, :id, :name) %>
+  </div>
+
+  <div class="form-group mb-3 ml-2">
     <%= form.label :body_type, class:"col form-label" %>
     <%= form.collection_select(:body_type_id, BodyType.all, :id, :name) %>
+  </div>
+
+  <div class="form-group mb-3 ml-2">
+    <%= form.label :door %>
+    <%= form.collection_select(:door_id, Door.all, :id, :name) %>
   </div>
 
   <div class="form-group mb-3 ml-2">

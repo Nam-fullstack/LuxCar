@@ -36,24 +36,15 @@ class VariantsController < ApplicationController
     end
   end
 
-  before_save :update_name
-
   private
 
   def set_variant
     @variant = variant.find(params[:id])
   end
 
-  def update_name
-    engine_name = Engine.find(params[:engine_id]).name
-    pp engine_name
-    Variant.name = "#{engine_name}"
-
-  end
-
   # Only allow a list of trusted parameters through.
   def variant_params
-    params.require(:variant).permit(:year_id, :model_id, :engine_id, :transmission_id, :fuel_id, :body_type_id, :drive_type_id)
+    params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id)
   end
 
   def set_form_vars
