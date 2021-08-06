@@ -38,14 +38,13 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new
-    # @car = @listing.cars.build
   end
 
   def edit
   end
 
   def create
-    @listing = current_user.listing.new(listing_params)
+    @listing = current_user.listings.new(listing_params)
 
     respond_to do |format|
       if @listing.save

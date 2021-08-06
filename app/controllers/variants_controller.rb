@@ -68,6 +68,6 @@ class VariantsController < ApplicationController
     end
 
     Variant.last.update(name: "#{year} #{make} #{model} #{door}dr #{body} #{speed}-sp #{trans} #{engine} #{drive} #{fuel}")
-    puts "THIS IS THE NAME: #{Variant.last.name}"
+    puts "\n\nVARIANT NAME: #{Variant.last.name}\n\n"
   end
 end
