@@ -17,13 +17,13 @@ class Variant < ApplicationRecord
   # validates :weight, numericality: { greater_than: 0 }
   # validates :safety_rating, numericality: { great_than_or_equal_to: 0, less_than_or_equal_to: 5 }
 
-  after_save :update_name
+  # after_save :update_name
 
   private
 
-  def update_name
-    # @variant.name = "#{@variant.engine_id.name}"
-    puts "####################################### This is the variant #{@variant}"
-  end
+  # def update_name
+  #   # @variant.name = "#{@variant.engine_id.name}"
+  #   puts "####################################### This is the variant #{@variant}"
+  # end
 
 end
