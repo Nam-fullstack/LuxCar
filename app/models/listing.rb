@@ -36,6 +36,9 @@ class Listing < ApplicationRecord
   # converts it to float before it's changed to an integer, and we can do the conversion
   # to cents without losing that data.
   def convert_price_to_cents
-    self.price = (self.attributes_before_type_cast["price"].to_f * 100).round
+    # Only multiplying by 10 because only paying for 10% deposit, also, Stripe doesn't
+    # allow for payments that is above 1 million dollars. The buyer and seller will handle
+    # the remainder of payment with their banks.
+    self.price = (self.attributes_before_type_cast["price"].to_f * 10).round
   end
 end

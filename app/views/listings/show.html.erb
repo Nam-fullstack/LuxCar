@@ -1,7 +1,7 @@
 <div class='container d-flex flex-column flex-md-row px-2 my-2 my-md-5'>
   <div class='content col-12 col-md-7 col-lg-8 p-0 pr-md-3'> 
     <div class='col-12 p-0 main-preview mb-4'>
-      <%= image_tag image_select(@listing), class:'thumbnail card-img top' %>
+      <%= image_tag image_select(@listing), class:'hero-image thumbnail card-img top' %>
     </div>
   </div> <!-- close content -->
   <div class= 'sidebar col-lg-4 p-0 mx-2 d-md-block'>
@@ -19,7 +19,7 @@
       <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
       <!-- Won't see the redirectToCheckout in the create_payment_intent.html.erb until everything we need to happen has happened. -->
       <!-- We don't create a payment_intent until this button is clicked. -->
-      <%= button_to "Buy: $#{@listing.price / 100.0}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3" %>
+      <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 10)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3" %>
     <% elsif @listing.sold == true %>
       <button class='btn btn-secondary' disabled>SOLD</button>
     <% else %>
