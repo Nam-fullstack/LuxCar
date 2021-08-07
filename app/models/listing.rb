@@ -27,6 +27,9 @@ class Listing < ApplicationRecord
 
   def remove_whitespace
     self.title = title.strip if respond_to?(:strip)
+    self.mileage = mileage.strip if respond_to?(:strip)
+    self.price = price.strip if respond_to?(:strip)
+    self.postcode = postcode.strip if respond_to?(:strip)
     self.description = description.strip if respond_to?(:strip)
   end
 
