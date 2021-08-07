@@ -41,7 +41,7 @@ class VariantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def variant_params
-    params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour)
+    params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour_id)
   end
 
   def update_name

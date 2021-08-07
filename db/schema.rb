@@ -119,7 +119,6 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "variant_id"
-    t.bigint "colour_id", null: false
     t.integer "price", null: false
     t.integer "mileage", null: false
     t.string "title"
@@ -129,7 +128,6 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.boolean "sold", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["colour_id"], name: "index_listings_on_colour_id"
     t.index ["state_id"], name: "index_listings_on_state_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
     t.index ["variant_id"], name: "index_listings_on_variant_id"
@@ -285,7 +283,6 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   add_foreign_key "doors", "body_types"
   add_foreign_key "events", "listings"
   add_foreign_key "events", "locations"
-  add_foreign_key "listings", "colours"
   add_foreign_key "listings", "states"
   add_foreign_key "listings", "users"
   add_foreign_key "listings", "variants"
