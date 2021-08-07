@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
   # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
-    @listing = Listing.all
+    @listing = Listing.all#.includes(:user)
     #.search(params[:query], params[:option])#.includes(:car)
   end
 
@@ -93,7 +93,7 @@ class ListingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def listing_params
-    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, :picture, feature_ids: [])
+    params.require(:listing).permit(:user_id, :variant_id, :colour_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, pictures: [], feature_ids: [])
   end
 
   def authorize_user!

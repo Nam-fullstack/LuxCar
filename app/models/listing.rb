@@ -13,8 +13,8 @@ class Listing < ApplicationRecord
   has_many :watches, dependent: :destroy
 
   # Validations
-  validates :description, length: { maximum: 1000 }
-  validates :mileage, presence: true, numericality: { greater_than: 0 }
+  validates :description, presence: true, length: { maximum: 1000 }
+  validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :price, presence: true, numericality: { greater_than: 50000 }
   validates :state_id, presence: true
   # Australian postcodes only exist in this range: 0200 to 9999

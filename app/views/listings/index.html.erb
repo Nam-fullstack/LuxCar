@@ -31,8 +31,8 @@
         <td><%= State.find(listing.state_id).name %></td>
         <td><%= listing.sold %></td>
         <td><%= link_to 'Show', listing %></td>
-        <td><%= link_to 'Edit', edit_listing_path(listing) %></td>
-        <td><%= link_to 'Delete', listing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_listing_path(listing) if current_user.id == listing.user_id %></td>
+        <td><%= link_to 'Delete', listing, method: :delete, data: { confirm: 'Are you sure?' } if current_user.id == listing.user_id %></td>
       </tr>
     <% end %>
   </tbody>

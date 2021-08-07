@@ -51,11 +51,11 @@
   </div>
 
  <div class="form-group mb-3 ml-2">
-    <%= form.hidden_field :image %>
-    <%= form.file_field :image, class:"form-control-file", multiple: true, accept: "image/jpg,image/png,image/jpeg" %>
+    <%= form.label :pictures, "Upload Images" %>
+    <%= form.file_field :pictures, class:"form-control-file", multiple: true, accept: "image/jpg,image/png,image/jpeg" %>
   </div> 
 
-  <div class="actions">
+  <div class="actions btn btn-primary">
     <%= form.submit %>
   </div>
 <% end %>
