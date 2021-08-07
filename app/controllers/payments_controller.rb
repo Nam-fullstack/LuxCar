@@ -8,6 +8,8 @@ class PaymentsController < ApplicationController
 
   def create_payment_intent
     listing = Listing.find(params[:id])
+
+    # Creates session for Stripe payment
     session = Stripe::Checkout::Session.create(
         payment_method_types: ['card'], 
         customer_email: current_user&.email, #current_user && current_user.email 
@@ -27,7 +29,8 @@ class PaymentsController < ApplicationController
         success_url: "#{root_url}/success?id=#{listing.id}", 
         cancel_url: "#{root_url}/listings"
       )  
-      @session_id = session.id    
+      @session_id = session.id 
+      puts "\n\n\n\n\n #{@session_id}"   
   end 
 
   def webhook 
@@ -37,7 +40,11 @@ class PaymentsController < ApplicationController
     listing_id = payment.metadata.listing_id
     buyer_id = payment.metadata.user_id
     listing = Listing.find(listing_id)
+    # Only updates listing as sold when the payment has successfully gone through based on checkout_session_completed.
     listing.update(sold: true)
+    # Creates a purchase, which has the listing_id (don't need seller_id since that data is already stored in the Listings table in user_id column),
+    # the buyer_id, payment_id and receipt_url 
+    puts "\n\n\n\n\n\n\n\n\n\n\n\n listingID: #{listing_id} \n\n payment details: #{payment} \n\n #{payment.charges.data[0].receipt_url}"
     Purchase.create(listing_id: listing_id, buyer_id: buyer_id, payment_id: payment_id, receipt_url: payment.charges.data[0].receipt_url)
   end 
 end

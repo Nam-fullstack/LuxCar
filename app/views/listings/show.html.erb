@@ -5,21 +5,26 @@
     </div>
   </div> <!-- close content -->
   <div class= 'sidebar col-lg-4 p-0 mx-2 d-md-block'>
-    <h1 class='mb-sm-2 mb-md-5'><%=@listing.title%></h1>
+    <h1 class='mb-sm-2 mb-md-5'><%=@listing.title %></h1>
 
     <% @listing.features.each do |feature| %>
-      <span class='badge badge-pill badge-info'><%=feature.name %></span>
-    <%end%>
+      <span class='badge badge-pill badge-info'><%= feature.name %></span>
+    <% end %>
     
     <p class='blockquote mt-2'><%= @listing.description %></p>
     
     <% if current_user && @listing.sold == false %>
+      <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
+      <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->
+      <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
+      <!-- Won't see the redirectToCheckout in the create_payment_intent.html.erb until everything we need to happen has happened. -->
+      <!-- We don't create a payment_intent until this button is clicked. -->
       <%= button_to "Buy: $#{@listing.price / 100.0}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3" %>
     <% elsif @listing.sold == true %>
       <button class='btn btn-secondary' disabled>SOLD</button>
-    <%else%>
-      <%=button_to "Log In to Buy", new_user_session_path, class: "btn btn-info"%>
-    <%end%>
+    <% else %>
+      <%= button_to "Log In to Buy", new_user_session_path, class: "btn btn-info" %>
+    <% end %>
   </div> <!-- close sidebar -->
 </div> <!-- close container -->
 <div class='container'>

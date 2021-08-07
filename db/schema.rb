@@ -116,12 +116,6 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "invoices", force: :cascade do |t|
-    t.boolean "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "variant_id"
@@ -191,15 +185,13 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
 
   create_table "purchases", force: :cascade do |t|
     t.bigint "listing_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "invoice_id"
-    t.string "payment_intent"
+    t.bigint "buyer_id", null: false
+    t.string "payment_id"
     t.string "receipt_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["invoice_id"], name: "index_purchases_on_invoice_id"
+    t.index ["buyer_id"], name: "index_purchases_on_buyer_id"
     t.index ["listing_id"], name: "index_purchases_on_listing_id"
-    t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
   create_table "speeds", force: :cascade do |t|
@@ -253,10 +245,10 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.bigint "body_type_id", null: false
     t.bigint "drive_type_id", null: false
     t.bigint "transmission_id", null: false
-    t.decimal "fuel_consumption", precision: 10, scale: 1
-    t.decimal "safety_rating", precision: 10, scale: 1
+    t.decimal "fuel_consumption", precision: 3, scale: 1
+    t.decimal "safety_rating", precision: 2, scale: 1
     t.integer "weight"
-    t.decimal "displacement", precision: 10, scale: 1
+    t.decimal "displacement", precision: 2, scale: 1
     t.integer "power"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -300,9 +292,8 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   add_foreign_key "listings_features", "listings"
   add_foreign_key "models", "makes"
   add_foreign_key "profiles", "users"
-  add_foreign_key "purchases", "invoices"
   add_foreign_key "purchases", "listings"
-  add_foreign_key "purchases", "users"
+  add_foreign_key "purchases", "users", column: "buyer_id"
   add_foreign_key "speeds", "transmissions"
   add_foreign_key "variants", "body_types"
   add_foreign_key "variants", "doors"

@@ -14,7 +14,7 @@ class ListingsController < ApplicationController
   def show
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'], 
-      customer_email: current_user&.email, #current_user && current_user.email 
+      customer_email: current_user&.email, # current_user && current_user.email 
       line_items: [{
         name: @listing.title, 
         description: @listing.description, 
@@ -32,10 +32,8 @@ class ListingsController < ApplicationController
       cancel_url: "#{root_url}/listings"
     )
 
+    # SessionId used for stripe
     @session_id = session.id 
-    puts "*********"
-    pp @session_id
-    puts "*********"
   end
 
   def new

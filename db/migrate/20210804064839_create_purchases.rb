@@ -2,9 +2,8 @@ class CreatePurchases < ActiveRecord::Migration[6.1]
   def change
     create_table :purchases do |t|
       t.references :listing, null: false, foreign_key: true
-      t.references :user, null: false, foreign_key: true
-      t.references :invoice, foreign_key: true
-      t.string :payment_intent
+      t.references :buyer, null: false, foreign_key: {to_table: :users}
+      t.string :payment_id
       t.string :receipt_url
 
       t.timestamps
