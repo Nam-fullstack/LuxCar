@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get 'messages/inbox'
   get 'conversations/index'
   post '/conversations', to: 'conversations#create', as: 'create_conversation'
-  get '/success', to: "payments#success", as: "payment_success"
+  get 'success', to: "payments#success", as: "payment_success"
   post '/payments/webhook', to: "payments#webhook", as: "webhook"
   post '/payments', to: "payments#create_payment_intent", as: "create_payment_intent"
   post '/listings/(:id)', to: 'listings#update', as: 'update_listing'

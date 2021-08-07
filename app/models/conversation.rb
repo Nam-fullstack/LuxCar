@@ -1,8 +1,8 @@
 class Conversation < ApplicationRecord
   # This setups up a self join within the Conversation model for the User model.
   # Allows for a user to be both the sender and receiver of messages.
-  belongs_to :sender, class_name: 'User', foreign_key: :sender_id
-  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
+  belongs_to :sender, foreign_key: 'sender_id', class_name: 'User'
+  belongs_to :receiver, foreign_key: 'receiver_id', class_name: 'User'
   has_many :messages, dependent: :destroy
   
   # Defines a conversation that is unique for sender based on the receiver.

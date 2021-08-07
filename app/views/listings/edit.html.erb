@@ -2,5 +2,6 @@
 
 <%= render 'form', listing: @listing %>
 
-<%= link_to 'Show', @listing %>
+<%= link_to "Edit Car Details", edit_variant_path(@listing.variant), class: "btn btn-warning mr-3" if current_user.id == @listing.user_id %>
+<%= link_to 'Cancel', @listing %>
 <%= link_to 'Back', listings_path %>

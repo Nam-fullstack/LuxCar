@@ -186,12 +186,14 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   create_table "purchases", force: :cascade do |t|
     t.bigint "listing_id", null: false
     t.bigint "buyer_id", null: false
+    t.bigint "seller_id", null: false
     t.string "payment_id"
     t.string "receipt_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["buyer_id"], name: "index_purchases_on_buyer_id"
     t.index ["listing_id"], name: "index_purchases_on_listing_id"
+    t.index ["seller_id"], name: "index_purchases_on_seller_id"
   end
 
   create_table "speeds", force: :cascade do |t|
@@ -245,14 +247,13 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.bigint "body_type_id", null: false
     t.bigint "drive_type_id", null: false
     t.bigint "transmission_id", null: false
-    t.decimal "fuel_consumption", precision: 3, scale: 1
-    t.decimal "safety_rating", precision: 2, scale: 1
-    t.integer "weight"
-    t.decimal "displacement", precision: 2, scale: 1
+    t.bigint "colour_id", null: false
+    t.decimal "displacement", precision: 2, scale: 1, null: false
     t.integer "power"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["body_type_id"], name: "index_variants_on_body_type_id"
+    t.index ["colour_id"], name: "index_variants_on_colour_id"
     t.index ["door_id"], name: "index_variants_on_door_id"
     t.index ["drive_type_id"], name: "index_variants_on_drive_type_id"
     t.index ["engine_id"], name: "index_variants_on_engine_id"
@@ -294,8 +295,10 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
   add_foreign_key "profiles", "users"
   add_foreign_key "purchases", "listings"
   add_foreign_key "purchases", "users", column: "buyer_id"
+  add_foreign_key "purchases", "users", column: "seller_id"
   add_foreign_key "speeds", "transmissions"
   add_foreign_key "variants", "body_types"
+  add_foreign_key "variants", "colours"
   add_foreign_key "variants", "doors"
   add_foreign_key "variants", "drive_types"
   add_foreign_key "variants", "engines"

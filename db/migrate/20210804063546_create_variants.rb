@@ -12,10 +12,8 @@ class CreateVariants < ActiveRecord::Migration[6.1]
       t.references :body_type, null: false, foreign_key: true
       t.references :drive_type, null: false, foreign_key: true
       t.references :transmission, null: false, foreign_key: true
-      t.decimal :fuel_consumption, precision: 3, scale: 1
-      t.decimal :safety_rating, precision: 2, scale: 1
-      t.integer :weight
-      t.decimal :displacement, precision: 2, scale: 1
+      t.references :colour, null: false, foreign_key: true
+      t.decimal :displacement, null: false, precision: 2, scale: 1
       t.integer :power
 
       t.timestamps

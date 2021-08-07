@@ -41,7 +41,7 @@ class VariantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def variant_params
-    params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id)
+    params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour)
   end
 
   def update_name
@@ -62,7 +62,7 @@ class VariantsController < ApplicationController
       trans = "Man"
     end
 
-    Variant.last.update(name: "#{year} #{make} #{model} #{door}dr #{body} #{speed}-sp #{trans} #{engine} #{drive} #{fuel}")
+    Variant.last.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
     puts "THIS IS THE NAME: #{Variant.last.name}"
   end
 end

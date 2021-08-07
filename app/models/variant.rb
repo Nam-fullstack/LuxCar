@@ -10,26 +10,19 @@ class Variant < ApplicationRecord
   has_one :year
   has_one :speed
   has_one :transmission, through: :speed
+  has_one :colour
 
-  # These should be optional, so might comment out validations here
-  # and validate in form.
-  # validates :displacement, numericality: { greater_than: 0, less_than: 20 }
-  # validates :fuel_consumption, numericality: { greater_than: 0 }
-  # validates :weight, numericality: { greater_than: 0 }
-  # validates :safety_rating, numericality: { great_than_or_equal_to: 0, less_than_or_equal_to: 5 }
+  validates :displacement, numericality: { greater_than: 0, less_than: 20 }
 
-  # before_save :remove_whitespace
+  before_save :remove_whitespace
 
   private
 # *************************************************************************
 # number_field in form doesn't allow for spaces or letters to be typed.
 # *************************************************************************
 
-  # def remove_whitespace
-    # self.displacement = displacement.strip
-    # self.fuel_consumption = fuel_consumption.strip
-    # self.power = power.strip
-    # self.safety_rating = safety_rating.strip
-    # self.weight = weight.strip
-  # end
+  def remove_whitespace
+    self.displacement = displacement.strip if self.respond_to?(:strip)
+    self.power = power.strip if self.respond_to?(:strip)
+  end
 end

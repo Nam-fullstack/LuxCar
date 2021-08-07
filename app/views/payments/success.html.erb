@@ -4,7 +4,8 @@
   <div class="payment-success">
     <div class="payment-success-image-container">
       <!-- displays image for the listing, if it exists -->
-    
+      <%= puts "\n\n\n does this even print? #{@purchase} " %>
+      <%= image_tag @purchase.listing.pictures[0], alt: "Listing photo", class: "payment-success-image" if @purchase.listing.pictures[0] %>
     </div>
 
     <div class="payment-success-body">
@@ -13,7 +14,10 @@
       <div class="receipt">
         <p>
           A confirmation email has been sent to your email.
-          Click here to view the <%= link_to 'invoice', @purchase.receipt_url, class: "receipt-url" %> 
+          Click here to view the 
+          <a href=<%= @purchase.receipt_url %>>
+            Deposit Invoice 
+          </a> 
         </p>
       </div> <!-- close receipt -->
     </div> <!-- close payment-success-body -->

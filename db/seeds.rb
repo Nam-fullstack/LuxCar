@@ -41,7 +41,7 @@ w_motors = ['Fenyr SuperSport', 'Lykan Hypersport']
 
 allmakes = [aston_martin, audi, bentley, bmw, bugatti, ferrari, hennessey, koenigsegg, lamborghini, land_rover, lexus, lotus, maserati, mclaren, mercedes_benz, pagani, porsche, rolls_royce, tesla, w_motors]
 
-features = %w[Heated\ and\ Cooled\ Front\ and\ Rear\ Seats Carbon\ Fibre\ Package Carbon\ Ceramic\ Brakes Custom\ Paint Forged\ Carbon Alcantara\ Steering\ Wheel Navigation\ and\ Infotainment\ System Rear\ View\ Camera\ and\ Parking\ Sensors Removable\ Hard\ Top Travel\ Package Refrigerator\ Compartment Chrome\ Package Pirelli\ P-Zero\ Tyres Vinyl\ Wrap Paint\ Protection Heated\ Windscreen Privacy\ Glass Heated\ Steering\ Wheel Panoramic\ Roof Performance\ Package]
+features = %w[Heated\ and\ Cooled\ Seats Carbon\ Fibre\ Package Carbon\ Ceramic\ Brakes Custom\ Paint Forged\ Carbon Alcantara\ Steering\ Wheel Navigation\ and\ Infotainment\ System Rear\ View\ Camera\ and\ Parking\ Sensors Removable\ Hard\ Top Travel\ Package Refrigerator\ Compartment Chrome\ Package Pirelli\ P-Zero\ Tyres Vinyl\ Wrap Paint\ Protection Heated\ Windscreen Privacy\ Glass Heated\ Steering\ Wheel Panoramic\ Roof Performance\ Package]
 
 if Admin.count.zero?
   Admin.create(
@@ -79,8 +79,8 @@ if Make.count.zero?
 end
 
 def populates_model(name, id)
-  Model.create(name: name, make_id: id)
-  puts "Created Make ID:#{id} #{name}"
+  Model.create(name: name, make_id: (id+1))
+  puts "Created #{Make.find(id+1).name} #{name}"
 end
 
 if Model.count.zero?
@@ -147,7 +147,7 @@ end
 # Refactored door selection to create entries based on body type,
 # with hatches having odd number of doors.
 def door_selection(door, id, body_type)
-  Door.create(name: door, body_type_id: id)
+  Door.create(name: door, body_type_id: (id + 1))
   puts "Created #{door}door #{body_type}"
 end
 

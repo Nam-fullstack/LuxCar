@@ -1,3 +1,3 @@
 class Colour < ApplicationRecord
-  has_many :listings
+  has_many :variants
 end

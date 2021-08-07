@@ -6,10 +6,13 @@
   </div> <!-- close content -->
   <div class= 'sidebar col-lg-4 p-0 mx-2 d-md-block'>
     <h1 class='mb-sm-2 mb-md-5'><%=@listing.title %></h1>
-
-    <% @listing.features.each do |feature| %>
-      <span class='badge badge-pill badge-info'><%= feature.name %></span>
-    <% end %>
+    <div class= 'listing-features-container'>
+      <% @listing.features.each do |feature| %>
+        <ul>
+          <span class='badge badge-pill badge-info'><li class='feature'><%= feature.name %></li></span>
+        </ul>
+      <% end %>
+    </div>
     
     <p class='blockquote mt-2'><%= @listing.description %></p>
     
@@ -19,7 +22,7 @@
       <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
       <!-- Won't see the redirectToCheckout in the create_payment_intent.html.erb until everything we need to happen has happened. -->
       <!-- We don't create a payment_intent until this button is clicked. -->
-      <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 10)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3" %>
+      <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 100)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3" %>
     <% elsif @listing.sold == true %>
       <button class='btn btn-secondary' disabled>SOLD</button>
     <% else %>

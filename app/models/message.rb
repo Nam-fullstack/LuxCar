@@ -9,6 +9,6 @@ class Message < ApplicationRecord
   private
 
   def remove_whitespace
-    self.body = body.strip
+    self.body = body.strip if respond_to?(:strip)
   end
 end

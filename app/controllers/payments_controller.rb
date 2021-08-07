@@ -15,7 +15,7 @@ class PaymentsController < ApplicationController
         customer_email: current_user&.email, #current_user && current_user.email 
         line_items: [{
           name: listing.title, 
-          description: listing.description, 
+          description: listing.description,
           amount: listing.price,
           currency: 'aud', 
           quantity: 1
@@ -36,7 +36,10 @@ class PaymentsController < ApplicationController
   def webhook 
     payment_id = params[:data][:object][:payment_intent]
     payment = Stripe::PaymentIntent.retrieve(payment_id)
+    receipt_url = payment.charges.data[0].receipt_url
     pp payment
+    puts "\n\n\n\n\n RECEIPT URL #{receipt_url}"
+    puts "\n\n\n PAYMENT ID #{payment_id}"
     listing_id = payment.metadata.listing_id
     buyer_id = payment.metadata.user_id
     listing = Listing.find(listing_id)
@@ -44,7 +47,7 @@ class PaymentsController < ApplicationController
     listing.update(sold: true)
     # Creates a purchase, which has the listing_id (don't need seller_id since that data is already stored in the Listings table in user_id column),
     # the buyer_id, payment_id and receipt_url 
-    puts "\n\n\n\n\n\n\n\n\n\n\n\n listingID: #{listing_id} \n\n payment details: #{payment} \n\n #{payment.charges.data[0].receipt_url}"
-    Purchase.create(listing_id: listing_id, buyer_id: buyer_id, payment_id: payment_id, receipt_url: payment.charges.data[0].receipt_url)
+    
+    Purchase.create(listing_id: listing_id, buyer_id: buyer_id, seller_id: listing.user_id, payment_id: payment_id, receipt_url: receipt_url)
   end 
 end

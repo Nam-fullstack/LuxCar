@@ -2,7 +2,6 @@ class Listing < ApplicationRecord
   # Associations
   belongs_to :user
   has_one :variant
-  has_one :colour
   has_many :listings_features
   has_many :features, through: :listings_features, dependent: :destroy
   accepts_nested_attributes_for :listings_features
@@ -13,7 +12,7 @@ class Listing < ApplicationRecord
   has_many :watches, dependent: :destroy
 
   # Validations
-  validates :description, presence: true, length: { maximum: 1000 }
+  validates :description, length: { maximum: 1000 }
   validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :price, presence: true, numericality: { greater_than: 50000 }
   validates :state_id, presence: true
@@ -27,8 +26,8 @@ class Listing < ApplicationRecord
   private
 
   def remove_whitespace
-    self.title = title.strip
-    self.description = description.strip
+    self.title = title.strip if respond_to?(:strip)
+    self.description = description.strip if respond_to?(:strip)
   end
 
   # Before validation, converts the price to cents, if it has cents or any decimal
@@ -36,9 +35,6 @@ class Listing < ApplicationRecord
   # converts it to float before it's changed to an integer, and we can do the conversion
   # to cents without losing that data.
   def convert_price_to_cents
-    # Only multiplying by 10 because only paying for 10% deposit, also, Stripe doesn't
-    # allow for payments that is above 1 million dollars. The buyer and seller will handle
-    # the remainder of payment with their banks.
-    self.price = (self.attributes_before_type_cast["price"].to_f * 10).round
+    self.price = (self.attributes_before_type_cast["price"].to_f * 100).round
   end
 end

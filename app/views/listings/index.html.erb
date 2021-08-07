@@ -25,7 +25,8 @@
         <td><%= Variant.find(listing.variant_id).name %></td>
         <td><%= Colour.find(listing.colour_id).name %></td>
         <td><%= listing.title %></td>
-        <td><%= (listing.price / 100) %></td>
+
+        <td><%= number_with_delimiter(listing.price) %></td>
         <td><%= "#{listing.mileage} kms" %></td>
         <td><%= listing.description %></td>
         <td><%= State.find(listing.state_id).name %></td>
