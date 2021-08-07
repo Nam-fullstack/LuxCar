@@ -51,7 +51,7 @@ class ListingsController < ApplicationController
     @listing = current_user.listings.new(listing_params)
     @listing.variant_id = @variant.id
     @listing.title = @variant.name
-    puts "THIS IS THE DAMN POSTCODE, WHY ARE YOU SAYING IT'S BLANK #{@listing.postcode} \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+
     respond_to do |format|
       if @listing.save
     
