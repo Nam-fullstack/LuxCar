@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   resources :conversations, only: [:index, :create] do
     resources :messages, only: [:index, :create]
   end
-  resources :variants
+  resources :variants do
+    collection do
+      get 'get_make', to: "variant#get_make"
+    end 
+  end
+
   resources :listings
   resources :events
   # devise_for :admins#, controllers: { sessions: 'admins/sessions' }
