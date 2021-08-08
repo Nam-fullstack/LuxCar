@@ -19,7 +19,7 @@ class Listing < ApplicationRecord
   # Australian postcodes only exist in this range: 0200 to 9999
   validates :postcode, presence: true, numericality: { greater_than: 0200, less_than: 9999 }
   validates :variant_id, presence: true
-  
+
   before_save :remove_whitespace
   before_validation :convert_price_to_cents, if: :price_changed?
 
@@ -39,5 +39,24 @@ class Listing < ApplicationRecord
   # to cents without losing that data.
   def convert_price_to_cents
     self.price = (self.attributes_before_type_cast["price"].to_f * 100).round
+  end
+end
+
+class ImageUploader < CarrierWave::Uploader::Base
+  # Adds server side validation for images (only permits thes file types through)
+  def extension_white_list
+    %w(jpg jpeg gif png)
+  end
+end
+
+class Listing < ActiveRecord::Base
+  validate :image_size_validation
+
+  private
+
+  # Validates image size, if it's bigger than 5MB, throws error message saying
+  # image should be less than 5MB
+  def image_size_validation
+    errors[:pictures] << "should be less than 5MB" if listing.pictures.any? { |p| p.size > 5.megabytes }
   end
 end

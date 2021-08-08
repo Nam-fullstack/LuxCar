@@ -45,7 +45,9 @@ class VariantsController < ApplicationController
   end
 
   def update_name
-    year = Year.find(params[:variant][:year_id]).year
+    year = @variant.year.name
+    puts "\n\n\n\n\n ################## THIS IS THE YEAR:  #{year} \n\n\n\n\n"
+    # year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name
     model = Model.find(params[:variant][:model_id]).name
     door = Door.find(params[:variant][:door_id]).name
