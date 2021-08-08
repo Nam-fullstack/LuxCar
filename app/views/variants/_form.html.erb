@@ -19,7 +19,7 @@
 
       <div class="form-group ml-4">
         <%= form.label :make, class: "col form-label" %>
-        <%= form.collection_select(:make_id, Make.all, :id, :name, {:prompt => "Select Make" }, { class: "form-control select-make" }) %>
+        <%= form.collection_select(:make_id, Make.all, :id, :name, {:prompt => "Select Make" }, { class: "form-control select_make" }) %>
       </div>
 
       <div class="form-group ml-4">
@@ -48,7 +48,7 @@
     <div class="form-row mb-3">
       <div class="form-group ml-4">
         <%= form.label :transmission, class:"col form-label" %>
-        <%= form.collection_select(:transmission_id, Transmission.all, :id, :name, {:selected => 1}, { class: "form-control" }) %>
+        <%= form.collection_select(:transmission_id, Transmission.all, :id, :name, {:selected => 1}, { class: "form-control select_transmission" }) %>
       </div>
 
       <div class="form-group ml-4">

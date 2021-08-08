@@ -44,6 +44,11 @@ class VariantsController < ApplicationController
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour_id)
   end
 
+  def get_make
+    @make = Make.find params[:make_id]
+    @models = @make.models
+  end
+
   def update_name
     year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name
