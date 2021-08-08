@@ -50,6 +50,8 @@ class PaymentsController < ApplicationController
     # Creates a purchase, which has the listing_id (don't need seller_id since that data is already stored in the Listings table in user_id column),
     # the buyer_id, payment_id and receipt_url 
     
+    puts "\n\n\n\n\n\n\n ######### payment ID: #{payment_id}  \n Stripe payment details: #{payment} \n\n\n Receipt URL #{receipt_url}"
+    puts " \n\n\n LISTING ID #{listing_id}   \n BUYER_ID: #{buyer_id}\n LISTING ID: #{listing}\n\n\n\n\n ####END ####"
     Purchase.create!(listing_id: listing_id, buyer_id: buyer_id, seller_id: listing.user_id, payment_id: payment_id, receipt_url: receipt_url)
   end 
 end
