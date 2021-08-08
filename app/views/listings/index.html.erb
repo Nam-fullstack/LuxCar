@@ -23,7 +23,6 @@
       <tr>
         <td><%= User.find(listing.user_id).username.capitalize %></td>
         <td><%= Variant.find(listing.variant_id).name %></td>
-        <td><%= Colour.find(listing.colour_id).name %></td>
         <td><%= listing.title %></td>
 
         <td><%= number_with_delimiter(listing.price) %></td>

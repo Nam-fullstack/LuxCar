@@ -3,6 +3,8 @@ class PaymentsController < ApplicationController
   before_action :authenticate_user!, only: [:success]
 
   def success
+    # Passes purchase information to view
+    # Doesn't seem to be working.
     @purchase = Purchase.find_by_listing_id(params[:id])
   end
 
@@ -30,7 +32,7 @@ class PaymentsController < ApplicationController
         cancel_url: "#{root_url}/listings"
       )  
       @session_id = session.id 
-      puts "\n\n\n\n\n #{@session_id}"   
+      puts "\n\n\n\n\n **********************THIS IS THE SESSION ID: #{@session_id}"   
   end 
 
   def webhook 
@@ -38,8 +40,8 @@ class PaymentsController < ApplicationController
     payment = Stripe::PaymentIntent.retrieve(payment_id)
     receipt_url = payment.charges.data[0].receipt_url
     pp payment
-    puts "\n\n\n\n\n RECEIPT URL #{receipt_url}"
-    puts "\n\n\n PAYMENT ID #{payment_id}"
+    puts "\n\n\n\n\n **********************RECEIPT URL #{receipt_url}"
+    puts "\n\n\n **********************PAYMENT ID #{payment_id}"
     listing_id = payment.metadata.listing_id
     buyer_id = payment.metadata.user_id
     listing = Listing.find(listing_id)
@@ -48,6 +50,6 @@ class PaymentsController < ApplicationController
     # Creates a purchase, which has the listing_id (don't need seller_id since that data is already stored in the Listings table in user_id column),
     # the buyer_id, payment_id and receipt_url 
     
-    Purchase.create(listing_id: listing_id, buyer_id: buyer_id, seller_id: listing.user_id, payment_id: payment_id, receipt_url: receipt_url)
+    Purchase.create!(listing_id: listing_id, buyer_id: buyer_id, seller_id: listing.user_id, payment_id: payment_id, receipt_url: receipt_url)
   end 
 end
