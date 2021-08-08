@@ -1,0 +1,5 @@
+$('.model_selection').empty();
+$('.model_selection').append( $('<option>Select Model</option>'));
+<% @models.each do |model| %>
+  $('.model_selection').append($('<option value="<%= model.id %>"><%= model.name %></option>'));
+<% end %>

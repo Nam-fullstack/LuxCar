@@ -12,76 +12,76 @@
   <% end %>
   <div class="form-container container-fluid">
     <div class="form-row mb-3">
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :year, class: "col form-label" %>
         <%= form.collection_select(:year_id, Year.all.order(id: :desc), :id, :year, {:prompt => "Select year" }, { class: "form-control" }) %>
       </div>
 
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :make, class: "col form-label" %>
-        <%= form.collection_select(:make_id, Make.all, :id, :name, {:prompt => "Select Make" }, { class: "form-control select_make" }) %>
+        <%= form.collection_select(:make_id, Make.all, :id, :name, {:prompt => "Select Make" }, { class: "form-control make_selection" }) %>
       </div>
 
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :model, class:"col form-label" %>
-        <%= form.collection_select(:model_id, Model.all, :id, :name, {:prompt => "Select Model" }, { class: "form-control" }) %>
+        <%= form.collection_select(:model_id, Model.all, :id, :name, {:prompt => "Select Model" }, { class: "form-control model_selection" }) %>
       </div>
     </div> <!-- close form-row -->
     
     <div class="form-row mb-3">
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :engine, class:"col form-label" %>
         <%= form.collection_select(:engine_id, Engine.all, :id, :name, {:selected => 12}, { class: "form-control" }) %>
       </div>
     
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label "Engine displacement", class: "col form-label" %>
         <%= form.number_field :displacement, placeholder: '5.5L (number only)', step: '0.1', class: "form-control" %>
       </div>
 
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :power, class: "col form-label" %>
         <%= form.number_field :power, placeholder: 'horsepower', class: "form-control" %>
       </div>
     </div> <!-- close form-row -->
 
     <div class="form-row mb-3">
-      <div class="form-group ml-4">
-        <%= form.label :transmission, class:"col form-label" %>
-        <%= form.collection_select(:transmission_id, Transmission.all, :id, :name, {:selected => 1}, { class: "form-control select_transmission" }) %>
-      </div>
-
-      <div class="form-group ml-4">
-        <%= form.label :speed, class: "col form-label" %>
-        <%= form.collection_select(:speed_id, Speed.all, :id, :name, {:selected => 3}, { class: "form-control" }) %>
-      </div>
-
-      <div class="form-group ml-4">
-        <%= form.label :body_type, class: "col form-label" %>
-        <%= form.collection_select(:body_type_id, BodyType.all, :id, :name, {:selected => 2}, { class: "form-control select_body_type" }) %>
-      </div>
-
-      <div class="form-group ml-4">
-        <%= form.label :door, class: "col form-label" %>
-        <%= form.collection_select(:door_id, Door.all, :id, :name, {:selected => 1}, { class: "form-control" }) %>
-      </div>
-    </div> <!-- close form-row -->
-
-    <div class="form-row mb-3">
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :drive_type, class: "col form-label" %>
         <%= form.collection_select(:drive_type_id, DriveType.all, :id, :name, {:selected => 2}, { class: "form-control" }) %>
       </div>
       
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :fuel, class: "col form-label" %>
         <%= form.collection_select(:fuel_id, Fuel.all, :id, :name, {:selected => 6}, { class: "form-control" }) %>
       </div>
 
-      <div class="form-group ml-4">
+      <div class="col form-group mr-5">
         <%= form.label :colour, class: "col form-label" %>
         <%= form.collection_select(:colour_id, Colour.all, :id, :name, {:selected => 18}, { class: "form-control" }) %>
     </div>
+    </div> <!-- close form-row -->
+
+    <div class="form-row mb-3">
+      <div class="col form-group mr-5">
+        <%= form.label :transmission, class:"col form-label" %>
+        <%= form.collection_select(:transmission_id, Transmission.all, :id, :name, {:selected => 1}, { class: "form-control transmission_selection" }) %>
+      </div>
+
+      <div class="col form-group mr-5">
+        <%= form.label :speed, class: "col form-label" %>
+        <%= form.collection_select(:speed_id, Speed.all, :id, :name, {:selected => 3}, { class: "form-control speed_selection" }) %>
+      </div>
+
+      <div class="col form-group mr-5">
+        <%= form.label :body_type, class: "col form-label" %>
+        <%= form.collection_select(:body_type_id, BodyType.all, :id, :name, {:selected => 2}, { class: "form-control body_type_selection" }) %>
+      </div>
+
+      <div class="col form-group mr-5">
+        <%= form.label "Doors", class: "col form-label" %>
+        <%= form.collection_select(:door_id, Door.all, :id, :name, {:selected => 1}, { class: "form-control door_selection" }) %>
+      </div>
     </div> <!-- close form-row -->
   </div> <!-- close form-container -->
 

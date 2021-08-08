@@ -1,43 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listings</h1>
+<div class="container">
+  <%= render "shared/listings-sidebar" %>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Variant</th>
-      <th>Colour</th>
-      <th>Title</th>
-      <th>Price</th>
-      <th>Mileage</th>
-      <th>Description</th>
-      <th>State</th>
-      <th>Sold</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="search-filter">
+    <input type="text" class="search-filter search-bar", placeholder="Search for a car">
+  </div>
 
-  <tbody>
+  <div class="listings-cards-container">
     <% @listing.each do |listing| %>
-      <tr>
-        <td><%= User.find(listing.user_id).username.capitalize %></td>
-        <td><%= Variant.find(listing.variant_id).name %></td>
-        <td><%= listing.title %></td>
-
-        <td><%= number_with_delimiter(listing.price) %></td>
-        <td><%= "#{listing.mileage} kms" %></td>
-        <td><%= listing.description %></td>
-        <td><%= State.find(listing.state_id).name %></td>
-        <td><%= listing.sold %></td>
-        <td><%= link_to 'Show', listing %></td>
-        <td><%= link_to 'Edit', edit_listing_path(listing) if current_user.id == listing.user_id %></td>
-        <td><%= link_to 'Delete', listing, method: :delete, data: { confirm: 'Are you sure?' } if current_user.id == listing.user_id %></td>
-      </tr>
+      <% if listing.sold == false %>
+        <%= render 'shared/listing-card', listing: listing %>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Listing', new_variant_path %>
+  </div> <!-- close listings-cards-container -->
+</div> <!-- close container -->

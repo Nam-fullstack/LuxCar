@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   resources :variants do
     collection do
-      get 'get_make', to: "variant#get_make"
+      get 'get_models', to: "variant#get_models"
     end 
   end
 

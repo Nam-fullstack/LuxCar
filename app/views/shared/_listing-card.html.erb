@@ -1,0 +1,7 @@
+
+<%= link_to "#{listing.title}", listing %>
+
+    <%= link_to "#{listing.title}", listing %>
+    <%= number_with_delimiter(listing.price / 100) %>
+      
+    <%= State.find(listing.state_id).name %>

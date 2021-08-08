@@ -37,16 +37,20 @@ class VariantsController < ApplicationController
     end
   end
 
+  # Gets make form selection to pre-populate the associated Models that belongs to that Make.
+  def get_models
+    @make = Make.find params[:make_id]
+
+    puts "\n\n\n\n\n\n ################ MAKE: #{@make}"
+    @models = @make.models
+    puts "\n\n\n\n\n\n ################ MODELS: #{@models}"
+  end
+
   private
 
   # Only allow a list of trusted parameters through.
   def variant_params
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour_id)
-  end
-
-  def get_make
-    @make = Make.find params[:make_id]
-    @models = @make.models
   end
 
   def update_name

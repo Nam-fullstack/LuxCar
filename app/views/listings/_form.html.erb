@@ -14,7 +14,7 @@
   <h3 class="listing-question">Where will you be selling your car?</h3>
   <div class="form-group mb-3 ml-2">
     <%= form.label :state_id, class:"col form-label" %>
-    <%= form.collection_select(:state_id, State.all, :id, :name), class: "form-control form control-lg" %>
+    <%= form.collection_select(:state_id, State.all, :id, :name, class: "form-control") %>
   </div>
 
   <div class="form-group mb-3 ml-2">
