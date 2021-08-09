@@ -20,12 +20,16 @@ class Listing < ApplicationRecord
   validates :postcode, presence: true, numericality: { greater_than: 0200, less_than: 9999 }
   validates :variant_id, presence: true
 
+  # Trying to refactor callbacks into one line.
+  # before_save :remove_whitespace, on: :title, :mileage, :price, :postcode, :description
   before_save :remove_whitespace
   before_validation :convert_price_to_cents, if: :price_changed?
 
   private
 
   def remove_whitespace
+    # self.attributes.each { |key, value| self[key] = value.strip if value.respond_to?(:strip) }
+  
     self.title = title.strip if respond_to?(:strip)
     self.mileage = mileage.strip if respond_to?(:strip)
     self.price = price.strip if respond_to?(:strip)

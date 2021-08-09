@@ -1,9 +1,9 @@
 <div class='card-listing-image-container col-12 p-0 main-preview mb-4 mt-5'>
   <% if listing.pictures.attached? %>
-    <%= link_to image_tag(listing.pictures[0]), listing, class: 'card-listing-image' %>
+    <%= link_to image_tag(listing.pictures[0]), listing, class: 'card-listing-image img-responsive' %>
   </div>
   <% else %>
-    <%= image_tag 'default-image.png', class: 'card-listing-image thumbnail card-img top' %>
+    <%= image_tag 'default-image.png', class: 'card-listing-image img-thumbnail card-img top' %>
   <% end %>
 </div>  <!-- close card-listing-image-container -->
 

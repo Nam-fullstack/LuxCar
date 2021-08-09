@@ -18,10 +18,10 @@ states = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA']
 transmissions = ['Automatic', 'Manual']
 years = 2000..2021
 
-aston_martin = ['DB9', 'DB11', 'DBS', 'DBX', 'Rapid', 'Valkyrie', 'Vanquish', 'Vantage', 'Virage']
+aston_martin = ['DB9', 'DB11', 'DBC', 'DBS', 'DBX', 'Rapid', 'Valkyrie', 'Vanquish', 'Vantage', 'Virage']
 audi = ['R8','RS Q8', 'RS3', 'RS4','RS5', 'RS6', 'RS7', 'TT RS']
 bentley = ['Bacalar', 'Bentagyas', 'Continental GT', 'Flying Spur']
-bmw = ['7-Series', '8-Series', 'i8', 'M3', 'M4', 'M5', 'M6', 'M7', 'X6', 'X7']
+bmw = ['7-Series', '8-Series', 'i8', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'X6', 'X7']
 bugatti = ['Chiron', 'Veyron', 'Veyron Supersport']
 ferrari = ['458', '488', '599', '812 GTS', '812 Superfast', 'California', 'Enzo', 'F12', 'F430', 'F8 Spider', 'F8 Tributo', 'FF', 'FFX', 'GTC4Lusso', 'LaFerrari', 'Monza SP1', 'Monza SP2', 'Portifino M', 'Roma', 'SF90 Spider', 'SF90 Stradale']
 hennessey = ['Venom GT', 'Venom F5']
@@ -41,7 +41,7 @@ w_motors = ['Fenyr SuperSport', 'Lykan Hypersport']
 
 allmakes = [aston_martin, audi, bentley, bmw, bugatti, ferrari, hennessey, koenigsegg, lamborghini, land_rover, lexus, lotus, maserati, mclaren, mercedes_benz, pagani, porsche, rolls_royce, tesla, w_motors]
 
-features = %w[Heated\ and\ Cooled\ Seats Carbon\ Fibre\ Package Carbon\ Ceramic\ Brakes Custom\ Paint Forged\ Carbon Alcantara\ Steering\ Wheel Navigation\ and\ Infotainment\ System Rear\ View\ Camera\ and\ Parking\ Sensors Removable\ Hard\ Top Travel\ Package Refrigerator\ Compartment Chrome\ Package Pirelli\ P-Zero\ Tyres Vinyl\ Wrap Paint\ Protection Heated\ Windscreen Privacy\ Glass Heated\ Steering\ Wheel Panoramic\ Roof Performance\ Package]
+features = %w[Heated\ and\ Cooled\ Seats Carbon\ Fibre\ Package Carbon\ Ceramic\ Brakes Custom\ Paint Forged\ Carbon Alcantara\ Steering\ Wheel Navigation\ and\ Infotainment\ System Rear\ View\ Camera\ and\ Parking\ Sensors Removable\ Hard\ Top Travel\ Package Refrigerator\ Compartment Chrome\ Package Pirelli\ P-Zero\ Tyres Vinyl\ Wrap Paint\ Protection Heated\ Windscreen Privacy\ Glass Heated\ Steering\ Wheel Panoramic\ Roof Performance\ Package Front\ and Rear\ Parking\ Sensors Adaptive\ Cruise\ Control]
 
 if Admin.count.zero?
   Admin.create(
@@ -94,7 +94,8 @@ if Year.count.zero?
   end
 end
 
-# Only have 5, 6, and 7 speed Manual transmissions (only a handful with 7sp). 
+# Only have 5, 6, and 7 speed Manual transmissions 
+# (There's only a handful of cars with with 7sp Manual). 
 # Added an exceptional case to have a 1-sp transmission 
 # for Koenigsegg Regera which only has a single gear.
 if Speed.count.zero?
@@ -173,6 +174,7 @@ if Colour.count.zero?
 end
 
 if Feature.count.zero?
+  features.sort!
   features.each do |feature|
     Feature.create(name: feature)
     puts "Created #{feature} feature"

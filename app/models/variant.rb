@@ -1,7 +1,7 @@
 class Variant < ApplicationRecord
   belongs_to :model
   has_one :make, through: :model
-  has_many :listings
+  has_many :listings, dependent: :destroy
   has_one :door
   has_one :body_type, through: :door
   has_one :drive
