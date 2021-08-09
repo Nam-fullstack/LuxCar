@@ -10,6 +10,7 @@ class CreateListings < ActiveRecord::Migration[6.1]
       t.references :state, null: false, foreign_key: true
       t.integer :postcode, null: false
       t.boolean :sold, default: false
+      t.integer :deposit
 
       t.timestamps
     end

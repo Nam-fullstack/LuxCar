@@ -18,7 +18,7 @@ class ListingsController < ApplicationController
       line_items: [{
         name: @listing.title, 
         description: @listing.description, 
-        amount: @listing.price,
+        amount: @listing.deposit,
         currency: 'aud', 
         quantity: 1
       }], 
@@ -47,6 +47,7 @@ class ListingsController < ApplicationController
 
   def create
     @listing = current_user.listings.new(listing_params)
+    @listing.deposit = @listing.price / 10
     @listing.variant_id = @variant.id
     @listing.title = @variant.name
 

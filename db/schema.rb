@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.bigint "state_id", null: false
     t.integer "postcode", null: false
     t.boolean "sold", default: false
+    t.integer "deposit"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["state_id"], name: "index_listings_on_state_id"
@@ -187,6 +188,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_065220) do
     t.bigint "seller_id", null: false
     t.string "payment_id"
     t.string "receipt_url"
+    t.boolean "deposit_paid", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["buyer_id"], name: "index_purchases_on_buyer_id"

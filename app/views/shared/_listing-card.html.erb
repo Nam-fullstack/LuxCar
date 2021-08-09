@@ -13,7 +13,7 @@
       <h2 class='mb-sm-2 mb-md-2'><%= link_to "#{listing.title}", listing %></h2>
     </div>
     <div class='card-listing-price'>
-      <h2 class='mb-sm-2 mb-md-2'><%= number_with_delimiter(listing.price / 100) %></h2>
+      <h2 class='mb-sm-2 mb-md-2'><%= "A$#{number_with_delimiter(listing.price / 100)}" %></h2>
     </div>
   </div> <!-- close card-listing-details -->
 

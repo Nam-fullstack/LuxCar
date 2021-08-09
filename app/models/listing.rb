@@ -25,8 +25,8 @@ class Listing < ApplicationRecord
   before_save :remove_whitespace
   before_validation :convert_price_to_cents, if: :price_changed?
   
-  before_save :determine_deposit
-  before_validation :determine_deposit, if: :price_changed?
+  # before_save :determine_deposit
+  # before_validation :determine_deposit, if: :price_changed?
   
   private
 
@@ -46,9 +46,5 @@ class Listing < ApplicationRecord
   # to cents without losing that data.
   def convert_price_to_cents
     self.price = (self.attributes_before_type_cast["price"].to_f * 100).round
-  end
-
-  def determine_deposit
-    self.deposit = self.price / 10
   end
 end

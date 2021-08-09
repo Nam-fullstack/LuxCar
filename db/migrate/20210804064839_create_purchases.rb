@@ -6,6 +6,7 @@ class CreatePurchases < ActiveRecord::Migration[6.1]
       t.references :seller, null: false, foreign_key: {to_table: :users}
       t.string :payment_id
       t.string :receipt_url
+      t.boolean :deposit_paid, default: false
 
       t.timestamps
     end

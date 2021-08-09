@@ -22,7 +22,8 @@ class Variant < ApplicationRecord
 # *************************************************************************
 
   def remove_whitespace
-    self.displacement = displacement.strip if self.respond_to?(:strip)
-    self.power = power.strip if self.respond_to?(:strip)
+    self.attributes.each { |key, value| self[key] = value.strip if value.respond_to?(:strip) }
+    # self.displacement = displacement.strip if self.respond_to?(:strip)
+    # self.power = power.strip if self.respond_to?(:strip)
   end
 end

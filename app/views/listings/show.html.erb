@@ -1,7 +1,21 @@
 <div class='container d-flex flex-column flex-md-row px-2 my-2 my-md-5'>
-  <div class='content col-12 col-md-7 col-lg-8 p-0 pr-md-3'> 
+  <div class='content col-12 col-md-7 col-lg-8 p-0 pr-md-3'>
+
+    <!-- Logic to show all listing images, user will be able to select thumbnail -->
+    <!-- and image will be loaded as main image --> 
     <div class='col-12 p-0 main-preview mb-4'>
-      <%= image_tag image_select(@listing), class:'hero-image thumbnail card-img top' %>
+      <% if @listing.pictures.attached? %>
+        <div class='listing-show-image-main-container'>
+          <%= image_tag @listing.pictures[0], class: 'listing-show-image-main' %>
+        <div>
+        <div class='listing-show-image-thumbnail-container'>
+          <% (0...@listing.pictures.count).each do |p| %>
+            <%= image_tag @listing.pictures[p], class: 'listing-show-image-thumnbnail' %>
+          <% end %>
+        <div>
+      <% else %>
+        <%= image_tag 'default-image.png', class: 'listing-show-image-main' %>
+      <% end %>
     </div>
   </div> <!-- close content -->
 
@@ -10,12 +24,12 @@
     <div class= 'listing-features-container'>
       <% @listing.features.each do |feature| %>
         <ul>
-          <span class='badge badge-green'><li class='feature'><%= feature.name %></li></span>
+          <span class='badge badge-danger'><li class='feature'><%= feature.name %></li></span>
         </ul>
       <% end %>
     </div>
     
-    <% if current_user && @listing.sold == false %>
+    <% if current_user.id != @listing.user.id && current_user && @listing.sold == false %>
       <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
       <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->
       <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
