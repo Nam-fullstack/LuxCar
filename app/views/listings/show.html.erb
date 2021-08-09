@@ -4,6 +4,7 @@
       <%= image_tag image_select(@listing), class:'hero-image thumbnail card-img top' %>
     </div>
   </div> <!-- close content -->
+
   <div class= 'sidebar col-lg-4 p-0 mx-2 d-md-block'>
     <h1 class='mb-sm-2 mb-md-5'><%=@listing.title %></h1>
     <div class= 'listing-features-container'>
@@ -14,25 +15,29 @@
       <% end %>
     </div>
     
-    <p class='blockquote mt-2'><%= @listing.description %></p>
-    
     <% if current_user && @listing.sold == false %>
       <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
       <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->
       <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
       <!-- Won't see the redirectToCheckout in the create_payment_intent.html.erb until everything we need to happen has happened. -->
       <!-- We don't create a payment_intent until this button is clicked. -->
-      <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 100)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3" %>
+      <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 100)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: 'btn btn-primary p-3' %>
     <% elsif @listing.sold == true %>
       <button class='btn btn-secondary' disabled>SOLD</button>
     <% else %>
-      <%= button_to "Log In to Buy", new_user_session_path, class: "btn btn-info" %>
+      <%= button_to 'Log In to Buy', new_user_session_path, class: 'btn btn-info' %>
     <% end %>
+
+    <div class='form-row mt-3'>
+      <div class ='d-flex justify-content-evenly mb-3'>
+      <%= link_to 'Edit', edit_listing_path(@listing.id), class: 'btn btn-warning mr-3' if current_user.id == @listing.user_id %>
+      <%= link_to 'Delete', @listing, method: :delete, data: {confirm: 'Are you sure you want to delete your listing?'} , class: 'btn btn-danger mr-3' if current_user.id == @listing.user_id %>
+      </div>
+    </div> <!-- close form-row -->
   </div> <!-- close sidebar -->
 </div> <!-- close container -->
-<div class='container'>
-  <div class ='d-flex justify-content-evenly'>
-  <%= link_to "Edit", edit_listing_path(@listing.id), class: "btn btn-warning mr-3" if current_user.id == @listing.user_id %>
-  <%= link_to "Delete", @listing, method: :delete, data: {confirm: "Are you sure?"} , class: "btn btn-danger mr-3" if current_user.id == @listing.user_id %>
-  </div>
+
+
+<div class='wrapper listing-description'>
+  <p class='mt-2 blockquote'><%= @listing.description %></p>
 </div>

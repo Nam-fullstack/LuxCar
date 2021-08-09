@@ -1,13 +1,13 @@
-<p id="notice"><%= notice %></p>
+<p id='notice' class='alert-dismissible fade show'><%= notice %></p>
 
-<div class="container">
-  <%= render "shared/listings-sidebar" %>
+<div class='container'>
+  <%= render 'shared/listings-sidebar' %>
 
-  <div class="search-filter">
-    <input type="text" class="search-filter search-bar", placeholder="Search for a car">
+  <div class='search-filter'>
+    <input type='text' class='search-filter search-bar', placeholder='Search for a car'>
   </div>
 
-  <div class="listings-cards-container">
+  <div class='listings-cards-container'>
     <% @listing.each do |listing| %>
       <% if listing.sold == false %>
         <%= render 'shared/listing-card', listing: listing %>
