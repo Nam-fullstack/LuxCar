@@ -18,7 +18,7 @@ class PaymentsController < ApplicationController
         line_items: [{
           name: listing.title, 
           description: listing.description,
-          amount: listing.price,
+          amount: listing.deposit,
           currency: 'aud', 
           quantity: 1
         }], 
@@ -32,7 +32,7 @@ class PaymentsController < ApplicationController
         cancel_url: "#{root_url}/listings"
       )  
       @session_id = session.id 
-      puts "\n\n\n\n\n **********************THIS IS THE SESSION ID: #{@session_id}"   
+      puts "\n\n\n\n\n ********************** THIS IS THE SESSION ID: #{@session_id}      *****************"   
   end 
 
   def webhook 
