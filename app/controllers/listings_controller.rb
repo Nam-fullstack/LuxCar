@@ -47,12 +47,9 @@ class ListingsController < ApplicationController
 
   def create
     @listing = current_user.listings.new(listing_params)
-    # 10% deposit, price / 10 and * 100 to convert to cents. 
+    # 10% deposit, price / 10 and * 100 to convert to cents = * 10. 
     # This is before validation and price is still in $
-
-    puts " \n\n\n\n\n\n\n\n\n =============== #{@listing.price} ======"
     @listing.deposit = @listing.price * 10
-    puts " \n\n\n\n\n\n\n\n\n =============== #{@listing.deposit} ======"
     @listing.variant_id = @variant.id
     @listing.title = @variant.name
 

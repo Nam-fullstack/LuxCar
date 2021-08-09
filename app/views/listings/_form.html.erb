@@ -58,13 +58,7 @@
   <!-- Code from https://stevenyue.com/blogs/validate-attachment-file-size-and-type-in-rails/ -->
   <div class='form-group mb-3 ml-4'>
     <%= form.label :pictures, 'Upload Images', class: 'font-bold' %>
-    <%= form.file_field :pictures, 
-      class:'form-control-file', 
-      onchange: 'validateFiles(this);',
-      data: { max_file_size: 5.megabytes },
-      multiple: true,
-      accept: 'image/jpg, image/png, image/jpeg' 
-    %>
+    <%= form.file_field :pictures, class:'form-control-file', multiple: true, accept: 'image/jpg, image/png, image/jpeg' %>
   </div> 
 
   <div class='actions form-submit'>

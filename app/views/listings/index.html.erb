@@ -1,10 +1,25 @@
 <p id='notice' class='alert-dismissible fade show'><%= notice %></p>
 
-<div class='container'>
+<div class='container-fluid'>
   <%= render 'shared/listings-sidebar' %>
 
-  <div class='search-filter'>
-    <input type='text' class='search-filter search-bar', placeholder='Search for a car'>
+  <div class='filters d-flex flex-direction-row'>
+    <div class='search_filter'>
+      <input type='text' class='search-filter search-bar w-100', placeholder='Search for a car'>
+      <%= render 'shared/listings-filtered' %>
+    </div>
+    
+    <div class='listings-sort '>
+      <select name='sort' id='sort' class='form-control w-100'>
+        <option value='cheapest'>Price (Low to High)</option>
+        <option value='expensive'>Price (High to Low)</option>
+        <option value='newest'>Year Made (High to Low)</option>
+        <option value='oldest'>Year Made (Low to High)</option>
+        <option value='power'>Power (High to Low)</option>
+        <option value='mileage'>Kms (Low to High)</option>
+        <option value='recent'>Recently Listed</option>
+      </select>
+    </div>
   </div>
 
   <div class='listings-cards-container'>

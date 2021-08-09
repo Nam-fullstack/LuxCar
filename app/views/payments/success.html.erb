@@ -1,20 +1,20 @@
 
-<div class="container">
+<div class='container'>
 <h1 class='ml-2 mb-5'>Payment Successful!</h1>
-  <div class="payment-success">
-    <div class="payment-success-image-container mb-4">
+  <div class='payment-success'>
+    <div class='payment-success-image-container mb-4'>
       <!-- displays image for the listing, if it exists -->
       <%= image_tag @purchase.listing.pictures[0], alt: 'Photo of car you purchased', class: 'payment-success-image' if @purchase.listing.pictures[0] %>
     </div> <!-- close payment-success-image-container -->
 
-    <div class="payment-success-body">
+    <div class='payment-success-body'>
       <h2 class='mb-4'>Congratulations, your deposit has been successfuly processed!</h2>
-      <div class="receipt">
+      <div class='receipt'>
         <p class='mb-2'>
-          A confirmation email has been sent to your email.
+          A confirmation email has been sent to <%= "#{current_user.email}" %>.
         </p>
         <p class='mb-4'>
-          Click here to view the 
+          Click here to view the
           <%= link_to 'Deposit Invoice', @purchase.receipt_url %>
         </p>
       </div> <!-- close receipt -->
