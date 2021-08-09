@@ -1,7 +1,7 @@
-<h1>Editing Listing</h1>
+<h1>Update Listing</h1>
 
-<%= render 'form', listing: @listing %>
+<%= render 'form', listing: @listing, variant: @variant,  %>
 
-<%= link_to "Edit Car Details", edit_variant_path(@listing.variant), class: "btn btn-warning mr-3" if current_user.id == @listing.user_id %>
+<%= link_to "Edit Car Details", class: "btn btn-warning mr-3" if current_user.id == @listing.user_id %>
 <%= link_to 'Cancel', @listing %>
 <%= link_to 'Back', listings_path %>

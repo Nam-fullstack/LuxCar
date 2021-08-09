@@ -15,7 +15,7 @@ class CreateVariants < ActiveRecord::Migration[6.1]
       t.references :colour, null: false, foreign_key: true
       t.decimal :displacement, null: false, precision: 2, scale: 1
       t.integer :power
-
+      
       t.timestamps
     end
   end
