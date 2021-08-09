@@ -1,17 +1,19 @@
-<%- if controller_name != 'sessions' %>
-  <%= link_to "Log in", new_session_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to "Register new account", new_registration_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to "Forgot password?", new_password_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), method: :post %><br />
+<div class='container-fluid d-flex align-items-center flex-column'>
+  <%- if controller_name != 'sessions' %>
+    <p class='mt-3'>Existing User? <%= link_to "Log in", new_session_path(resource_name) %></p><br />
   <% end %>
-<% end %>
+
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <p class='mt-3'><%= link_to "Register New Account", new_registration_path(resource_name) %></p><br />
+  <% end %>
+
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <p class='mt-3'><%= link_to "Forgotten Password?", new_password_path(resource_name) %></p><br />
+  <% end %>
+
+  <%- if devise_mapping.omniauthable? %>
+    <%- resource_class.omniauth_providers.each do |provider| %>
+      <p class='mt-3'><%= link_to "Sign In With #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), method: :post %></p><br />
+    <% end %>
+  <% end %>
+</div> <!-- close container -->
