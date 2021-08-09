@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   # , path: 'auth', path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }, skip: :all
 
   root to: 'pages#home'
-  get 'pages/restricted'
   get 'messages/inbox'
   get 'conversations/index'
   post '/conversations', to: 'conversations#create', as: 'create_conversation'

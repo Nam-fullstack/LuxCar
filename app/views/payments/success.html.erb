@@ -1,25 +1,25 @@
-<h1>Congratulations!</h1>
 
 <div class="container">
+<h1 class='ml-2 mb-5'>Payment Successful!</h1>
   <div class="payment-success">
-    <div class="payment-success-image-container">
+    <div class="payment-success-image-container mb-4">
       <!-- displays image for the listing, if it exists -->
-      <%= puts "\n\n\n does this even print? #{@purchase} " %>
-      
+      <%= image_tag @purchase.listing.pictures[0], alt: 'Photo of car you purchased', class: 'payment-success-image' if @purchase.listing.pictures[0] %>
     </div> <!-- close payment-success-image-container -->
 
     <div class="payment-success-body">
-      <h2>Successful Payment!</h2>
-      <h4>Congratulations on your new purchase!</h4>
+      <h2 class='mb-4'>Congratulations, your deposit has been successfuly processed!</h2>
       <div class="receipt">
-        <p>
+        <p class='mb-2'>
           A confirmation email has been sent to your email.
+        </p>
+        <p class='mb-4'>
           Click here to view the 
-          <!-- a href=<%= @purchase.receipt_url %>>  -->
-            Deposit Invoice 
-          </!--> 
+          <%= link_to 'Deposit Invoice', @purchase.receipt_url %>
         </p>
       </div> <!-- close receipt -->
     </div> <!-- close payment-success-body -->
   </div> <!-- close payment-success -->
+
+
 </div> <!-- close container -->

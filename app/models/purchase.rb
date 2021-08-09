@@ -5,9 +5,9 @@ class Purchase < ApplicationRecord
 
   before_save :remove_whitespace
 
+  validates :payment_id, presence: true
+  validates :receipt_url, presence: true
+
   private
 
-  def remove_whitespace
-    self.attributes.each { |key, value| self[key] = value.strip if value.respond_to?(:strip) }
-  end
 end

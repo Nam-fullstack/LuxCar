@@ -19,7 +19,7 @@
     </div>
   </div> <!-- close content -->
 
-  <div class= 'sidebar col-lg-4 p-0 mx-2 d-md-block'>
+  <div class= 'sidebar col-lg-16 p-2 mx-2 d-md-block'>
     <h1 class='mb-sm-2 mb-md-5'><%=@listing.title %></h1>
     <div class= 'listing-features-container'>
       <% @listing.features.each do |feature| %>
@@ -29,7 +29,9 @@
       <% end %>
     </div>
     
-    <% if current_user.id != @listing.user.id && current_user && @listing.sold == false %>
+    <% if current_user.id == @listing.user.id %>
+      <!-- Doesn't show buy button if the user is the listing owner -->
+    <% elsif user_signed_in? && @listing.sold == false %>
       <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
       <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->
       <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
@@ -53,5 +55,8 @@
 
 
 <div class='wrapper listing-description'>
-  <p class='mt-2 blockquote'><%= @listing.description %></p>
+  <p class='mt-2 ml-4'><%= @listing.description %></p>
 </div>
+
+<!-- Scripts -->
+<%= javascript_pack_tag 'imageSelect' %>

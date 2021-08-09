@@ -45,8 +45,8 @@
       <!-- to create a new div row for every 2 featurs created. Puts a break line for every even number of i. -->
       <% i = 0 %>
       <%= form.collection_check_boxes :feature_ids, @features.sort, :id, :name do |b| %>
-        <%= b.check_box class: 'form-check-box custom-control custom-checkbox checkbox-lg' %>
-        <%= b.label class: 'form-check-label content col-sm-4 col-md-4 col-lg-4' %>
+        <%= b.check_box class: 'form-check-box col-0' %>
+        <%= b.label class: 'form-check-label content col-sm-4 col-md-4 col-lg-4 mb-4' %>
         <% i += 1 %>
         <% if i.even? %>
           <br>
