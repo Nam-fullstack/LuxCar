@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
   # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
-    @listing = Listing.all#.includes(:user)
+    @listing = Listing.all#.includes(:variant_id).where(sold: false)
     #.search(params[:query], params[:option])#.includes(:car)
   end
 
