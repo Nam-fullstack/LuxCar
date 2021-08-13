@@ -1,17 +1,19 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: %i[ index show ]
-  before_action :authorize_user!, only: %i[ edit update destroy ]
+  before_action :authorize_user, only: %i[ edit update destroy ]
   before_action :set_form_vars, only: %i[new edit]
   before_action :set_variant, only: %i[new create]
   # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
-    @listing = Listing.all#.includes(:variant_id).where(sold: false)
-    #.search(params[:query], params[:option])#.includes(:car)
+    @listing = Listing.all.where(sold: false)
+    #.search(params[:query], params[:option])#.includes(:variant)
   end
 
   def show
+    # Creates Stripe checkout session for user to pay deposit to be eligible to
+    # schedule an event with owner for a test drive. (More in Payments controller)
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'], 
       customer_email: current_user&.email, # current_user && current_user.email 
@@ -47,7 +49,7 @@ class ListingsController < ApplicationController
 
   def create
     @listing = current_user.listings.new(listing_params)
-    # 10% deposit, price / 10 and * 100 to convert to cents = * 10. 
+    # 10% deposit => price / 10 and * 100 to convert to cents = * 10. 
     # This is before validation and price is still in $
     @listing.deposit = @listing.price * 10
     @listing.variant_id = @variant.id
@@ -97,7 +99,7 @@ class ListingsController < ApplicationController
     params.require(:listing).permit(:user_id, :variant_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, pictures: [], feature_ids: [])
   end
 
-  def authorize_user!
+  def authorize_user
     if current_user.id != @listing.user.id
       flash[:error] = "Unauthorized Request!"
       redirect_to listings_path

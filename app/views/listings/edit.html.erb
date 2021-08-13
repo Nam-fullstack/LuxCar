@@ -1,6 +1,6 @@
 <h1>Update Listing</h1>
 
-<%= render 'form', listing: @listing, variant: @variant,  %>
+<%= render 'form', listing: @listing  %>
 
 <%= link_to "Edit Car Details", class: "btn btn-warning mr-3" if current_user.id == @listing.user_id %>
 <%= link_to 'Cancel', @listing %>

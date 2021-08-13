@@ -14,9 +14,15 @@
           A confirmation email has been sent to <%= "#{current_user.email}" %>.
         </p>
         <p class='mb-4'>
-          Click here to view the
-          <%= link_to 'Deposit Invoice', @purchase.receipt_url %>
+          To view the Deposit Invoice, click 
+          <%= link_to 'here', @purchase.receipt_url %>.
         </p>
+        <p>
+          To schedule an appointment with the owner for a test drive,
+          please click on the button below.
+        </p>
+        <%= button_to "Schedule Test Drive", new_event_path(listing_id: @purchase.listing.id), class: 'btn btn-outline-info' %>
+        <!--  method: :post -->
       </div> <!-- close receipt -->
     </div> <!-- close payment-success-body -->
   </div> <!-- close payment-success -->
