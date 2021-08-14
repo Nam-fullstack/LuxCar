@@ -4,6 +4,9 @@ class PaymentsController < ApplicationController
 
   def success
     @purchase = Purchase.find_by_listing_id(params[:id])
+    @listing = params[:id]
+    puts "\n\n\n\n\n\n payment success, listing below: \n\n"
+    pp @listing
   end
 
   def create_payment_intent

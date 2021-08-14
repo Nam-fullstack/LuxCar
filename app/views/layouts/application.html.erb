@@ -24,6 +24,8 @@
     <header>
     </header>
     <div class="body-container">
+      <%= render '/shared/navbar'%>
+
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= select_alert_subclass(key) %> alert-dismissable fade show" role="alert">
           <%= value %>
@@ -32,9 +34,13 @@
           </button>
         </div>
       <%end%>
-    
-      <%= render '/shared/navbar'%>
-      <%= yield %>
+      <div class='container-fluid'>
+        <div class='row justify-content-center'>
+          <div class='col-12'>
+            <%= yield %>
+          </div>
+        </div>
+      </div>
       <%= render '/shared/footer' %>
     </div> <!-- close body-container -->
   </body>

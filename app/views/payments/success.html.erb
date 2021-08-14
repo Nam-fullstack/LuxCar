@@ -21,8 +21,9 @@
           To schedule an appointment with the owner for a test drive,
           please click on the button below.
         </p>
-        <%= button_to "Schedule Test Drive", new_event_path(listing_id: @purchase.listing.id), class: 'btn btn-outline-info' %>
-        <!--  method: :post -->
+
+        <!-- User is navigated to create an event, sends listing id in params to the Events controller -->
+        <%= button_to "Schedule Test Drive", new_event_path, method: :get, params: { listing_id: @purchase.listing.id }, class: 'btn btn-outline-info' %>
       </div> <!-- close receipt -->
     </div> <!-- close payment-success-body -->
   </div> <!-- close payment-success -->
