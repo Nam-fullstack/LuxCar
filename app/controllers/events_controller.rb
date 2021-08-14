@@ -5,9 +5,11 @@ class EventsController < ApplicationController
 
   # Scopes query to the dates being shown
   def index
-    # @events = Event.all
+    @events = Event.all
     start_date = params.fetch(:start_date, Date.today).to_date
-    @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+    puts "\n\nEVENTS CONTROLLER: start_date #{start_date} \n\n "
+    # @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
+    puts "\n\nEVENTS CONTROLLER: @events #{@events} \n\n "
   end
 
   def show
@@ -58,6 +60,11 @@ class EventsController < ApplicationController
     end
   end
 
+  # Changes status of event to being confirmed true.
+  def confirm_event
+    @event.update(confirmed: true)
+  end
+  
   private
 
   # Gets the listing_id from params specified in payments success.html.erb Book A Test Drive button
