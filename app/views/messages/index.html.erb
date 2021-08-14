@@ -1,6 +1,6 @@
 <div class="container">
   <div class="conversation">
-    <% @recipient = @conversation.recipient(current_user) %>
+    <% @recipient = @conversation.receiver(current_user) %>
 
     <div class="conversation-receiver">
       <% if @recipient.profile.image.attached? %>
@@ -13,7 +13,9 @@
 
     <ul class="conversation-messages">
       <% @messages.each do |message| %>
-        <% if message.body%>
+        <% if message.body %>
+          <!-- Determines the styling based on the user, if it's the current user, they will see -->
+          <!-- it from the sender view, and vice versa for recipient -->
           <li class="conversation-message <%= current_user.id == message.user_id ? "conversation-message-sent" : "conversation-message-received" %>">
             <p class="conversation-messages-body"><%= message.body %></p>
             <p class="conversation-messages-sent"><%= time_ago_in_word(message.created_at) %> ago</p>

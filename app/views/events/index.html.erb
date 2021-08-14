@@ -2,17 +2,19 @@
 
 <h1>Events</h1>
 
-<div class="calendar">
-  <%= month_calendar do |date| %>
-    <%= date.day %>
-  <% end %>
+<div id="events_calendar">
+  <%= render partial: "calendar" %>
+  <!-- , locals: {events: @events} -->
 </div>
 
+<!-- 
 <div class="start-time">
 <%= month_calendar(attribute: :start_time) do |date| %>
   <%= date %>
 <% end %>
 </div>
+
+-->
 
 <table>
   <thead>

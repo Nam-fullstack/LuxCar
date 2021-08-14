@@ -1,7 +1,7 @@
 <%= form_with(model: event) do |form| %>
   <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+    <div id='error_explanation'>
+      <h2><%= pluralize(event.errors.count, 'error') %> prohibited this event from being saved:</h2>
 
       <ul>
         <% event.errors.each do |error| %>
@@ -10,38 +10,36 @@
       </ul>
     </div>
   <% end %>
+<div class='container w-50'>
+<h1 class='ml-3'>Book A Test Drive</h1>
 
-  <div class="field">
-    <%= form.label :listing_id %>
-    <%= form.text_field :listing_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :location_id %>
-    <%= form.text_field :location_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :name %>
+  <div class='form-group mb-3 ml-3'>
+    <%= form.label 'Title' %><br />
     <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :start_time %>
-    <%= form.datetime_select :start_time %>
+  <div class='form-group mb-3 ml-3'>
+    <%= form.label :address %><br />
+    <%= form.text_field :address %>
+  </div>
+ 
+  <div class='form-group mb-3 ml-3'>
+    <%= form.label :postcode %><br />
+    <%= form.number_field :postcode %>
   </div>
 
-  <div class="field">
-    <%= form.label :message %>
+  <div class='form-group mb-3 ml-3'>
+    <%= form.label :start_time %><br />
+    <%= form.datetime_select :start_time, { order: [:day, :month, :year], ampm: false}, { class: 'form-control w-25 ml-3' } %>
+  </div>
+
+  <div class='form-group mb-3 ml-3'>
+    <%= form.label :message %><br />
     <%= form.text_area :message %>
   </div>
 
-  <div class="field">
-    <%= form.label :confirmed %>
-    <%= form.check_box :confirmed %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class='actions form-submit'>
+    <%= form.submit 'Create Event', class: 'btn btn-primary ml-5 mt-3 mb-4' %>
   </div>
 <% end %>
+</div> <!-- close container -->
