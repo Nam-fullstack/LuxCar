@@ -13,6 +13,10 @@
       </div>
     <% end %>
 
+    <!-- Passes the listing_id as hidden field to event_params when form is submitted. 
+         otherwise can't create event as listing_id is required. -->
+    <%= hidden_field_tag :listing_id, @listing %>
+
     <div class='form-group mb-3 ml-3'>
       <%= form.label 'Title' %><br />
       <%= form.text_field :name %>

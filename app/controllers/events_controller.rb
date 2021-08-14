@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_listing, only: %i[ show edit update destroy ]
+  before_action :set_listing#, only: %i[ new show edit update destroy ]
   # before_action :authenticate_user!
   # before_action :authorize_user, only: %i[ show edit update destroy ]
 
@@ -14,20 +14,18 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new(event_params)
-    puts "\n\n\n EVENTS NEW THIS IS THE PARAMS: #{params} \n\n @event: #{@event}\n\n Listing id: #{@listing_id}"
+    @event = Event.new
+    # puts "\n\n\n EVENTS NEW THIS IS THE PARAMS: #{params} \n\n @event: #{@event}\n\n Listing id: #{@listing}"
   end
 
   def edit
   end
 
   def create
-    # @event = Event.new(listing_id: @listing, address: params[:address], postcode: params[:postcode], name: params[:name], start_time: params[:start_time], message: params[:message], confirmed: false)
+    # Creates new event with params from form, then adds sets the listing_id that was passed
+    # in params from payments success.html.erb
     @event = Event.new(event_params)
-    pp @event
-    puts "\n\n\n\n Events CREATE: listing below\n"
-    pp @listing
-    puts "\n\n event details: #{@event} \n\n This is the listing id: #{@listing} \n\n"
+    @event.listing_id = @listing
 
     respond_to do |format|
       if @event.save
@@ -62,16 +60,17 @@ class EventsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  # Gets the listing_id from params specified in payments success.html.erb Book A Test Drive button
   def set_listing
     @listing = params[:listing_id]
-    puts "\n\nthis is before action: #{@listing}\n\n"
   end
 
   def authorize_user
     # Only allows the user that corresponds to the buyer that has paid the deposit to
     # be able to create an event.
+# ================================== MIGHT NEED TO CHECK THIS LATER =======================================
     if current_user.id != @purchase.buyer_id || @purchase.deposit_paid == false
+# ================================== MIGHT NEED TO CHECK THIS LATER =======================================
       flash[:error] = "Unauthorized Request!"
       redirect_to listings_path
     end
