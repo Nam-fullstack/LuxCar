@@ -1,11 +1,13 @@
 class EventsController < ApplicationController
-  before_action :set_listing#, only: %i[ new show edit update destroy ]
+  before_action :set_listing, only: %i[ new ]
+  before_action :set_event, only: %i[ index show edit update destroy ]
   # before_action :authenticate_user!
   # before_action :authorize_user, only: %i[ show edit update destroy ]
 
   # Scopes query to the dates being shown
   def index
-    @events = Event.all
+
+    @events = Event.all.where(listing_id: @listings)
     start_date = params.fetch(:start_date, Date.today).to_date
     puts "\n\nEVENTS CONTROLLER: start_date #{start_date} \n\n "
     # @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
@@ -13,6 +15,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @event
   end
 
   def new
@@ -70,6 +73,11 @@ class EventsController < ApplicationController
   # Gets the listing_id from params specified in payments success.html.erb Book A Test Drive button
   def set_listing
     @listing = params[:listing_id]
+  end
+
+  def set_event
+    @listings = Purchase.where(buyer_id: current_user.id).pluck(:listing_id)
+    @events = Event.where(listing_id: @listings)
   end
 
   def authorize_user

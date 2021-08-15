@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>Events</h1>
 
@@ -15,39 +15,7 @@
 </div>
 
 -->
-
-<table>
-  <thead>
-    <tr>
-      <th>Event Name</th>
-      <th>Listing</th>
-      <th>Location</th>
-      <th>Postcode</th>
-      <th>Event Date & Time</th>
-      <th>Message</th>
-      <th>Confirmed</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-</table>
-
-  <% @events.each do |event| %>
-    <%= link_to "#{event.listing.title}", listing_path(event.listing) %>
-    <br>
-      <%= event.name %>
-    <br>
-      <%= "#{event.address} #{State.find(event.listing.state_id).name} #{event.postcode}" %>
-    <br>
-      <%= (event.start_time).strftime("%B %d, %Y") %>
-      <%= event.message %>
-      <%= event.confirmed %>
-    <br>
-      <%= button_to "Confirm", confirm_event %>
-      <%= link_to 'Edit', edit_event_path(event) %>
-    <br>
-      <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %>
-    
-  <% end %>
- 
-
+<div class='d-flex justify-content-center'>
+ <%= render 'event' %>
+</div>
 
