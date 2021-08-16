@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  belongs_to :listing
+  belongs_to :purchase
 
   before_save :remove_whitespace
 

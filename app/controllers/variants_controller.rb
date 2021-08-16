@@ -40,7 +40,7 @@ class VariantsController < ApplicationController
 
   # Gets make form selection to pre-populate the associated Models that belongs to that Make.
   def get_models
-    @make = Make.find params[:make_id]
+    @make = Make.find_by_id params[:make_id]
 
     puts "\n\n\n\n\n\n ################ MAKE: #{@make}"
     @models = @make.models
@@ -63,7 +63,7 @@ class VariantsController < ApplicationController
 
   def set_listing
     @listing = Listing.find_by_variant_id(params[:id])
-    puts "\n\n\n\n this is the set_listing from params @listing #{@listing}"
+    # puts "\n\n\n\n this is the set_listing from params @listing #{@listing}"
     @variant = Variant.find_by_id(params[:id])
   end
 

@@ -6,4 +6,8 @@ module EventsHelper
   def events_ajax_next_link
     ->(param, date_range) { link_to raw("&raquo;"), { param => date_range.last + 1.day }, remote: :true }
   end
+
+  def event_exists(event)
+    
+  end
 end

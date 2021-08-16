@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   resources :listings
   resources :events
-  get 'events/new', to: 'events#create', as: 'create_event'
+  # get 'events/new', to: 'events#create', as: 'create_event'
   # devise_for :admins#, controllers: { sessions: 'admins/sessions' }
   devise_for :users#, controllers: { sessions: 'users/sessions' }
   # skip: :all - enables current_user helper methods 

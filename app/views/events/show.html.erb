@@ -25,5 +25,5 @@
     <% end %>
   </div> <!-- close calendar-cell -->
 <% end %>
-<%= link_to 'Edit', edit_event_path(@events.id), class: 'btn btn-warning my-4 mr-4' %>
+<%= link_to 'Edit', edit_event_path(@event.pluck(:id)), class: 'btn btn-warning my-4 mr-4' %>
 <%= link_to 'Back', events_path, class: 'btn btn-primary my-4' %>
