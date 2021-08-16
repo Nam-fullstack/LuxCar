@@ -29,7 +29,7 @@ class VariantsController < ApplicationController
     respond_to do |format|
       if @variant.update(variant_params)
         update_name(1)
-        format.html { redirect_to new_listing_path, notice: "Variant was successfully updated." }
+        format.html { redirect_to listing_path, notice: "Variant was successfully updated." }
         format.json { render :show, status: :ok, location: @variant }
       else
         format.html { render :edit, status: :unprocessable_entity }

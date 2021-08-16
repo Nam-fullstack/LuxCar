@@ -3,7 +3,7 @@
 
   <%= render 'calendar', event: @event %>
 
-  <% if !Listing.find_by_id(@listing) %>
+  <% if !Event.find_by_listing_id(@listing) %>
     <%= render 'form', event: @event %>
   <% else %>
     <%= redirect_to edit_event_path %>

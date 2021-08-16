@@ -1,21 +1,17 @@
 class EventsController < ApplicationController
-  before_action :set_listing, only: %i[ new ]
-  before_action :set_event, only: %i[ index show edit update destroy ]
+  # before_action :set_listing, only: %i[ new create ]
+  before_action :set_vars, only: %i[ new index show edit update destroy ]
   # before_action :authenticate_user!
   # before_action :authorize_user, only: %i[ show edit update destroy ]
 
   # Scopes query to the dates being shown
   def index
-
     @events = Event.all.where(listing_id: @listings)
     start_date = params.fetch(:start_date, Date.today).to_date
-    puts "\n\nEVENTS CONTROLLER: start_date #{start_date} \n\n "
     # @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
-    puts "\n\nEVENTS CONTROLLER: @events #{@events} \n\n "
   end
 
   def show
-    @event
   end
 
   def new
@@ -24,13 +20,19 @@ class EventsController < ApplicationController
   end
 
   def edit
+    puts "\n\n =========== EDIT PAGE: listing: #{@listing}, EVENT_id: #{@event} ========\n\n"
   end
 
   def create
     # Creates new event with params from form, then adds sets the listing_id that was passed
     # in params from payments success.html.erb
+    puts "\n\nBELOW IS EVENT PARAMS \n\n"
+    pp event_params
     @event = Event.new(event_params)
-    @event.listing_id = @listing
+    puts "\n\n THIS IS THE PARAMS LISTING ID: #{params[:listing_id]}\n\n"
+    @event.listing_id = params[:listing_id]
+    puts "\n\n ====== DOES IT REGISTRER THE LISTING IN CREATE NOW? #{@listing} \n\n"
+
 
     respond_to do |format|
       if @event.save
@@ -73,11 +75,13 @@ class EventsController < ApplicationController
   # Gets the listing_id from params specified in payments success.html.erb Book A Test Drive button
   def set_listing
     @listing = params[:listing_id]
+    puts "\n\n ============ SET LISTING: #{@listing} \n\n"
   end
 
-  def set_event
-    @listings = Purchase.where(buyer_id: current_user.id).pluck(:listing_id)
-    @events = Event.where(listing_id: @listings)
+  def set_vars
+    @listing = Purchase.where(buyer_id: current_user.id).pluck(:listing_id)
+    @event = Event.where(listing_id: @listing)
+    puts "\n\n ============ SET EVENT: listings #{@listing} and event ID: #{@event.} \n\n"
   end
 
   def authorize_user
