@@ -3,8 +3,11 @@
 
   <%= render 'calendar', event: @event %>
 
-  <%= render 'form', event: @event %>
-
+  <% if !Listing.find_by_id(@listing) %>
+    <%= render 'form', event: @event %>
+  <% else %>
+    <%= redirect_to edit_event_path %>
+  <% end %>
   <%= link_to 'Back', events_path %>
 
 </div>

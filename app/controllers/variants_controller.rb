@@ -1,6 +1,7 @@
 class VariantsController < ApplicationController
+  before_action :set_listing, only: %i[ edit update destroy ]
   before_action :authenticate_user!
-  before_action :authorize_user!, only: %i[ edit update destroy ]
+  before_action :authorize_user, only: %i[ edit update destroy ]
 
   def new
     @variant = Variant.new
@@ -53,6 +54,19 @@ class VariantsController < ApplicationController
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour_id)
   end
 
+  def authorize_user
+    if current_user.id != @listing.user.id
+      flash[:error] = "Unauthorized Request!"
+      redirect_to listings_path
+    end
+  end
+
+  def set_listing
+    @listing = Listing.find_by_variant_id(params[:id])
+    puts "\n\n\n\n this is the set_listing from params @listing #{@listing}"
+    @variant = Variant.find_by_id(params[:id])
+  end
+
   def update_name(new_or_edit)
     year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name
@@ -75,7 +89,7 @@ class VariantsController < ApplicationController
     when 0
       Variant.last.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
     when 1
-    #   Variant.find_by_variant_id.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
+      @variant.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
     end
   end
 end
