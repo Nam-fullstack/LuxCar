@@ -39,7 +39,7 @@ class EventsController < ApplicationController
     puts "\n\n ===== this is the @purchase.id: \n\n"
     pp @purchase.id
     @event.purchase_id = @purchase.id
-    puts "\n\n ====== DOES IT REGISTRER THE purchase_id IN CREATE NOW? #{@purchase.id} \n\n"
+    puts "\n\n ====== DOES IT REGISTRER THE purchase_id IN CREATE NOW? purchase.id #{@purchase.id} \n LISTING.ID #{@listing}\n"
 
 
     respond_to do |format|
@@ -83,18 +83,24 @@ class EventsController < ApplicationController
   # Gets the listing_id from params specified in payments success.html.erb Book A Test Drive button
   def set_purchase
     @purchase = Purchase.last
-    @listing = @purchase.pluck(:listing_id)
+    @listing = @purchase.listing_id
     puts "\n\n ============ SET PURCHASE: #{@purchase} and the listing ID: #{@listing} \n\n"
   end
 
   def set_vars
-    @purchase = Purchase.where(buyer_id: current_user.id)
-    @listing = @purchase.pluck(:listing_id)
-    @id = @purchase.pluck(:id)
-    @event = Event.where(purchase_id: @purchase.pluck(:id))
-    puts "\n\n ====== THIS IS THE PURCHASE ID: #{@id} \n\n"
+    @purchase = Purchase.find_by(buyer_id: current_user.id)
+    puts "\n\n\n ######### SET VARS THIS IS PP PURCHASE  ########## \n\n"
+    pp @purchase
+
+    @listing = @purchase.listing_id
+    puts "\n\n ============ SET VARS: @listing using pluck= #{@listing} \n"
+
+    @id = @purchase.id
+    @event = Event.find_by({purchase_id: @purchase.id})
+    puts "\n\n ====== THIS IS THE PURCHASE ID using select: #{@id} \n\n"
     # @event = Event.find_by_purchase_id(@purchase.id)
-    puts "\n\n ============ SET EVENT: listings #{@listing} and event: #{@event} \n\n"
+    pp @listing
+    puts "\n\n and pp event below: #{@event} \n\n"
     pp @event
   end
 
