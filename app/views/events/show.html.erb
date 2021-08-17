@@ -1,4 +1,4 @@
-<%= month_calendar(events: @event) do |date, events| %>
+<%= month_calendar(event: @event) do |date, events| %>
   <div class='calendar-cell'>
     <%= date.day %>
 
@@ -25,5 +25,5 @@
     <% end %>
   </div> <!-- close calendar-cell -->
 <% end %>
-<%= link_to 'Edit', edit_event_path(@event.pluck(:id)), class: 'btn btn-warning my-4 mr-4' %>
+<%= link_to 'Edit', edit_event_path(@event.id), class: 'btn btn-warning my-4 mr-4' %>
 <%= link_to 'Back', events_path, class: 'btn btn-primary my-4' %>

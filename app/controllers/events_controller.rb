@@ -6,7 +6,7 @@ class EventsController < ApplicationController
 
   # Scopes query to the dates being shown
   def index
-    @event = Event.all.where(purchase_id: @purchase)
+    @events = Event.all.where(purchase_id: @purchase)
     start_date = params.fetch(:start_date, Date.today).to_date
     # @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
   end
@@ -93,12 +93,12 @@ class EventsController < ApplicationController
     pp @purchase
 
     @listing = @purchase.listing_id
-    puts "\n\n ============ SET VARS: @listing using pluck= #{@listing} \n"
+    puts "\n\n ============ SET VARS: @listing_id: #{@listing} \n"
 
-    @id = @purchase.id
-    @event = Event.find_by({purchase_id: @purchase.id})
-    puts "\n\n ====== THIS IS THE PURCHASE ID using select: #{@id} \n\n"
+    @event = Event.find_by(purchase_id: @purchase.id)
+    puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n"
     # @event = Event.find_by_purchase_id(@purchase.id)
+    puts "listing id: "
     pp @listing
     puts "\n\n and pp event below: #{@event} \n\n"
     pp @event
@@ -117,7 +117,7 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:purchase_id, :name, :start_time, :address, :postcode, :message, :confirmed, :buyer_id, :deposit_paid)
+    params.require(:event).permit(:name, :start_time, :address, :postcode, :message, :confirmed)
   end
 
 end
