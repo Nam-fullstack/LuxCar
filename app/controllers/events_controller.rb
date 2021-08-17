@@ -86,7 +86,7 @@ class EventsController < ApplicationController
   # be able to create an event. If user is not a seller and hasn't made any purchases (deposits)
   # then they're redirected back to listings#index.
   def authorize_buyer
-    if !is_seller && has_no_purchases
+    if !is_seller && !has_purchased
       flash[:error] = "Unauthorized Request! Need to pay deposit to book a test drive." 
       redirect_to listings_path
     end
@@ -94,16 +94,16 @@ class EventsController < ApplicationController
 
   def authorize_seller
     if is_seller && seller_has_buyers
-      a = Purchase.where(seller_id: current_user.id)
-      puts "\n\n\n\n\n\n\n &&&&&&&&&&&&&&&&&&&&&&&&&&& purchases query a: \n"
-      pp a
-      @events = Events.all.where({purchase_id: a.select(:id)})
+      sell = Purchase.where(seller_id: current_user.id)
+      puts "\n\n\n\n\n\n\n ================ purchases query a: =============== \n\n"
+      pp sell
+      @events = Event.where(purchase_id: sell.select(:id))
     end
   end
 
   # Seller can't create an event if they haven't made any purchases and gets redirected.
   def redirect_seller
-    if is_seller && has_no_purchases
+    if is_seller && !has_purchased
       flash[:error] = "Need to pay deposit to book a test drive." 
       redirect_to listings_path
     end
@@ -123,24 +123,30 @@ class EventsController < ApplicationController
   def set_purchase_listing
     user_purchase
     get_listing
-    puts "\n\n ============ SET PURCHASE: #{@purchase} and the listing ID: #{@listing} \n\n"
+    puts "\n\n ============ SET PURCHASE: #{@purchase} and the listing ID: #{@listings || @listing} \n\n @purchase:"
     pp @purchase
+    puts "\n @listings: "
+    pp @listings
+    puts "\n\n @listing: "
     pp @listing
+
+    puts "\n\n @events:\n"
+    pp @events
   end
 
   def user_purchase
-    @purchase = Purchase.find_by(buyer_id: current_user.id) if !has_no_purchases
+    @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
       # redirect_back fallback_location: listings_path
   end
 
-  def has_no_purchases
-    Purchase.find_by(buyer_id: current_user.id).nil?
+  def has_purchased
+    !Purchase.find_by(buyer_id: current_user.id).nil?
   end
 
   # If user has made a purchase, then assigns @listing to the corresponding listing from the purchases table.
   # Otherwise, checks to see if the user is a seller, if not, redirects to listings#index
   def get_listing
-    if !has_no_purchases
+    if has_purchased
       @listing = Listing.find_by_id(@purchase.listing_id)
     elsif is_seller
       @listings = Listing.where(user_id: current_user.id)
@@ -159,7 +165,7 @@ class EventsController < ApplicationController
     pp @purchase
 
     get_listing
-    puts "\n\n ============ SET VARS: @listing_id: #{@listing} \n"
+    puts "\n\n ============ SET VARS: @listing_id: #{@listings || @listing} \n"
 
     @event = Event.find_by(purchase_id: @purchase.id)
     puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n"
