@@ -1,47 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%= month_calendar(events: @event) do |date, events| %>
+  <div class='calendar-cell'>
+    <%= date.day %>
 
-<%= t('date.abbr_month_names')[start_date.month] %> <%= start_date.year %>
+    <% events.each do |event| %>
+      <div>
+        <strong><%= event.name %></strong>
+      </div>
 
+      <div>
+        <%= event.start_time.strftime("%I:%M %P") %>
+      </div>
 
-<%= month_calendar(events: @events) do |date, events| %>
-  <%= date %>
+      <div>
+        <strong>Confirmed:</strong>
+        <%= event.confirmed ? "✅" : "❌" %>
+      </div>
 
-  <% events.each do |event| %>
-    <div>
-      <%= event.name %>
-    </div>
-  <% end %>
+  <!--
+      <div>
+        <strong>Location:</strong>
+        <%= "#{event.address} #{event.postcode}" %>
+      </div>
+  -->
+    <% end %>
+  </div> <!-- close calendar-cell -->
 <% end %>
-
-<p>
-  <strong>Listing:</strong>
-  <%= @event.listing_id %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @event.location_id %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @event.name %>
-</p>
-
-<p>
-  <strong>Start time:</strong>
-  <%= @event.start_time %>
-</p>
-
-<p>
-  <strong>Message:</strong>
-  <%= @event.message %>
-</p>
-
-<p>
-  <strong>Confirmed:</strong>
-  <%= @event.confirmed %>
-</p>
-
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<%= link_to 'Edit', edit_event_path(@event.pluck(:id)), class: 'btn btn-warning my-4 mr-4' %>
+<%= link_to 'Back', events_path, class: 'btn btn-primary my-4' %>

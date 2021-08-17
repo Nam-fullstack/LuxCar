@@ -1,15 +1,16 @@
 class Listing < ApplicationRecord
   # Associations
   belongs_to :user
-  has_one :variant
+  belongs_to :variant
   has_many :listings_features
   has_many :features, through: :listings_features, dependent: :destroy
   accepts_nested_attributes_for :listings_features
   has_many_attached :pictures
   has_many :profiles, through: :watches
   has_one :purchase, dependent: :destroy
-  has_one :state
+  belongs_to :state
   has_many :watches, dependent: :destroy
+  has_one :event, dependent: :destroy
 
   # Validations
   validates :description, length: { maximum: 1000 }
@@ -17,7 +18,7 @@ class Listing < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than: 50000 }
   validates :state_id, presence: true
   # Australian postcodes only exist in this range: 0200 to 9999
-  validates :postcode, presence: true, numericality: { greater_than: 0200, less_than: 9999 }
+  validates :postcode, presence: true, numericality: { greater_than_or_equal_to: 0200, less_than: 9999 }
   validates :variant_id, presence: true
 
   # Trying to refactor callbacks into one line.

@@ -1,5 +1,18 @@
-<h1>New Event</h1>
+<div class='d-flex flex-column justify-content-center align-items-center'>
+  <h1 class='mt-4'>Book A Test Drive</h1>
 
-<%= render 'form', event: @event %>
+  <%= render 'calendar', event: @event %>
 
-<%= link_to 'Back', events_path %>
+  <!-- 
+    Will not render form to create event new event if one already exists with 
+    a purchase_id that corresponds to the current_user (buyer_id).
+  -->
+  <% unless Event.find_by_purchase_id(@purchase) %>
+    <%= render 'form', event: @event %>
+  <% else %>
+    <p>Event already exists.</p>
+    <%= link_to 'Edit', edit_events_path %>>
+  <% end %>
+  <%= link_to 'Back', events_path %>
+
+</div>

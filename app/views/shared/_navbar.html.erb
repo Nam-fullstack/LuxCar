@@ -1,4 +1,36 @@
 
+<nav class='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'> 
+  <div class= 'container-fluid'> 
+    <%=link_to 'LuxCar', root_path, class:'' %>
+  </div>
+  
+  <ul class='navbar-nav mr-5-lg'> 
+    <li class='nav-item'>
+      <%=link_to 'All Cars', listings_path, class: '' %>
+    </li>
+
+    <% if user_signed_in? %>
+      <li class='nav-item'>
+        <%=link_to 'Sell Your Car', new_variant_path, class: '' %>
+      </li>
+
+      <li class='nav-item'>
+        <%=link_to 'Sign Out', destroy_user_session_path, method: :delete, class: '' %>
+      </li>
+
+    <%else%>
+      <li class='nav-item'>
+        <%=link_to 'Log in', new_user_session_path, class: '' %>
+      </li>
+
+      <li class='nav-item'>
+        <%=link_to 'Sign Up', new_user_registration_path, class: '' %>
+      </li>
+    <%end%>
+  </ul>
+</nav>
+
+
 <!--
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,37 +67,3 @@
 
 
 -->
-
-
-
-<nav class='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'> 
-  <div class= 'container-fluid'> 
-    <%=link_to 'LuxCar', root_path, class:'nav-link'%>
-  </div>
-  
-  <ul class='navbar-nav mr-5-lg'> 
-    <li class='nav-item'>
-      <%=link_to 'All Cars', listings_path, class: 'nav-link' %>
-    </li>
-
-    <% if user_signed_in? %>
-      <li class='nav-item'>
-        <%=link_to 'Sell Your Car', new_variant_path, class: 'nav-link'%>
-      </li>
-
-      <li class='nav-item'>
-        <%=link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'nav-link'%>
-      </li>
-
-    <%else%>
-      <li class='nav-item'>
-        <%=link_to 'Log in', new_user_session_path, class: 'nav-link'%>
-      </li>
-
-      <li class='nav-item'>
-        <%=link_to 'Sign Up', new_user_registration_path, class: 'nav-link'%>
-      </li>
-    <%end%>
-  </ul>
-</nav>
-

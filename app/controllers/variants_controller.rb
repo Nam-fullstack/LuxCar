@@ -1,6 +1,7 @@
 class VariantsController < ApplicationController
+  before_action :set_listing, only: %i[ edit update destroy ]
   before_action :authenticate_user!
-  before_action :authorize_user!, only: %i[ edit update destroy ]
+  before_action :authorize_user, only: %i[ edit update destroy ]
 
   def new
     @variant = Variant.new
@@ -11,7 +12,7 @@ class VariantsController < ApplicationController
 
     respond_to do |format|
       if @variant.save
-        update_name
+        update_name(0)
         format.html { redirect_to new_listing_path, notice: "Your car variant was successfully created." }
         format.json { render :show, status: :created, location: @variant }
       else
@@ -27,8 +28,8 @@ class VariantsController < ApplicationController
   def update
     respond_to do |format|
       if @variant.update(variant_params)
-        update_name
-        format.html { redirect_to new_listing_path, notice: "Variant was successfully updated." }
+        update_name(1)
+        format.html { redirect_to listing_path, notice: "Variant was successfully updated." }
         format.json { render :show, status: :ok, location: @variant }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -39,7 +40,7 @@ class VariantsController < ApplicationController
 
   # Gets make form selection to pre-populate the associated Models that belongs to that Make.
   def get_models
-    @make = Make.find params[:make_id]
+    @make = Make.find_by_id params[:make_id]
 
     puts "\n\n\n\n\n\n ################ MAKE: #{@make}"
     @models = @make.models
@@ -53,7 +54,20 @@ class VariantsController < ApplicationController
     params.require(:variant).permit(:year_id, :make_id, :model_id, :engine_id, :transmission_id, :speed_id, :fuel_id, :body_type_id, :door_id, :drive_type_id, :displacement, :power, :colour_id)
   end
 
-  def update_name
+  def authorize_user
+    if current_user.id != @listing.user.id
+      flash[:error] = "Unauthorized Request!"
+      redirect_to listings_path
+    end
+  end
+
+  def set_listing
+    @listing = Listing.find_by_variant_id(params[:id])
+    # puts "\n\n\n\n this is the set_listing from params @listing #{@listing}"
+    @variant = Variant.find_by_id(params[:id])
+  end
+
+  def update_name(new_or_edit)
     year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name
     model = Model.find(params[:variant][:model_id]).name
@@ -71,7 +85,11 @@ class VariantsController < ApplicationController
       trans = "Man"
     end
 
-    Variant.last.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
-    puts "THIS IS THE NAME: #{Variant.last.name}"
+    case new_or_edit
+    when 0
+      Variant.last.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
+    when 1
+      @variant.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
+    end
   end
 end
