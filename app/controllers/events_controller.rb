@@ -156,7 +156,7 @@ class EventsController < ApplicationController
   end
 
   def set_event
-    @events = Event.all.where(purchase_id: @purchase)
+    @events = Event.all.where(purchase_id: @purchase) if has_purchased
   end
 
   def set_vars
