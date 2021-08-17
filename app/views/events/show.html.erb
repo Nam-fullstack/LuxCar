@@ -1,8 +1,12 @@
-<%= month_calendar(event: @event) do |date, events| %>
+<div class="calendar row d-flex justify-content-center my-4">
+  <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+
+<%= month_calendar(events: @events) do |date, events| %>
   <div class='calendar-cell'>
     <%= date.day %>
 
     <% events.each do |event| %>
+    <div class='ml-2'>
       <div>
         <strong><%= event.name %></strong>
       </div>
@@ -10,12 +14,13 @@
       <div>
         <%= event.start_time.strftime("%I:%M %P") %>
       </div>
-
+<!--
       <div>
         <strong>Confirmed:</strong>
         <%= event.confirmed ? "✅" : "❌" %>
       </div>
-
+-->
+  </div>
   <!--
       <div>
         <strong>Location:</strong>
