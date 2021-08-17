@@ -30,7 +30,8 @@
     </div>
     
     <% if current_user&.id == @listing&.user.id %>
-      <!-- Doesn't show buy button if the user is the listing owner -->
+      <!-- Buy button is disabled if the user is the listing owner -->
+      <button class='btn btn-secondary' disabled><%= "$#{number_with_delimiter(@listing.price / 100)}" %></button>
     <% elsif user_signed_in? && @listing.sold == false %>
       <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
       <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->

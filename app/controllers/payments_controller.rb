@@ -39,14 +39,13 @@ class PaymentsController < ApplicationController
     payment_id = params[:data][:object][:payment_intent]
     payment = Stripe::PaymentIntent.retrieve(payment_id)
     receipt_url = payment.charges.data[0].receipt_url
-    pp payment
     listing_id = payment.metadata.listing_id
     buyer_id = payment.metadata.user_id
     listing = Listing.find(listing_id)
     
     # Only changes deposit paid when payment has been successfully made.
 
-    # Only updates listing as sold when the payment has successfully gone through based on checkout_session_completed.
+    # Only updates listing as sold when the full payment has successfully gone through based on checkout_session_completed.
 # =================================
 # listing.update(sold: true)
 # =================================

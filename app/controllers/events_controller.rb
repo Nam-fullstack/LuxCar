@@ -1,12 +1,12 @@
 class EventsController < ApplicationController
-  before_action :set_purchase, only: %i[ new create ]
+  before_action :set_purchase_listing, only: %i[ new create index ]
   before_action :set_vars, only: %i[ show edit update destroy ]
+  before_action :set_event, only: %i[ index show ]
   # before_action :authenticate_user!
   # before_action :authorize_user, only: %i[ show edit update destroy ]
 
   # Scopes query to the dates being shown
   def index
-    @event = Event.all.where(purchase_id: @purchase)
     start_date = params.fetch(:start_date, Date.today).to_date
     # @events = Events.where(starts_at: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week)
   end
@@ -81,24 +81,36 @@ class EventsController < ApplicationController
   private
 
   # Gets the listing_id from params specified in payments success.html.erb Book A Test Drive button
-  def set_purchase
-    @purchase = Purchase.last
-    @listing = @purchase.listing_id
+  def set_purchase_listing
+    user_purchase
+    get_listing
     puts "\n\n ============ SET PURCHASE: #{@purchase} and the listing ID: #{@listing} \n\n"
   end
 
-  def set_vars
+  def user_purchase
     @purchase = Purchase.find_by(buyer_id: current_user.id)
+  end
+
+  def get_listing
+    @listing = Listing.find_by_id(@purchase.listing_id)
+  end
+
+  def set_event
+    @events = Event.all.where(purchase_id: @purchase)
+  end
+
+  def set_vars
+    user_purchase
     puts "\n\n\n ######### SET VARS THIS IS PP PURCHASE  ########## \n\n"
     pp @purchase
 
-    @listing = @purchase.listing_id
-    puts "\n\n ============ SET VARS: @listing using pluck= #{@listing} \n"
+    get_listing
+    puts "\n\n ============ SET VARS: @listing_id: #{@listing} \n"
 
-    @id = @purchase.id
-    @event = Event.find_by({purchase_id: @purchase.id})
-    puts "\n\n ====== THIS IS THE PURCHASE ID using select: #{@id} \n\n"
+    @event = Event.find_by(purchase_id: @purchase.id)
+    puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n"
     # @event = Event.find_by_purchase_id(@purchase.id)
+    puts "listing id: "
     pp @listing
     puts "\n\n and pp event below: #{@event} \n\n"
     pp @event
@@ -117,7 +129,7 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:purchase_id, :name, :start_time, :address, :postcode, :message, :confirmed, :buyer_id, :deposit_paid)
+    params.require(:event).permit(:name, :start_time, :address, :postcode, :message, :confirmed)
   end
 
 end

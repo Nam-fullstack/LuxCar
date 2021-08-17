@@ -1,10 +1,10 @@
 
 
-<h1>Events</h1>
+<h1 class='text-center'>Events</h1>
 
 <div id="events_calendar">
-  <%= render partial: "calendar" %>
-  <!-- , locals: {events: @events} -->
+  <%= render 'calendar' %>
+  <!-- ,  -->
 </div>
 
 <!-- 
@@ -19,3 +19,4 @@
  <%= render 'event' %>
 </div>
 
+<%= button_to "Schedule Test Drive", new_event_path, method: :get, params: { purchase_id: @purchase.id }, class: 'btn btn-outline-info mb-5' if no_event %>
