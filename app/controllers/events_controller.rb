@@ -167,8 +167,12 @@ class EventsController < ApplicationController
     get_listing
     puts "\n\n ============ SET VARS: @listing_id: #{@listings || @listing} \n"
 
-    @event = Event.find_by(purchase_id: @purchase.id)
-    puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n"
+    if has_purchased
+      @event = Event.find_by(purchase_id: @purchase.id) 
+    else
+      @event = Event.find_by(id: params[:id])
+    end
+    puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n" if has_purchased
     # @event = Event.find_by_purchase_id(@purchase.id)
     puts "listing id: "
     pp @listing
