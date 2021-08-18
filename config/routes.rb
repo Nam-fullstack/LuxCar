@@ -11,8 +11,12 @@ Rails.application.routes.draw do
   end
 
   resources :listings
-  resources :events
-  # get 'events/new', to: 'events#create', as: 'create_event'
+  resources :events do
+    member do
+      patch :toggle_confirmed_status
+    end
+  end
+  
   # devise_for :admins#, controllers: { sessions: 'admins/sessions' }
   devise_for :users#, controllers: { sessions: 'users/sessions' }
   # skip: :all - enables current_user helper methods 
