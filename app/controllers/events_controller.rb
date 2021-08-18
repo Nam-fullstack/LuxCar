@@ -75,6 +75,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def toggle_confirmed_status
+    @event.toggle!(:confirmed)
+  end
+
   private
 
   # Only allow a list of trusted parameters through.
