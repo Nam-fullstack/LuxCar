@@ -84,7 +84,7 @@ class EventsController < ApplicationController
 
   # Only allows the user that corresponds to the buyer that has paid the deposit to
   # be able to create an event. If user is not a seller and hasn't made any purchases (deposits)
-  # then they're redirected back to listings#index.
+  # then they're redirected back to listings#index. Methods are in events_helper.
   def authorize_buyer
     if !is_seller && !has_purchased
       flash[:error] = "Unauthorized Request! Need to pay deposit to book a test drive." 
@@ -92,6 +92,8 @@ class EventsController < ApplicationController
     end
   end
 
+  # Queries Events table for events that matches the purchase_id(s) that corresponds with
+  # the queries on the Purchases table where the seller_id matches the user's.
   def authorize_seller
     if is_seller && seller_has_buyers
       sell = Purchase.where(seller_id: current_user.id)
@@ -109,16 +111,6 @@ class EventsController < ApplicationController
     end
   end
 
-  def is_seller
-    current_user&.listings.count.positive?
-  end
-
-  # Determines if the current seller has any buyers that have made purchases using seller_id,
-  # and returns true if this doesn't evaluate to nil.
-  def seller_has_buyers
-    !Purchase.find_by(seller_id: current_user.id).nil?
-  end
-
   # If the user has any listings, or if they have made any purchases (deposits), only then, allow them to
   def set_purchase_listing
     user_purchase
@@ -134,27 +126,23 @@ class EventsController < ApplicationController
     pp @events
   end
 
-  def user_purchase
-    @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
-      # redirect_back fallback_location: listings_path
-  end
 
-  def has_purchased
-    !Purchase.find_by(buyer_id: current_user.id).nil?
-  end
-
-  # If user has made a purchase, then assigns @listing to the corresponding listing from the purchases table.
-  # Otherwise, checks to see if the user is a seller, if not, redirects to listings#index
+  # If user has made a purchase, then assigns @listing to the corresponding listing using the listing_id 
+  # from the purchases table. Otherwise, checks to see if the user is a seller, if not, redirects to listings#index
+  # If user is signed in and a seller, assigns all their listings to @listings.
   def get_listing
     if has_purchased
-      @listing = Listing.find_by_id(@purchase.listing_id)
+      @listing = Listing.find_by(id: @purchase.listing_id)
     elsif is_seller
-      @listings = Listing.where(user_id: current_user.id)
+      @listings = current_user&.listings # Listing.where(user_id: current_user.id)  => ActiveRecord 1.2 ms vs 3.0ms
     else
       redirect_back fallback_location: listings_path
     end
   end
 
+  # Only assigns @events to the query where Events that have the purchase_id that corresponds to the Purchases where
+  # the buyer_id matches the current_user.id. So if a seller has not made any purchases, it does not override what is 
+  # already stored for their set of events. 
   def set_event
     @events = Event.all.where(purchase_id: @purchase) if has_purchased
   end
