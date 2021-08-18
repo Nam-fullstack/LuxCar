@@ -29,28 +29,8 @@ module EventsHelper
     end
   end
 
-  def is_seller
-    current_user&.listings.count.positive?
-  end
-
-  # Determines if the current seller has any buyers that have made purchases using seller_id,
-  # and returns true if this doesn't evaluate to nil.
-  def seller_has_buyers
-    !Purchase.find_by(seller_id: current_user.id).nil?
-  end
-
-  def user_purchase
-    @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
-      # redirect_back fallback_location: listings_path
-  end
-
-  def has_purchased
-    !Purchase.find_by(buyer_id: current_user.id).nil?
-  end
-
-  def confirmation_button
-    # hopefully don't need to pass in params and set the corresponding event.
-    @event.update_column(confirmed: true)
-    redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
-  end
+  # def confirmation_button(event)  
+  #   event.update_column(confirmed: true)
+  #   redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
+  # end
 end

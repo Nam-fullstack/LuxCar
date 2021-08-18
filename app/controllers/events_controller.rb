@@ -111,6 +111,25 @@ class EventsController < ApplicationController
     end
   end
 
+  def is_seller
+    current_user&.listings.count.positive?
+  end
+
+  # Determines if the current seller has any buyers that have made purchases using seller_id,
+  # and returns true if this doesn't evaluate to nil.
+  def seller_has_buyers
+    !Purchase.find_by(seller_id: current_user.id).nil?
+  end
+
+  def user_purchase
+    @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
+      # redirect_back fallback_location: listings_path
+  end
+
+  def has_purchased
+    !Purchase.find_by(buyer_id: current_user.id).nil?
+  end
+
   # If the user has any listings, or if they have made any purchases (deposits), only then, allow them to
   def set_purchase_listing
     user_purchase
@@ -125,7 +144,6 @@ class EventsController < ApplicationController
     puts "\n\n @events:\n"
     pp @events
   end
-
 
   # If user has made a purchase, then assigns @listing to the corresponding listing using the listing_id 
   # from the purchases table. Otherwise, checks to see if the user is a seller, if not, redirects to listings#index
@@ -142,7 +160,8 @@ class EventsController < ApplicationController
 
   # Only assigns @events to the query where Events that have the purchase_id that corresponds to the Purchases where
   # the buyer_id matches the current_user.id. So if a seller has not made any purchases, it does not override what is 
-  # already stored for their set of events. 
+  # already stored for their set of events. Need to factor in if the seller has listings and has also made a purchase
+  # to add  
   def set_event
     @events = Event.all.where(purchase_id: @purchase) if has_purchased
   end
