@@ -48,4 +48,13 @@ class Listing < ApplicationRecord
   def convert_price_to_cents
     self.price = (self.attributes_before_type_cast["price"].to_f * 100).round
   end
+
+  def self.search(query, option)
+    if query
+      # % % matches just part of the query on either side when the title 
+      # is put in lowercase, when it is like the string in downcase
+      return self.where("LOWER(#{option}) LIKE ?", "%#{query.downcase}%")
+    end
+    return self.all
+  end
 end

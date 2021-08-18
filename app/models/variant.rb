@@ -12,7 +12,7 @@ class Variant < ApplicationRecord
   has_one :transmission, through: :speed
   has_one :colour
 
-  validates :displacement, numericality: { greater_than: 0, less_than: 20 }
+  validates :displacement, numericality: { greater_than_or_equal_to: 0, less_than: 20 }
 
   before_save :remove_whitespace
 

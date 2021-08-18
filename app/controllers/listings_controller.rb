@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
 
   def index
     # Eager loads images
-    @listings = Listing.includes(pictures_attachments: :blob).where(sold: false)
+    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:variant)
     #.search(params[:query], params[:option])#.includes(:variant)
   end
 

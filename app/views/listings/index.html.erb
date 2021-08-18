@@ -5,8 +5,7 @@
 
   <div class='filters d-flex flex-direction-row'>
     <div class='search_filter'>
-      <input type='text' class='search-filter search-bar w-100', placeholder='Search for a car'>
-      <%= render 'shared/listings-filtered' %>
+      <%= render 'shared/listings-search' %>
     </div>
     
     <div class='listings-sort '>
@@ -24,9 +23,9 @@
 
   <div class='listings-cards-container'>
     <% @listings.each do |listing| %>
-      <% if listing.sold == false %>
-        <%= render 'shared/listing-card', listing: listing %>
-      <% end %>
+      <!-- Don't need conditional for if listing.sold == false since controller already
+           handles this. -->
+      <%= render 'shared/listing-card', listing: listing %>
     <% end %>
   </div> <!-- close listings-cards-container -->
 </div> <!-- close container -->
