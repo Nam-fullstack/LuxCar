@@ -23,7 +23,7 @@
   </div>
 
   <div class='listings-cards-container'>
-    <% @listing.each do |listing| %>
+    <% @listings.each do |listing| %>
       <% if listing.sold == false %>
         <%= render 'shared/listing-card', listing: listing %>
       <% end %>
