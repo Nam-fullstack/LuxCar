@@ -11,6 +11,8 @@ class Listing < ApplicationRecord
   belongs_to :state
   has_many :watches, dependent: :destroy
   has_one :event, dependent: :destroy
+  has_one :make, through: :variant
+  has_many :events, through: :purchase
 
   # Validations
   validates :description, length: { maximum: 1000 }
@@ -57,4 +59,12 @@ class Listing < ApplicationRecord
     end
     return self.all
   end
+
+  # Method to filter listings by Make id. Association: Listing has a variant, which belongs
+  # to a model, which belongs to a make. 
+  def view_by(make)
+    @listings = Listing.includes(variant: { model: :make }).where(make: { id: make })
+  end
+  
+
 end

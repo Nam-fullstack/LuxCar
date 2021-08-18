@@ -1,23 +1,20 @@
 <p id='notice' class='alert-dismissible fade show'><%= notice %></p>
 
 <div class='container-fluid'>
+
   <%= render 'shared/listings-sidebar' %>
 
-  <div class='filters d-flex flex-direction-row'>
-    <div class='search_filter'>
+  <div class='filters d-flex flex-direction-row row'>
+    <div class='search_filter col-2 mr-5'>
+    
       <%= render 'shared/listings-search' %>
+    
     </div>
     
-    <div class='listings-sort '>
-      <select name='sort' id='sort' class='form-control w-100'>
-        <option value='cheapest'>Price (Low to High)</option>
-        <option value='expensive'>Price (High to Low)</option>
-        <option value='newest'>Year Made (High to Low)</option>
-        <option value='oldest'>Year Made (Low to High)</option>
-        <option value='power'>Power (High to Low)</option>
-        <option value='mileage'>Kms (Low to High)</option>
-        <option value='recent'>Recently Listed</option>
-      </select>
+    <div class='listings-sort col-2'>
+
+      <%= render 'shared/listings-sortby' %>
+    
     </div>
   </div>
 

@@ -6,9 +6,8 @@ class ListingsController < ApplicationController
   before_action :set_variant, only: %i[new create]
 
   def index
-    # Eager loads images
-    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:variant)
-    #.search(params[:query], params[:option])#.includes(:variant)
+    # Eager loads images, and states (not including variants since not accessing anything from that table).
+    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state)
   end
 
   def show
