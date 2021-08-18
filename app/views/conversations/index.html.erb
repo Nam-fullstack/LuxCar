@@ -3,7 +3,7 @@
 <div class="container">
   <div class="inbox">
     <% @conversations.each do |conversation| %>
-      <% @recipient = @conversation.recipient(current_user) %>
+      <% @recipient = @conversation.receiver(current_user) %>
 
       <% if !conversation.messages.empty? %>
         <a class="inbox-conversation" href="<%= conversation_messages_path(conversation) %>">

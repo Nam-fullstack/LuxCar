@@ -29,8 +29,9 @@
       <% end %>
     </div>
     
-    <% if current_user.id == @listing.user.id %>
-      <!-- Doesn't show buy button if the user is the listing owner -->
+    <% if current_user&.id == @listing&.user.id %>
+      <!-- Buy button is disabled if the user is the listing owner -->
+      <button class='btn btn-secondary' disabled><%= "$#{number_with_delimiter(@listing.price / 100)}" %></button>
     <% elsif user_signed_in? && @listing.sold == false %>
       <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
       <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->
@@ -46,8 +47,8 @@
 
     <div class='form-row mt-3'>
       <div class ='d-flex justify-content-evenly mb-3'>
-      <%= link_to 'Edit', edit_listing_path(@listing.id), class: 'btn btn-warning mr-3' if current_user.id == @listing.user_id %>
-      <%= link_to 'Delete', @listing, method: :delete, data: {confirm: 'Are you sure you want to delete your listing?'} , class: 'btn btn-danger mr-3' if current_user.id == @listing.user_id %>
+      <%= link_to 'Edit', edit_listing_path(@listing.id), class: 'btn btn-warning mr-3' if current_user&.id == @listing&.user_id %>
+      <%= link_to 'Delete', @listing, method: :delete, data: {confirm: 'Are you sure you want to delete your listing?'} , class: 'btn btn-danger mr-3' if current_user&.id == @listing&.user_id %>
       </div>
     </div> <!-- close form-row -->
   </div> <!-- close sidebar -->

@@ -1,49 +1,13 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Events</h1>
 
-<div class="calendar">
-  <%= month_calendar do |date| %>
-    <%= date.day %>
-  <% end %>
+<h1 class='text-center'>Events</h1>
+
+<div id="events_calendar">
+  <%= render 'calendar' %>
 </div>
 
-<div class="start-time">
-<%= month_calendar(attribute: :start_time) do |date| %>
-  <%= date %>
-<% end %>
+<div class='d-flex justify-content-center'>
+  <%= render 'event' %>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Listing</th>
-      <th>Location</th>
-      <th>Name</th>
-      <th>Start time</th>
-      <th>Message</th>
-      <th>Confirmed</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @events.each do |event| %>
-      <tr>
-        <td><%= event.listing_id %></td>
-        <td><%= event.location_id %></td>
-        <td><%= event.name %></td>
-        <td><%= event.start_time %></td>
-        <td><%= event.message %></td>
-        <td><%= event.confirmed %></td>
-        <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Event', new_event_path %>
+<%= button_to "Schedule Test Drive", new_event_path, method: :get, params: { purchase_id: @purchase.id }, class: 'btn btn-outline-info mb-5' if no_event %>
