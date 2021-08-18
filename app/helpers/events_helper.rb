@@ -21,11 +21,16 @@ module EventsHelper
   # Checks to see if the current user has made a purchase, and if there are no events based off the
   # purchase id, then it will show a button to create a new event [Schedule Test Drive] in events#index
   # By default, Event.find_by(purchase_id: purchase.id) will evaluate to nil if a user hasn't paid a deposit
-  # so also need to have purchase evaluate to true as well.
+  # therefore also need to have purchase evaluate to true as well.
   def no_event
     purchase = Purchase.find_by(buyer_id: current_user.id) 
     if purchase && Event.find_by(purchase_id: purchase.id).nil?
       return true
     end
   end
+
+  # def confirmation_button(event)  
+  #   event.update_column(confirmed: true)
+  #   redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
+  # end
 end

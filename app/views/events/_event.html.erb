@@ -47,13 +47,14 @@
           <strong>Confirmed: </strong>
         </div>
         <div class='col-8'>
-          <%= event.confirmed ? "✅ CONFIRMED" : "❌ UNCONFIRMED" %>
-          <%#= button_to "Confirm", confirm_event %>
+          <%= event.confirmed ? "✅ CONFIRMED" : "❌ UNCONFIRMED" %>        
         </div>
       </div>
-      <div class='row ml-2'>  
+      <div class='row ml-2 mb-5'>  
         <%= link_to 'Edit', edit_event_path(event.id), class: 'btn btn-warning my-4 mr-5' %>
-        <%= link_to 'Delete', event, class: 'btn btn-danger my-4', method: :delete, data: { confirm: 'Are you sure?' } %>
+        <td class="event-<%= event.id %>">
+          <%= link_to "#{ event.confirmed ? 'Confirmed' : 'Unconfirmed' }", toggle_confirmed_status_event_path(event), method: :patch, remote: :true, class: "btn btn-info my-4"  %>
+        </td>
       </div>
     <% end %>
     </div>
