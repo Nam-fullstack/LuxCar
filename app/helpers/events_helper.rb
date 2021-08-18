@@ -7,6 +7,11 @@ module EventsHelper
     ->(param, date_range) { link_to raw("&raquo;"), { param => date_range.last + 1.day }, remote: :true }
   end
 
+  # Changes status of event to being confirmed true.
+  def confirm_event
+    @event.update(confirmed: true)
+  end
+
   def event_exists
     @purchase = Purchase.find_by(buyer_id: current_user.id)
     @event = Event.find_by(purchase_id: @purchase.id)
@@ -18,7 +23,7 @@ module EventsHelper
   # By default, Event.find_by(purchase_id: purchase.id) will evaluate to nil if a user hasn't paid a deposit
   # so also need to have purchase evaluate to true as well.
   def no_event
-    purchase = Purchase.find_by(buyer_id: current_user.id)
+    purchase = Purchase.find_by(buyer_id: current_user.id) 
     if purchase && Event.find_by(purchase_id: purchase.id).nil?
       return true
     end

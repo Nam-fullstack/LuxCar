@@ -4,19 +4,10 @@
 
 <div id="events_calendar">
   <%= render 'calendar' %>
-  <!-- ,  -->
 </div>
 
-<!-- 
-<div class="start-time">
-<%= month_calendar(attribute: :start_time) do |date| %>
-  <%= date %>
-<% end %>
-</div>
-
--->
 <div class='d-flex justify-content-center'>
- <%= render 'event' %>
+  <%= render 'event' %>
 </div>
 
 <%= button_to "Schedule Test Drive", new_event_path, method: :get, params: { purchase_id: @purchase.id }, class: 'btn btn-outline-info mb-5' if no_event %>
