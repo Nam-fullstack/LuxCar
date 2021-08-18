@@ -4,10 +4,10 @@ class ListingsController < ApplicationController
   before_action :authorize_user, only: %i[ edit update destroy ]
   before_action :set_form_vars, only: %i[new edit]
   before_action :set_variant, only: %i[new create]
-  # skip_before_action :verify_authenticity_token, only: %i[ strip_session ]
 
   def index
-    @listing = Listing.all.where(sold: false)
+    # Eager loads images
+    @listings = Listing.includes(pictures_attachments: :blob).where(sold: false)
     #.search(params[:query], params[:option])#.includes(:variant)
   end
 
