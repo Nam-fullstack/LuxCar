@@ -61,10 +61,8 @@ class Listing < ApplicationRecord
   end
 
   # Method to filter listings by Make id. Association: Listing has a variant, which belongs
-  # to a model, which belongs to a make. 
+  # to a model, which belongs to a make.
   def view_by(make)
     @listings = Listing.includes(variant: :make).where(make: { id: make })
   end
-  
-
 end
