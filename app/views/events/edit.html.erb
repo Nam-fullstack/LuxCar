@@ -2,6 +2,8 @@
   <h1 class='my-5 text-center'>Edit Event</h1>
   <%= render 'form', event: @event %>
 
-  <%= link_to 'Show', @event %> |
-  <%= link_to 'Back', events_path %>
+  <div class='row d-flex justify-content-center mb-5'>
+    <%= link_to 'Show', @event, class: 'btn btn-outline-info mr-4' %>
+    <%= link_to 'Back', events_path, class: 'btn btn-outline-dark' %>
+  </div>
 </div>

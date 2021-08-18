@@ -1,0 +1,6 @@
+<% if @event.confirmed == true %>
+    $(".event-<%= @event.id %> > a").html('Confirmed').removeClass('btn-info').addClass('btn-success');
+<% else %>
+    $(".event-<%= @event.id %> > a").html('Unconfirmed').removeClass('btn-success').addClass('btn-info');
+<% end %>
+$("#event-status-<%= @event.id %>").html("<%= @event.confirmed %>")

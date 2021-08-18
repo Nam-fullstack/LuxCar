@@ -50,9 +50,11 @@
           <%= event.confirmed ? "✅ CONFIRMED" : "❌ UNCONFIRMED" %>        
         </div>
       </div>
-      <div class='row ml-2'>  
+      <div class='row ml-2 mb-5'>  
         <%= link_to 'Edit', edit_event_path(event.id), class: 'btn btn-warning my-4 mr-5' %>
-        <%= link_to "Confirm", toggle_confirmed_status_event_path(event), method: :patch, remote: :true, class: "btn btn-info my-4"  %>
+        <td class="event-<%= event.id %>">
+          <%= link_to "#{ event.confirmed ? 'Confirmed' : 'Unconfirmed' }", toggle_confirmed_status_event_path(event), method: :patch, remote: :true, class: "btn btn-info my-4"  %>
+        </td>
       </div>
     <% end %>
     </div>
