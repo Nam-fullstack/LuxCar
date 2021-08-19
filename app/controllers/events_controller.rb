@@ -75,6 +75,16 @@ class EventsController < ApplicationController
     end
   end
 
+  def change_confirmed
+    puts "\n\n\n\n this is the params passed to CHANGE_CONFIRMED \n"
+    pp params
+    @event = Event.find_by(id: params[:id])
+    @event.update(confirmed: true)
+    puts "\n\n\n EVENT UPDATED WITH CONFIRMED: TRUE\n"
+    pp @event
+    redirect_to events_path
+  end
+
   def toggle_confirmed_status
     @event.toggle!(:confirmed)
   end
@@ -100,10 +110,8 @@ class EventsController < ApplicationController
   # the queries on the Purchases table where the seller_id matches the user's.
   def authorize_seller
     if is_seller && seller_has_buyers
-      sell = Purchase.where(seller_id: current_user.id)
-      puts "\n\n\n\n\n\n\n ================ purchases query a: =============== \n\n"
-      pp sell
-      @events = Event.where(purchase_id: sell.select(:id))
+      # refactored into one line.
+      @events = Event.joins(:purchase).where(purchase: { seller_id: current_user.id })
     end
   end
 
@@ -167,7 +175,8 @@ class EventsController < ApplicationController
   # already stored for their set of events. Need to factor in if the seller has listings and has also made a purchase
   # to add  
   def set_event
-    @events = Event.all.where(purchase_id: @purchase) if has_purchased
+    @events += Event.all.where(purchase_id: @purchase) if is_seller && has_purchased
+    @events = Event.all.where(purchase_id: @purchase) if !is_seller && has_purchased
   end
 
   def set_vars

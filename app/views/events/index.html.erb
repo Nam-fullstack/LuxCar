@@ -7,7 +7,11 @@
 </div>
 
 <div class='d-flex justify-content-center'>
-  <%= render 'event' %>
+  <div class='row mb-5'>
+    <%= button_to "Schedule Test Drive", new_event_path, method: :get, params: { purchase_id: @purchase.id }, class: 'btn btn-outline-info mb-5' if no_event %>
+  </div>
+  <div class='row mt-5'>
+    <%= render 'event' %>
+  </div>
 
-  <%= button_to "Schedule Test Drive", new_event_path, method: :get, params: { purchase_id: @purchase.id }, class: 'btn btn-outline-info mb-5' if no_event %>
 </div>

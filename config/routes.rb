@@ -11,7 +11,14 @@ Rails.application.routes.draw do
   end
 
   resources :listings
+
+  get '/events/(:id)', to: 'events#index' # Changes typical events#show to events#index
+  patch '/events/:id/confirm', to:'events#change_confirmed', as: 'change_confirmed_event'
   resources :events do
+    # collection do
+    #   patch :change_confirmed
+    # end
+
     member do
       patch :toggle_confirmed_status
     end

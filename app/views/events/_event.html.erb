@@ -1,62 +1,62 @@
 <div class='container'>
   <div class='d-flex flex-column justify-content-center align-items-center'>
-  <div>
-    <% @events.each do |event| %>
-      <%= link_to "#{event.purchase.listing.title}", listing_path(event.purchase.listing) %>
-      <div class='row mt-3'>
-        <div class='col-2 mr-5'>
-          <strong>Title: </strong>
+    <div>
+      <% @events.each do |event| %>
+        <%= link_to "#{event.purchase.listing.title}", listing_path(event.purchase.listing) %>
+        <div class='row mt-3'>
+          <div class='col-2 mr-5'>
+            <strong>Title: </strong>
+          </div>
+          <div class='col-8'><%= event.name %>
+          </div>
         </div>
-        <div class='col-8'><%= event.name %>
+        
+        <div class='row mt-3'>
+          <div class='col-2 mr-5'>
+            <strong>Address: </strong>
+          </div>
+          <div class='col-8'>
+            <%= "#{event.address} #{State.find(event.purchase.listing.state_id).name} #{event.postcode}" %>
+          </div>
         </div>
-      </div>
-      <div class='row mt-3'>
-        <div class='col-2 mr-5'>
-          <strong>Address: </strong>
+        <div class='row mt-3'>
+          <div class='col-2 mr-5'>
+            <strong>Date: </strong>
+          </div>
+          <div class='col-8'>
+            <%= (event.start_time).strftime("%B %d, %Y") %>
+          </div>
         </div>
-        <div class='col-8'>
-          <%= "#{event.address} #{State.find(event.purchase.listing.state_id).name} #{event.postcode}" %>
+        <div class='row mt-3'>
+          <div class='col-2 mr-5'>
+            <strong>Time: </strong>
+          </div>
+          <div class='col-8'>
+            <%= (event.start_time).strftime("%I:%M %P") %>
+          </div>
         </div>
-      </div>
-      <div class='row mt-3'>
-        <div class='col-2 mr-5'>
-          <strong>Date: </strong>
+        <div class='row mt-3'>
+          <div class='col-2 mr-5'>
+            <strong>Message: </strong>
+          </div>
+          <div class='col-8'>
+            <%= event.message %>
+          </div>
         </div>
-        <div class='col-8'>
-          <%= (event.start_time).strftime("%B %d, %Y") %>
+        <div class='row mt-3'>
+          <div class='col-2 mr-5'>
+            <strong>Confirmed: </strong>
+          </div>
+          <div class='col-8'>
+            <%= event.confirmed ? "✅ CONFIRMED" : "❌ UNCONFIRMED" %>        
+          </div>
         </div>
-      </div>
-      <div class='row mt-3'>
-        <div class='col-2 mr-5'>
-          <strong>Time: </strong>
+        <div class='row ml-2 mb-5'>  
+          <%= link_to 'Edit', edit_event_path(event.id), class: 'btn btn-warning my-4 mr-5' %>
+          
+          <%= link_to 'Confirm', change_confirmed_event_path(event), method: :patch, params: { event_id: event.id }, local: true, class: 'btn btn-info my-4' %>
         </div>
-        <div class='col-8'>
-          <%= (event.start_time).strftime("%I:%M %P") %>
-        </div>
-      </div>
-      <div class='row mt-3'>
-        <div class='col-2 mr-5'>
-          <strong>Message: </strong>
-        </div>
-        <div class='col-8'>
-          <%= event.message %>
-        </div>
-      </div>
-      <div class='row mt-3'>
-        <div class='col-2 mr-5'>
-          <strong>Confirmed: </strong>
-        </div>
-        <div class='col-8'>
-          <%= event.confirmed ? "✅ CONFIRMED" : "❌ UNCONFIRMED" %>        
-        </div>
-      </div>
-      <div class='row ml-2 mb-5'>  
-        <%= link_to 'Edit', edit_event_path(event.id), class: 'btn btn-warning my-4 mr-5' %>
-        <td class="event-<%= event.id %>">
-          <%= link_to "#{ event.confirmed ? 'Confirmed' : 'Unconfirmed' }", toggle_confirmed_status_event_path(event), method: :patch, remote: :true, class: "btn btn-info my-4"  %>
-        </td>
-      </div>
-    <% end %>
+      <% end %>
     </div>
   </div> <!-- close d-flex -->
 </div> <!-- close container -->

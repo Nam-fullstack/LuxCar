@@ -6,8 +6,8 @@ class ListingsController < ApplicationController
   before_action :set_variant, only: %i[new create]
 
   def index
-    # Eager loads images, and states (not including variants since not accessing anything from that table).
-    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state)
+    # Eager loads images, users, and states (not including variants since not accessing anything from that table).
+    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)
   end
 
   def show
@@ -50,9 +50,10 @@ class ListingsController < ApplicationController
     @listing = current_user.listings.new(listing_params)
     # 10% deposit => price / 10 and * 100 to convert to cents = * 10. 
     # This is before validation and price is still in $
-    @listing.deposit = @listing.price * 10
-    @listing.variant_id = @variant.id
-    @listing.title = @variant.name
+    @listing.update(deposit: @listing.price * 10, variant_id: @variant.id, title: @variant.name)
+    # @listing.deposit = @listing.price * 10
+    # @listing.variant_id = @variant.id
+    # @listing.title = @variant.name
 
     respond_to do |format|
       if @listing.save
@@ -111,5 +112,11 @@ class ListingsController < ApplicationController
 
   def set_variant
     @variant = Variant.last
+  end
+
+    # Method to filter listings by Make id. Association: Listing has a variant, which belongs
+  # to a model, which belongs to a make.
+  def view_by(make)
+    @listings = Listing.includes(variant: :make).where(make: { id: make })
   end
 end

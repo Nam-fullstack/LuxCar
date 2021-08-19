@@ -47,4 +47,11 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:username, :first_name, :last_name, :email, :password, :password_confirmation) }
     devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:username, :first_name, :last_name, :email, :password, :current_password) }
   end
+
+
+  # Method to filter listings by Make id. Association: Listing has a variant, which belongs
+  # to a model, which belongs to a make.
+  def view_by(make)
+    @listings = Listing.includes(variant: :make).where(make: { id: make })
+  end
 end

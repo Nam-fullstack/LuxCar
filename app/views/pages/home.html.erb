@@ -15,7 +15,7 @@
       <div class='col-2'>
         <!-- Runs view_by method to get listings with selected make, passes it in params 
              to listings#index to only display listings filtered by make -->
-        <%= link_to "#{make.name}", listings_path, params: { view_by(make.id) }, class: 'make-card' %>
+        <%#= link_to "#{make.name}", listings_path(view_by(make.id)), class: 'make-card' %>
       </div>
     <% end %>  
   </div>
