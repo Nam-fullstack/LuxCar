@@ -80,13 +80,10 @@ class EventsController < ApplicationController
     pp params
     @event = Event.find_by(id: params[:id])
     @event.update(confirmed: true)
-    puts "\n\n\n EVENT UPDATED WITH CONFIRMED: TRUE\n"
+    puts "\n\n\n EVENT UPDATED WITH CONFIRMED: TRUE\n" 
     pp @event
-    redirect_to events_path
-  end
-
-  def toggle_confirmed_status
-    @event.toggle!(:confirmed)
+    # redirect_to events_path
+    redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
   end
 
   private
@@ -135,7 +132,7 @@ class EventsController < ApplicationController
 
   def user_purchase
     @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
-      # redirect_back fallback_location: listings_path
+    # redirect_back fallback_location: listings_path if !is_seller
   end
 
   def has_purchased
@@ -175,7 +172,13 @@ class EventsController < ApplicationController
   # already stored for their set of events. Need to factor in if the seller has listings and has also made a purchase
   # to add  
   def set_event
-    @events += Event.all.where(purchase_id: @purchase) if is_seller && has_purchased
+    if is_seller && has_purchased
+      purchase_events = Event.joins(:purchase).where(purchase: { buyer_id: 1 })
+      # @events already stores all the events related to purchases that belong to the seller's listing. So need to 
+      # combine the two to show all the possible events linked to the user where they're the seller and events where
+      # they're the buyer as well. This is achieved using #or method, which is the same as #union.
+      @events.or(purchase_events)
+    end
     @events = Event.all.where(purchase_id: @purchase) if !is_seller && has_purchased
   end
 

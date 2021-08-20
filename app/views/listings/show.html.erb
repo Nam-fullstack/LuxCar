@@ -3,8 +3,12 @@
 
     <!-- Logic to show all listing images, user will be able to select thumbnail -->
     <!-- and image will be loaded as main image --> 
-    <div class='col-12 p-0 main-preview mb-4'>
+    <!--
+    <div id='carpic' class='carousel slide' data-ride='carousel'>
+    -->
+    <div class='col-12 p-0 main-preview mb-4'> 
       <% if @listing.pictures.attached? %>
+
         <div class='listing-show-image-main-container'>
           <%= image_tag @listing.pictures[0], class: 'listing-show-image-main' %>
         <div>
@@ -20,15 +24,66 @@
   </div> <!-- close content -->
 
   <div class= 'sidebar col-lg-16 p-2 mx-2 d-md-block'>
-    <h1 class='mb-sm-2 mb-md-5'><%=@listing.title %></h1>
-    <div class= 'listing-features-container'>
-      <% @listing.features.each do |feature| %>
-        <ul>
-          <span class='badge badge-danger'><li class='feature'><%= feature.name %></li></span>
-        </ul>
-      <% end %>
+    <h1 class='mb-sm-2 mb-md-5 mt-sm-2 mt-md-4'><%=@listing.title %></h1>
+    <div class='listing-specs container-fluid'>
+      <div class='row'>       
+        <strong><p class='col-6'>Make: </p></strong>
+        <p class='col-10'><%= "#{@listing.variant.make.name}" %></p>       
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Model: </p></strong>
+        <p class='col-10'><%= "#{@listing.variant.model.name}" %></p>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Year: </p></strong>
+        <p class='col-10'><%= "#{Year.find_by(id: @listing.variant.year_id).year}" %></p>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Engine type: </p></strong>
+        <div class='col-10'><%= "#{Engine.find_by(id: @listing.variant.engine_id).name}" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Displacement: </p></strong>
+        <div class='col-10'><%= "#{@listing.variant.displacement}L" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Body style: </p></strong>
+        <div class='col-10'><%= "#{BodyType.find_by(id: @listing.variant.body_type_id).name}" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Doors: </p></strong>
+        <div class='col-10'><%= "#{Door.find_by(id: @listing.variant.door_id).name}" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Transmission: </p></strong>
+        <div class='col-10'><%= "#{Speed.find_by(id: @listing.variant.speed_id).name}-speed #{Transmission.find_by(id: @listing.variant.transmission_id).name}" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Drive-type: </p></strong>
+        <div class='col-10'><%= "#{DriveType.find_by(id: @listing.variant.drive_type_id).name}" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Fuel-type: </p></strong>
+        <div class='col-10'><%= "#{Fuel.find_by(id: @listing.variant.fuel_id).name}" %></div>
+      </div>
+      <div class='row'>
+        <strong><p class='col-6'>Colour: </p></strong>
+        <div class='col-10'><%= "#{Colour.find_by(id: @listing.variant.colour_id).name}" %></div>
+      </div>
+      
+      <div class='listing-features-container'>
+        <h2>Features</h2>
+        <% @listing.features.each do |feature| %>
+          <ul>
+            <div class='badge badge-info'><li class='feature'><%= feature.name %></li></div>
+          </ul>
+        <% end %>
+      </div>
+      <div class='listing-description'>
+        <p class='mt-2 ml-4'><%= @listing.description %></p>
+      </div>
     </div>
-    
+
     <% if current_user&.id == @listing&.user.id %>
       <!-- Buy button is disabled if the user is the listing owner -->
       <button class='btn btn-secondary' disabled><%= "$#{number_with_delimiter(@listing.price / 100)}" %></button>
@@ -47,17 +102,15 @@
 
     <div class='form-row mt-3'>
       <div class ='d-flex justify-content-evenly mb-3'>
-      <%= link_to 'Edit', edit_listing_path(@listing.id), class: 'btn btn-warning mr-3' if current_user&.id == @listing&.user_id %>
-      <%= link_to 'Delete', @listing, method: :delete, data: {confirm: 'Are you sure you want to delete your listing?'} , class: 'btn btn-danger mr-3' if current_user&.id == @listing&.user_id %>
+        <!-- putting if conditional outside of the link_to tags to reduce calls/processing -->
+        <% if current_user&.id == @listing&.user_id %>
+          <%= link_to 'Edit', edit_listing_path(@listing.id), class: 'btn btn-warning mr-3' %>
+          <%= link_to 'Delete', @listing, method: :delete, data: {confirm: 'Are you sure you want to delete your listing?'} , class: 'btn btn-danger mr-3' %>
+        <% end %>  
       </div>
     </div> <!-- close form-row -->
   </div> <!-- close sidebar -->
 </div> <!-- close container -->
-
-
-<div class='wrapper listing-description'>
-  <p class='mt-2 ml-4'><%= @listing.description %></p>
-</div>
 
 <!-- Scripts -->
 <%= javascript_pack_tag 'imageSelect' %>

@@ -28,9 +28,4 @@ module EventsHelper
       return true
     end
   end
-
-  # def confirmation_button(event)  
-  #   event.update_column(confirmed: true)
-  #   redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
-  # end
 end

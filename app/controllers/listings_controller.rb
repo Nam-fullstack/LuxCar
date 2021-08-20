@@ -2,8 +2,8 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: %i[ index show ]
   before_action :authorize_user, only: %i[ edit update destroy ]
-  before_action :set_form_vars, only: %i[new edit]
-  before_action :set_variant, only: %i[new create]
+  before_action :set_form_vars, only: %i[ new edit ]
+  before_action :set_variant, only: %i[ new create ]
 
   def index
     # Eager loads images, users, and states (not including variants since not accessing anything from that table).
@@ -49,11 +49,8 @@ class ListingsController < ApplicationController
   def create
     @listing = current_user.listings.new(listing_params)
     # 10% deposit => price / 10 and * 100 to convert to cents = * 10. 
-    # This is before validation and price is still in $
+    # This is before validation and price is still in dollars so still need to convert to cents
     @listing.update(deposit: @listing.price * 10, variant_id: @variant.id, title: @variant.name)
-    # @listing.deposit = @listing.price * 10
-    # @listing.variant_id = @variant.id
-    # @listing.title = @variant.name
 
     respond_to do |format|
       if @listing.save

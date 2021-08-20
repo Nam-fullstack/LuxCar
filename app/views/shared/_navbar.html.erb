@@ -1,33 +1,40 @@
 
 <nav class='navbar navbar-expand-lg navbar-dark bg-dark sticky-top'> 
-  <div class= 'container-fluid'> 
-    <%=link_to 'LuxCar', root_path, class:'' %>
-  </div>
+  <div class= 'container-fluid py-2'> 
+    <div>
+      <%=link_to 'LuxCar' '/images/nav-logo.jpg', root_path, class:'' %>
+    </div>
   
-  <ul class='navbar-nav mr-5-lg'> 
-    <li class='nav-item'>
-      <%=link_to 'All Cars', listings_path, class: '' %>
-    </li>
+    <ul class='navbar-nav mr-5-lg'> 
+      <div class='text-center row'> 
+        <li class='nav-item'>
+          <%=link_to 'All Cars', listings_path, class: 'mr-4' %>
+        </li>
 
-    <% if user_signed_in? %>
-      <li class='nav-item'>
-        <%=link_to 'Sell Your Car', new_variant_path, class: '' %>
-      </li>
+        <% if user_signed_in? %>
+          <li class='nav-item'>
+            <%=link_to 'Sell Your Car', new_variant_path, class: 'mr-5' %>
+          </li>
+      </div>
+          <li class='nav-item ml-5'>
+            <span class='text-color-red'> Signed in as: </span><%= link_to "#{current_user.username}", profiles_path, class: 'mr-5' %>
+          </li>
 
-      <li class='nav-item'>
-        <%=link_to 'Sign Out', destroy_user_session_path, method: :delete, class: '' %>
-      </li>
+          <li class='nav-item'>
+            <%=link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'mr-4' %>
+          </li>
 
-    <%else%>
-      <li class='nav-item'>
-        <%=link_to 'Log in', new_user_session_path, class: '' %>
-      </li>
+        <%else%>
+          <li class='nav-item'>
+            <%=link_to 'Log in', new_user_session_path, class: 'mr-4' %>
+          </li>
 
-      <li class='nav-item'>
-        <%=link_to 'Sign Up', new_user_registration_path, class: '' %>
-      </li>
-    <%end%>
-  </ul>
+          <li class='nav-item'>
+            <%=link_to 'Sign Up', new_user_registration_path, class: 'mr-4' %>
+          </li>
+        <%end%>
+    </ul>
+  </div>
 </nav>
 
 
