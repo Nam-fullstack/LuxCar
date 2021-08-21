@@ -1,26 +1,22 @@
-<main class="landing"> 
-    <%= image_tag 'hero-image.jpg', alt: "Hero-image", class: "hero-image" %>
+<main class="landing text-center"> 
+  <%= image_tag 'hero-image.jpg', alt: "Hero-image", class: "hero-image" %>
 
 
-<h2 class='hero-title'>Luxury at it's finest</h2>
+  <h1 class='hero-title'>Luxury at it's finest</h1>
 
-<%= link_to 'View Cars', listings_path, class: 'btn btn-danger' %>
+  <%= link_to 'View Cars', listings_path, class: 'btn btn-danger' %>
 
-<h2 class='mt-5'>View By Make</h2>
+  <h1 class='mt-5'>View By Make</h1>
 
-<div class='makes-container'>
-  <div class='row'>
-    <% @make = Make.all %>
-    <% @make.each do |make| %>
-      <div class='col-2'>
-        <!-- Runs view_by method to get listings with selected make, passes it in params 
-             to listings#index to only display listings filtered by make -->
-        <%#= link_to "#{make.name}", listings_path(view_by(make.id)), class: 'make-card' %>
-      </div>
-    <% end %>  
+  <div class='makes-container'>
+    <div class='row d-flex justify-content-center'>
+      <% @make.each do |make| %>
+        <div class='make-logo mx-3 my-5'>
+          <!--  Gets listings with selected make, passes make_id in params to listings controller
+                to only display listings filtered by make -->
+          <%= link_to (image_tag make_logo(make.name, "png")), listings_path(make), method: :post, params: { make_id: make.id } %>     
+        </div>
+      <% end %>  
+    </div>
   </div>
-
-    <!-- link_to image_tag('image/someimage.png'), listings_path(select_by_make(1)) -->
-  
-</div>
 </main>

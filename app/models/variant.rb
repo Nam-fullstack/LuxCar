@@ -17,13 +17,12 @@ class Variant < ApplicationRecord
   before_save :remove_whitespace
 
   private
+  
 # *************************************************************************
 # number_field in form doesn't allow for spaces or letters to be typed.
 # *************************************************************************
 
   def remove_whitespace
     self.attributes.each { |key, value| self[key] = value.strip if value.respond_to?(:strip) }
-    # self.displacement = displacement.strip if self.respond_to?(:strip)
-    # self.power = power.strip if self.respond_to?(:strip)
   end
 end

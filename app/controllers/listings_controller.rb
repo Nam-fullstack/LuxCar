@@ -1,13 +1,31 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: %i[ index show ]
+
+  # User doesn't need to be logged in to view listings index and show
+  before_action :authenticate_user!, except: %i[ index filter show ]
+
+  # User has to be the owner of the listing to edit/update/destroy
   before_action :authorize_user, only: %i[ edit update destroy ]
   before_action :set_form_vars, only: %i[ new edit ]
   before_action :set_variant, only: %i[ new create ]
+  before_action :set_make, only: %i[ index filter ]
 
   def index
-    # Eager loads images, users, and states (not including variants since not accessing anything from that table).
-    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)
+    # Eager loads images, users, and states (not including variants since not accessing anything from that table).    
+    puts "\n\n\n\n\n\n\n\n\n PARAMS ARE HERE: \n"
+    pp params
+    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)   
+    # if params[:sort]
+      @listings = Listing.sorted(params[:sort]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)
+    # end 
+  end
+
+  # def sorted
+  # end
+
+  def filter
+    @listings = Listing.filter(params[:make_id])
+    render 'index'
   end
 
   def show
@@ -55,9 +73,11 @@ class ListingsController < ApplicationController
     respond_to do |format|
       if @listing.save
     
-        format.html { redirect_to @listing, notice: "Listing was successfully created." }
+        format.html { redirect_to @listing, notice: 'Listing was successfully created.' }
         format.json { render :show, status: :created, location: @listing }
       else
+        set_form_vars
+        set_variant
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @listing.errors, status: :unprocessable_entity }
       end
@@ -67,9 +87,11 @@ class ListingsController < ApplicationController
   def update
     respond_to do |format|
       if @listing.update(listing_params)
-        format.html { redirect_to @listing, notice: "Listing was successfully updated." }
+        format.html { redirect_to @listing, notice: 'Listing was successfully updated.' }
         format.json { render :show, status: :ok, location: @listing }
       else
+        set_form_vars
+        set_variant
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @listing.errors, status: :unprocessable_entity }
       end
@@ -79,7 +101,7 @@ class ListingsController < ApplicationController
   def destroy
     @listing.destroy
     respond_to do |format|
-      format.html { redirect_to listings_url, notice: "Listing was successfully deleted." }
+      format.html { redirect_to listings_url, notice: 'Listing was successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -96,9 +118,13 @@ class ListingsController < ApplicationController
     params.require(:listing).permit(:user_id, :variant_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, pictures: [], feature_ids: [])
   end
 
+  def filter_params
+    params.require(:filter).permit(:make_id)
+  end
+
   def authorize_user
     if current_user.id != @listing.user.id
-      flash[:error] = "Unauthorized Request!"
+      flash[:error] = 'Unauthorized Request!'
       redirect_to listings_path
     end
   end
@@ -111,9 +137,7 @@ class ListingsController < ApplicationController
     @variant = Variant.last
   end
 
-    # Method to filter listings by Make id. Association: Listing has a variant, which belongs
-  # to a model, which belongs to a make.
-  def view_by(make)
-    @listings = Listing.includes(variant: :make).where(make: { id: make })
+  def set_make
+    @make = Make.all
   end
 end

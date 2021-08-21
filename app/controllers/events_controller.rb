@@ -14,6 +14,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    redirect_to events_path
   end
 
   def new
@@ -107,7 +108,9 @@ class EventsController < ApplicationController
   # the queries on the Purchases table where the seller_id matches the user's.
   def authorize_seller
     if is_seller && seller_has_buyers
-      # refactored into one line.
+      # refactored into one line, rather than doing two separate queries to get the Purchase
+      # where seller_id matchers current user's id and then querying the Events table for records
+      # that match the id from the Purchase in the first query.
       @events = Event.joins(:purchase).where(purchase: { seller_id: current_user.id })
     end
   end
@@ -132,14 +135,12 @@ class EventsController < ApplicationController
 
   def user_purchase
     @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
-    # redirect_back fallback_location: listings_path if !is_seller
   end
 
   def has_purchased
     !Purchase.find_by(buyer_id: current_user.id).nil?
   end
 
-  # If the user has any listings, or if they have made any purchases (deposits), only then, allow them to
   def set_purchase_listing
     user_purchase
     get_listing
@@ -157,29 +158,31 @@ class EventsController < ApplicationController
   # If user has made a purchase, then assigns @listing to the corresponding listing using the listing_id 
   # from the purchases table. Otherwise, checks to see if the user is a seller, if not, redirects to listings#index
   # If user is signed in and a seller, assigns all their listings to @listings.
-  def get_listing
-    if has_purchased
-      @listing = Listing.find_by(id: @purchase.listing_id)
-    elsif is_seller
-      @listings = current_user&.listings # Listing.where(user_id: current_user.id)  => ActiveRecord 1.2 ms vs 3.0ms
-    else
-      redirect_back fallback_location: listings_path
-    end
+  def get_listing   
+    redirect_back fallback_location: listings_path if !is_seller && !has_purchased
+    @listing = Listing.find_by(id: @purchase.listing_id) if has_purchased
+    @listings = current_user&.listings if is_seller # Listing.where(user_id: current_user.id)  => ActiveRecord 1.2 ms vs 3.0ms
   end
 
   # Only assigns @events to the query where Events that have the purchase_id that corresponds to the Purchases where
   # the buyer_id matches the current_user.id. So if a seller has not made any purchases, it does not override what is 
-  # already stored for their set of events. Need to factor in if the seller has listings and has also made a purchase
-  # to add  
+  # already stored for their set of events.
   def set_event
     if is_seller && has_purchased
-      purchase_events = Event.joins(:purchase).where(purchase: { buyer_id: 1 })
-      # @events already stores all the events related to purchases that belong to the seller's listing. So need to 
-      # combine the two to show all the possible events linked to the user where they're the seller and events where
-      # they're the buyer as well. This is achieved using #or method, which is the same as #union.
-      @events.or(purchase_events)
+      seller_purchases = Event.joins(:purchase).where(purchase: { buyer_id: current_user.id })
+      # @events already stores all the events(test drives) related to purchases that belong to the seller's listing. 
+      # If the seller makes any purchases, need to combine the events where the seller is going to test drive with the 
+      # events where the seller has buyers test driving their listings. So need to show all the possible events linked
+      # to the user where they're the seller and events where they're the buyer as well. 
+      # This is achieved using #or method, which is the same as #union.
+      puts "\n\n seller_purchases:\n"
+      pp seller_purchases
+      @events.or(seller_purchases)
+      
+      puts "\n\n COMBINED EVENTS:\n"
+      pp @events.or(seller_purchases)
     end
-    @events = Event.all.where(purchase_id: @purchase) if !is_seller && has_purchased
+    @events = Event.where(purchase_id: @purchase) if !is_seller && has_purchased
   end
 
   def set_vars
@@ -190,11 +193,11 @@ class EventsController < ApplicationController
     get_listing
     puts "\n\n ============ SET VARS: @listing_id: #{@listings || @listing} \n"
 
-    if has_purchased
-      @event = Event.find_by(purchase_id: @purchase.id) 
-    else
+    # if has_purchased
+    #   @event = Event.find_by(purchase_id: @purchase.id) 
+    # else
       @event = Event.find_by(id: params[:id])
-    end
+    # end
     puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n" if has_purchased
     # @event = Event.find_by_purchase_id(@purchase.id)
     puts "listing id: "

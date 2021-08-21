@@ -1,35 +1,41 @@
-<div class='card-listing-image-container col-12 p-0 main-preview mb-4 mt-5'>
-  <% if listing.pictures.attached? %>
-    <%= link_to image_tag(listing.pictures[0]), listing, class: 'card-listing-image card-img img-responsive' %>
-  </div>
-  <% else %>
-    <%= image_tag 'default-image.png', class: 'card-listing-image img-thumbnail card-img top' %>
-  <% end %>
-</div>  <!-- close card-listing-image-container -->
-
-<div class='card-listing-container'>
-  <div class='card-listing-details form-row mt-3'>
-    <div class='card-listing-title col'>
-      <h2 class='mb-sm-2 mb-md-2'><%= link_to "#{listing.title}", listing %></h2>
+<div class='card-container d-flex'>
+  <div class='card-listing-image-container row col-12 p-0 main-preview mb-4 mt-5'>
+    <% if listing.pictures.attached? %>
+      <%= link_to (image_tag(listing.pictures[0], width: '720', height: 'auto')), listing, class: 'listing-image' %>
     </div>
-    <div class='card-listing-price'>
-      <h2 class='mb-sm-2 mb-md-2'><%= "A$#{number_with_delimiter(listing.price / 100)}" %></h2>
-    </div>
-  </div> <!-- close card-listing-details -->
+    <% else %>
+      <%= image_tag 'default-image.png', class: 'listing-image img-thumbnail card-img top' %>
+    <% end %>
+  </div>  <!-- close card-listing-image-container -->
 
-  <div class='card-listing-action form-row col'>
-    <div class='card-listing-state col'>
-      <h3 class='card-listing-state'><%= State.find(listing.state_id).name %></h3>
-    </div>
+  <div class='card-listing-container'>
+    <div class='card-listing-details row mt-3'>
+      <div class='card-listing-title col'>
+        <h3 class='mb-sm-2 mb-md-2'><%= link_to "#{listing.title}", listing %></h3>
+      </div>
+    </div> <!-- close card-listing-details -->
 
-    <!-- Messaging and View Listing buttons -->
-    <!-- User has to be signed in, and has to be different from seller to see Enquire button, and listing hasn't been sold -->
-    <div class='action-buttons form-row col'>
-      <% if user_signed_in? && current_user.id != listing.user.id && !listing.sold %>
-        <%= button_to "Enquire", create_conversation_path(receiver_id: listing.user.id, sender_id: current_user.id), method: :post, params: { id: listing.id }, class: 'btn btn-outline-info' %>
-      <% end %>
-      <!-- User doesn't have to be signed in to view listing -->
-      <%= button_to 'View Details', listing_path(listing.id), method: :get, params: { id: listing.id }, class: 'btn btn-primary ml-3 mr-2' %>
+    <div class='card-listing-action row d-flex justify-content-between'>
+      <div class='card-listing-state col-2'>
+        <h3 class='card-listing-state'><%= State.find(listing.state_id).name %></h3>
+      </div>
+
+      <div class='card-listing-price col-4 col-sm-5 col md-3 col-lg-2'>
+        <h2 class='mb-sm-2 mb-md-2'><%= "A$#{number_with_delimiter(listing.price / 100)}" %></h2>
+      </div>
+    </div>
+      <!-- Messaging and View Listing buttons -->
+      <!-- User has to be signed in, and has to be different from seller to see Enquire button, and listing hasn't been sold -->
+    <div class='action-buttons row d-flex justify-content-end'>
+      <div class='col'>
+        <% if user_signed_in? && current_user.id != listing.user.id && !listing.sold %>
+          <%= button_to "Enquire", create_conversation_path(receiver_id: listing.user.id, sender_id: current_user.id), method: :post, params: { id: listing.id }, class: 'btn btn-outline-info' %>
+        <% end %>
+      </div>
+      <div class='col'>
+        <!-- User doesn't have to be signed in to view listing -->
+        <%= button_to 'View Details', listing_path(listing.id), method: :get, params: { id: listing.id }, class: 'btn btn-primary ml-3 mr-2' %>
+      </div>
     </div>
   </div> <!-- close card-listing-action -->
 </div> <!-- card-listing-container -->

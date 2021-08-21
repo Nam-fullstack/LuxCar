@@ -17,8 +17,9 @@
  /* @import "bootstrap/scss/bootstrap"; */
  @import "simple_calendar";
 
+
 .container {
-  max-width: 100vw
+  max-width: 98vw
 }
 
 .checkbox-lg .custom-control-label::before, 
@@ -34,11 +35,35 @@
 }
 
 .hero-image {
-    width: 100vw;
+    width: 98vw;
     height: auto;
+    max-height: 95vh;
 }
 
-.card-img {
-  max-width: 600px;
+// .card-img {
+//   max-width: 600px;
+//   height: auto;
+// }
+
+.card-listing-image {
+  max-width: 400px;
+  max-height: 360px;
+}
+
+.listing-image {
+  max-width: 400px !important;
+  height: auto;
+}
+
+.navbar {
+  background-color: black;
+}
+.sign-in {
+  color: white;
+  padding-right: 10px;
+}
+
+.thumbnail {
+  width: 100px;
   height: auto;
 }

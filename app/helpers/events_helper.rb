@@ -13,7 +13,7 @@ module EventsHelper
   end
 
   def event_exists
-    @purchase = Purchase.find_by(buyer_id: current_user.id)
+    @purchase = Purchase.where(buyer_id: current_user.id).last
     @event = Event.find_by(purchase_id: @purchase.id)
     @event.id
   end
@@ -23,8 +23,10 @@ module EventsHelper
   # By default, Event.find_by(purchase_id: purchase.id) will evaluate to nil if a user hasn't paid a deposit
   # therefore also need to have purchase evaluate to true as well.
   def no_event
-    purchase = Purchase.find_by(buyer_id: current_user.id) 
-    if purchase && Event.find_by(purchase_id: purchase.id).nil?
+    purchase = Purchase.where(buyer_id: current_user.id).last
+    puts "\n\n\n\n\n no event - purchase.last"
+    pp purchase
+    if purchase && Event.find_by(purchase_id: purchase.id).nil? 
       return true
     end
   end

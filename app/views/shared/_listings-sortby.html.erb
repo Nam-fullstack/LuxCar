@@ -1,9 +1,23 @@
-<select name='sort' id='sort' class='form-control w-100'>
-  <option value='cheapest'>Price (Low to High)</option>
-  <option value='expensive'>Price (High to Low)</option>
-  <option value='newest'>Year Made (High to Low)</option>
-  <option value='oldest'>Year Made (Low to High)</option>
-  <option value='power'>Power (High to Low)</option>
-  <option value='mileage'>Kms (Low to High)</option>
-  <option value='recent'>Recently Listed</option>
-</select>
+
+<%= form_with url: listings_path, method: :get, local: true do |form| %>
+  <div class='row'>
+    <div class='col-8'>
+      <%= form.select :sort, options_for_select([['Price (Low to High)', 1], ['Price (High to Low)', 2], ['Year Made (Newest first)', 3], ['Year Made (Old first)', 4], ['Power (High to Low)', 5], ['Kms (Low to High)', 6], ['Recently Listed', 7]]), :prompt => 'Sort By:', :class => 'form-control' %>
+    </div>
+    <div class='col-2'>
+      <%= form.submit "Sort", class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+  <!-- 
+  <select name='sort' id='sort' class='form-control w-100 mr-4'>
+    <option value='cheapest'>Price (Low to High)</option>
+    <option value='expensive'>Price (High to Low)</option>
+    <option value='newest'>Year Made (Newest first)</option>
+    <option value='oldest'>Year Made (Old first)</option>
+    <option value='power'>Power (High to Low)</option>
+    <option value='mileage'>Kms (Low to High)</option>
+    <option value='recent'>Recently Listed</option>
+  </select>
+-->

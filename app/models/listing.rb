@@ -35,12 +35,6 @@ class Listing < ApplicationRecord
 
   def remove_whitespace
     self.attributes.each { |key, value| self[key] = value.strip if value.respond_to?(:strip) }
-  
-    # self.title = title.strip if respond_to?(:strip)
-    # self.mileage = mileage.strip if respond_to?(:strip)
-    # self.price = price.strip if respond_to?(:strip)
-    # self.postcode = postcode.strip if respond_to?(:strip)
-    # self.description = description.strip if respond_to?(:strip)
   end
 
   # Before validation, converts the price to cents, if it has cents or any decimal
@@ -53,16 +47,43 @@ class Listing < ApplicationRecord
 
   def self.search(query, option)
     if query
-      # % % matches just part of the query on either side when the title 
+      # % % matches just part of the query on either side when the title (option)
       # is put in lowercase, when it is like the string in downcase
       return self.where("LOWER(#{option}) LIKE ?", "%#{query.downcase}%")
     end
     return self.all
   end
 
-  # Method to filter listings by Make id. Association: Listing has a variant, which belongs
-  # to a model, which belongs to a make.
-  def view_by(make)
-    @listings = Listing.includes(variant: :make).where(make: { id: make })
+  # Filter listings by Make id. Association: Listing has a variant, 
+  # which belongs to a model, which belongs to a make.
+  def self.filter(make)
+    if make
+      return self.joins(variant: :make).where(make: { id: make })
+    else
+      return self.all
+    end
+  end
+
+  def self.sorted(sort)
+    if sort
+      case sort
+      when 1
+        return self.order(price: :asc)
+      when 2
+        return self.order(price: :desc)
+      when 3
+        # return self.order( :desc)        # year newest first
+      when 4
+        # return self.order( :asc)        # year oldest first
+      when 5
+        return self.joins(:variant).order(power: :desc)
+      when 6
+        return self.order(mileage: :asc)
+      when 7
+        return self.order(create_at: :desc)
+      end
+    else
+      return self.all
+    end
   end
 end

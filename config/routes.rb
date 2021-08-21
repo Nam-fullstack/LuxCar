@@ -11,8 +11,9 @@ Rails.application.routes.draw do
   end
 
   resources :listings
+  get '/listings?filter', to: 'listings#filter', as: 'filter_listings'
 
-  get '/events/(:id)', to: 'events#index' # Changes typical events#show to events#index
+  # get '/events/(:id)', to: 'events#index' # Changes typical events#show to events#index
   patch '/events/:id/confirm', to:'events#change_confirmed', as: 'change_confirmed_event'
   resources :events do
     # collection do
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
   end
   
   # devise_for :admins#, controllers: { sessions: 'admins/sessions' }
-  devise_for :users#, controllers: { sessions: 'users/sessions' }
+  devise_for :users #, controllers: { sessions: 'users/sessions' }
   # skip: :all - enables current_user helper methods 
   # , path: 'auth', path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }, skip: :all
 
