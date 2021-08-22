@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :listings
-  patch '/listings?filter', to: 'listings#filter', as: 'filter_listings'
+  get 'filtered', to: 'listings#filter', as: 'filter_listings'
 
   # get '/events/(:id)', to: 'events#index' # Changes typical events#show to events#index
   patch '/events/:id/confirm', to:'events#change_confirmed', as: 'change_confirmed_event'

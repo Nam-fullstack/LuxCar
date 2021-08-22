@@ -58,7 +58,4 @@ gem 'bootstrap', '~> 4.6.0'
 gem 'jquery-rails'
 gem 'simple_calendar', '~> 2.4'
 gem 'rails-i18n', '~> 6.0.0'
-gem 'addressfinder'
-# gem 'auspost', '~> 0.8.6' # This BREAK RAILS, can't even do rails c or rails s, something to do with Spring
-gem 'carrierwave', '~> 2.0'
-# gem 'combined_time_select', '~> 2.0' # Don't need this gem to set time interval every 15 mins, can do it in code. 
+gem 'addressfinder' 
