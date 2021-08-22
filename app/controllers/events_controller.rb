@@ -6,6 +6,8 @@ class EventsController < ApplicationController
   before_action :set_purchase_listing, only: %i[ new create index ]
   before_action :set_vars, only: %i[ show edit update destroy ]
   before_action :set_event, only: %i[ index show ]
+  before_action :has_purchased, only: %i[ new create ]
+  # before_action :no_event, only: %i[ new create ]
 
   # Scopes query to the dates being shown
   def index
@@ -18,10 +20,9 @@ class EventsController < ApplicationController
   end
 
   def new
+
     @event = Event.new
-    puts "\n\n\n EVENTS NEW THIS IS THE PARAMS: #{params} \n\n NEW EVENT:"
-    pp @event
-    puts " \n\n @purchase: "
+    puts " \n\n ############# NEW EVENT @purchase: "
     pp @purchase
     puts "\n\n"
   end
@@ -87,6 +88,15 @@ class EventsController < ApplicationController
     redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
   end
 
+  def no_event
+    purchase = Purchase.where(buyer_id: current_user.id).last
+    puts "\n\n\n\n\n def no_event - purchase.last the last purchase"
+    pp purchase
+    if purchase && Event.find_by(purchase_id: purchase.id).nil? 
+      return true
+    end
+  end
+
   private
 
   # Only allow a list of trusted parameters through.
@@ -134,7 +144,7 @@ class EventsController < ApplicationController
   end
 
   def user_purchase
-    @purchase = Purchase.find_by(buyer_id: current_user.id) if has_purchased
+    @purchase = Purchase.where(buyer_id: current_user.id).last if has_purchased
   end
 
   def has_purchased
@@ -193,11 +203,11 @@ class EventsController < ApplicationController
     get_listing
     puts "\n\n ============ SET VARS: @listing_id: #{@listings || @listing} \n"
 
-    # if has_purchased
-    #   @event = Event.find_by(purchase_id: @purchase.id) 
-    # else
+    if has_purchased
+      @event = Event.where(purchase_id: @purchase.id).last
+    else
       @event = Event.find_by(id: params[:id])
-    # end
+    end
     puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n" if has_purchased
     # @event = Event.find_by_purchase_id(@purchase.id)
     puts "listing id: "

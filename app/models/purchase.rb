@@ -6,5 +6,4 @@ class Purchase < ApplicationRecord
 
   validates :payment_id, presence: true
   validates :receipt_url, presence: true
-
 end

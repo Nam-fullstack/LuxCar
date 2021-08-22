@@ -1,5 +1,5 @@
-<main class="landing text-center"> 
-  <%= image_tag 'hero-image.jpg', alt: "Hero-image", class: "hero-image" %>
+<main class='landing text-center'> 
+  <%= image_tag 'hero-image.jpg', alt: 'Hero-image', class: 'hero-image' %>
 
 
   <h1 class='hero-title'>Luxury at it's finest</h1>
@@ -14,7 +14,7 @@
         <div class='make-logo mx-3 my-5'>
           <!--  Gets listings with selected make, passes make_id in params to listings controller
                 to only display listings filtered by make -->
-          <%= link_to (image_tag make_logo(make.name, "png")), listings_path(make), method: :post, params: { make_id: make.id } %>     
+          <%= link_to (image_tag make_logo(make.name, 'png')), filter_listings_path, method: :get, params: { listing_id: Listing.joins(variant: :make).where(make: { id: make.id }) } %>     
         </div>
       <% end %>  
     </div>

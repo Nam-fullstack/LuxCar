@@ -13,6 +13,7 @@ class Listing < ApplicationRecord
   has_one :event, dependent: :destroy
   has_one :make, through: :variant
   has_many :events, through: :purchase
+  has_one :year, through: :variant  # makes year accessible from listing
 
   # Validations
   validates :description, length: { maximum: 1000 }
@@ -72,15 +73,15 @@ class Listing < ApplicationRecord
       when 2
         return self.order(price: :desc)
       when 3
-        # return self.order( :desc)        # year newest first
+        return self.joins(:variant).order(year: :desc)        # year newest first
       when 4
-        # return self.order( :asc)        # year oldest first
+        return self.joins(:variant).order(year: :asc)        # year oldest first
       when 5
         return self.joins(:variant).order(power: :desc)
       when 6
         return self.order(mileage: :asc)
       when 7
-        return self.order(create_at: :desc)
+        return self.order(created_at: :desc)
       end
     else
       return self.all

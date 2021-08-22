@@ -2,15 +2,15 @@ class Variant < ApplicationRecord
   belongs_to :model
   has_one :make, through: :model
   has_many :listings, dependent: :destroy
-  has_one :door
+  belongs_to :door
   has_one :body_type, through: :door
-  has_one :drive
-  has_one :engine
-  has_one :fuel
-  has_one :year
-  has_one :speed
+  belongs_to :drive
+  belongs_to :engine
+  belongs_to :fuel
+  belongs_to :year
+  belongs_to :speed
   has_one :transmission, through: :speed
-  has_one :colour
+  belongs_to :colour
 
   validates :displacement, numericality: { greater_than_or_equal_to: 0, less_than: 20 }
 

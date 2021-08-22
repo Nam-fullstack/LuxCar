@@ -7,7 +7,8 @@
     Will not render form to create event new event if one already exists with 
     a purchase_id that corresponds to the current_user (buyer_id).
   -->
-  <% if !Event.find_by_purchase_id(@purchase) %>
+
+  <% if Event.find_by_purchase_id(@purchase).nil? %>
     <%= render 'form', event: @event %>
   <% else %>
     <p>Event already exists.</p>

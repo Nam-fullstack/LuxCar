@@ -123,6 +123,15 @@
             <%= "#{Colour.find_by(id: @listing.variant.colour_id).name}" %>
           </div>
         </div> <!-- close row -->
+
+        <div class='row mb-3'>
+          <div class='col-sm-4 col-md-3 col-lg-2  col-xxl-1'>
+            <strong>Odometer: </strong>
+          </div>
+          <div class='col-6'>
+            <%= "#{number_with_delimiter(@listing.mileage)} kms" %>
+          </div>
+        </div> <!-- close row -->
       </div>
       <div class='wrapper'>
         <div class='listing-features-container'>
