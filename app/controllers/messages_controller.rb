@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   # If messages have been viewed, it will update the message status to read.
   def index
     @messages = @conversation.messages
-    @messages.where("user_id != ? AND read = ?", current_user.id, false).update_all(read: true)
+    # @messages.where("user_id != ? AND read = ?", current_user.id, false).update_all(read: true)
     @message = @conversation.messages.new
   end
 

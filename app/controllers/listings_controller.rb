@@ -87,6 +87,9 @@ class ListingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_listing
+    puts "\n\n\n\n ################ This is the PARAMS: \n"
+    pp params
+    puts "\n\n\n\n\n\n\n\n\n\n\n\n"
     @listing = Listing.find(params[:id])
   end
 

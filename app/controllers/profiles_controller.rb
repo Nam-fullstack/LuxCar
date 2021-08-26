@@ -1,13 +1,13 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
-  before_action :authorize_user!, only: %i[ edit destroy ]
+  before_action :authorize_user, only: %i[ edit destroy ]
 
   def show
     if current_user.profile.id == params[:id].to_i
-      render "user_profile" # shows the current user's profile
+      render 'profile_page' # shows the current user's profile
     else
-      render "show" # if not the current user
+      render 'show' # if not the current user
     end
   end
 
@@ -71,7 +71,7 @@ class ProfilesController < ApplicationController
     params.require(:profile).permit(:user_id, :image)
   end
 
-  def authorize_user!
+  def authorize_user
     if current_user.id != @profile.user.id
       flash[:alert] = "You are not authorized to view this."
       redirect_to root_url

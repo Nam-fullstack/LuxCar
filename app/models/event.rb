@@ -1,6 +1,8 @@
 class Event < ApplicationRecord
   belongs_to :purchase
   has_one :listing, through: :purchase
+  has_one :seller, through: :purchase
+  has_one :buyer, through: :purchase
 
   before_save :remove_whitespace
 

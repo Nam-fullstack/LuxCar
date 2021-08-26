@@ -52,10 +52,14 @@
           </div>
         </div>
         <div class='row ml-2 mb-5'>  
-          <%= link_to 'Edit', edit_event_path(event), method: :get, params: { event_id: event.id },class: 'btn btn-warning my-4 mr-5' %>
-          <!-- Only dislays button to confirm when the event hasn't been confirmed yet. Passes in the event id as params to the events_controller to update 
-               confirmed -->
-          <% if !event.confirmed %>
+          <%= link_to 'Edit', edit_event_path(event), method: :get, params: { event_id: event.id }, class: 'btn btn-warning my-4 mr-5' %>
+          <!-- Only displays delete button if user is the buyer requesting the test drive -->
+          <% if event.purchase.buyer_id == current_user.id %>
+            <%= link_to 'Delete', @event, method: :delete, data: {confirm: 'Are you sure you want to delete your test drive event?'}, class: 'btn btn-danger my-4 mr-5' %>
+          <% end %>
+          <!-- Only dislays button to confirm when the event hasn't been confirmed yet and this is only available to the owner of the listings.
+               Passes in the event id as params to the events_controller to update confirmed -->
+          <% if event.purchase.seller_id == current_user.id && !event.confirmed %>
             <%= link_to 'Confirm', change_confirmed_event_path(event), method: :patch, params: { event_id: event.id }, local: true, class: 'btn btn-info my-4' %>
           <% end %>
         </div>

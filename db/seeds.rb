@@ -1,11 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 body_types = ['Convertible', 'Coupe', 'Sedan', 'SUV', 'Wagon', 'Hatch']
 colours = ['Beige', 'Black', 'Blue', 'Bronze', 'Brown', 'Burgundy', 'Gold', 'Green', 'Grey', 'Magenta', 'Maroon', 'Orange', 'Other', 'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow']
 doors = [2, 3, 4, 5]
@@ -71,6 +63,14 @@ if User.count.zero?
   10.times.with_index { |index| create_users(index + 1) }
 end
 
+if Profile.count.zero?
+  users = User.all.count
+  users.times.with_index do |index| 
+    Profile.create(user_id: (index + 1))
+    puts "Created Profile #{index}"
+  end
+end
+
 if Make.count.zero?
   makes.each do |make|
     Make.create(name: make)
@@ -79,10 +79,14 @@ if Make.count.zero?
 end
 
 def populates_model(name, id)
-  Model.create(name: name, make_id: (id + 1))
+  Model.create(name: name, make_id: (id + 1)) 
   puts "Created #{Make.find(id+1).name} #{name}"
 end
 
+# Uses allmakes array is a collection of arrays for all of the makes, in which each make is an array 
+# that contains the models for that particular make. This iterates through allmakes, and has an inner
+# loop which iterates through each model and calls populates_model, passing in the model name, and the 
+# index for the make, assigning the corresponding make_id value for each model.
 if Model.count.zero?
   allmakes.each_with_index { |make, index| make.each { |model| populates_model(model, index) } }
 end
@@ -173,6 +177,7 @@ if Colour.count.zero?
   end
 end
 
+# Ideally would want to categorize/group the features and further normalize the features.
 if Feature.count.zero?
   features.sort!
   features.each do |feature|

@@ -1,0 +1,19 @@
+<h1><%= "#{@profile.user.username}" %></h1>
+
+<h1>profile page </h1>
+<div class='container'>
+  <div class='profile-events'>
+    <%= link_to "View Test Drive Calendar", events_path, class: 'btn btn-outline-dark mb-5' %>
+  </div> <!-- close profile-events -->
+  <div class='profile-listings'>
+    <h2>My Listings</h2>
+    
+    <%= render 'profile-listings' %>
+
+  </div> <!-- close profile-listings -->
+  <div class='row'>
+    <%= link_to 'Edit', edit_profile_path(@profile), class: 'btn btn-warning col-1 mr-4' %>
+    <%= link_to 'Back', profiles_path, class: 'btn btn-outline-info col-1' %>
+  </div>
+
+</div> <!-- close container -->

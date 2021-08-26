@@ -12,7 +12,7 @@
               <% if @recipient.profile.image.attached? %>
                 <%= image_tag @recipient.profile.image, alt: 'Profile picure', class: "user-profile-picture" %>
               <% else %>
-                <%= image_tag "profile-default.png", alt: 'Profile picure', class: "user-profile-picture" %>
+                <%= image_tag "default-profile.png", alt: 'Profile picure', class: "user-profile-picture" %>
               <% end %>
               <span class="conversation-receiver"><%= @recipient.username.capitalize %></span>
             </div> <!-- Close inbox-user-display -->

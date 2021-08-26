@@ -4,7 +4,7 @@ class Variant < ApplicationRecord
   has_many :listings, dependent: :destroy
   belongs_to :door
   has_one :body_type, through: :door
-  belongs_to :drive
+  belongs_to :drive_type
   belongs_to :engine
   belongs_to :fuel
   belongs_to :year
@@ -19,7 +19,8 @@ class Variant < ApplicationRecord
   private
   
 # *************************************************************************
-# number_field in form doesn't allow for spaces or letters to be typed.
+# Number_field in form doesn't allow for spaces or letters to be typed, but method
+# below sanitizes all attibutes/data input.
 # *************************************************************************
 
   def remove_whitespace

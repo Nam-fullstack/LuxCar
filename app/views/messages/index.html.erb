@@ -23,8 +23,7 @@
         <% end %>
       <%end %>
     </ul>
-    <button class="conversation-send btn btn-primary">New Message</button>
-    <div class="conversation-new-message hidden">
+    <div class="conversation-new-message">
       <h3 class="conversation-new-message-title">New Message</h2>
       <%= form_for [@conversation, @message] do |f| %>
         <div class="form-field">

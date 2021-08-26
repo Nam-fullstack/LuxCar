@@ -35,19 +35,32 @@
 }
 
 .hero-image {
-    width: 98vw;
+    width: 100%;
     height: auto;
     max-height: 95vh;
 }
 
-// .card-img {
-//   max-width: 600px;
-//   height: auto;
-// }
+.card-container {
+  max-width: 720px;
+  max-height: 800px;
+}
 
 .card-listing-image {
   max-width: 400px;
   max-height: 360px;
+}
+
+.card-listing-action {
+  max-width: 720px;
+}
+
+.card-listing-container {
+  max-width: 720px;
+}
+
+.card-image-size {
+  max-width: 720px;
+  max-height: 400px;
 }
 
 .listing-image {

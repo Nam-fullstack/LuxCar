@@ -1,9 +1,9 @@
-<div class="profile">
+<div class='profile'>
   <h1>My Profile</h1>
   <%= form_with(model: profile) do |form| %>
     <% if profile.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+      <div id='error_explanation'>
+        <h2><%= pluralize(profile.errors.count, 'error') %> prohibited this profile from being saved:</h2>
         <ul>
           <% profile.errors.each do |error| %>
             <li><%= error.full_message %></li>
@@ -12,14 +12,15 @@
       </div> <!-- close error_explaination -->
    <% end %>
 
-    <div class="form-group mb-3 ml-2">
-      <%= form.label :image, class:"col form-label" %>
-      <%= form.file_field :image, class:"form-control-file", accept: "image/jpg,image/png,image/jpeg" %>
+    <div class='form-group mb-3 ml-2'>
+      <p>Upload profile photo </p>
+      <%= form.label :image, class:'col form-label' %>
+      <%= form.file_field :image, class:'form-control-file', accept: 'image/jpg, image/png, image/jpeg' %>
     </div>
 
 
-    <div class="actions form-submit btn btn-primary">
-      <%= form.submit "Update Profile" %>
+    <div class='actions'>
+      <%= form.submit 'Update Profile', class: 'form-submit btn btn-primary' %>
     </div>
   <% end %>
 </div> <!-- close profile -->

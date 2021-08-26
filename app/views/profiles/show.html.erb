@@ -1,12 +1,14 @@
-<h1><%= "#{@profile.user.username}" %> </h1>
+<h1><%= "#{@profile.user.username.capitalize}" %> </h1>
 
-<div class="container">
-  <div class="profile-sidebar">
-    <div>
-    
-    </div>
+<h1> hi!! </h1>
+<div class='container'>
+  <div class='profile-sidebar'>
+
+  </div>
+  <div class='display'>
+    <%= render 'profile-listings' %>
   </div>
 </div>
 
-<%= link_to 'Edit', edit_profile_path(@profile) %> |
-<%= link_to 'Back', profiles_path %>
+<%= link_to 'Edit', edit_profile_path(@profile), class: 'btn btn-warning' %>
+<%= link_to 'Back', profiles_path, class: 'btn btn-outline-info' %>
