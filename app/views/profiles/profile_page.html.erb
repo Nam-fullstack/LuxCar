@@ -1,19 +1,49 @@
-<h1><%= "#{@profile.user.username}" %></h1>
-
-<h1>profile page </h1>
+<h1>Profile Page </h1>
 <div class='container'>
+  <div class='profile-details'>
+    <p><strong>Name: </strong> <%= "#{current_user&.first_name} #{current_user&.last_name}" %></p>
+    <p><strong>Userame: </strong> <%= "#{current_user&.username}" %></p>
+    <p><strong>Email: </strong> <%= "#{current_user&.email}" %></p>
+
+  </div>
   <div class='profile-events'>
-    <%= link_to "View Test Drive Calendar", events_path, class: 'btn btn-outline-dark mb-5' %>
+    <!-- Only displays button if the user has events, method and comments in profiles helper -->
+    <%= link_to "View Test Drive Calendar", events_path, class: 'btn btn-outline-dark my-4' if has_event %>
   </div> <!-- close profile-events -->
   <div class='profile-listings'>
-    <h2>My Listings</h2>
-    
-    <%= render 'profile-listings' %>
+    <h2 class='ml-4'>My Listings</h2>
+    <!-- If the user doesn't have any listings, then don't need to run database queries for all their 
+        active listings and then another one for their sold listings if they don't have any. Also, if they
+        don't have any listings, then that implies that they shouldn't have any sold listings. -->
+    <% if current_user&.listings.empty? %>
+      <p>You currently don't have any lisintgs.</p>
+    <% else %>
 
+      <%= render 'profile-listings' %>
+    
   </div> <!-- close profile-listings -->
-  <div class='row'>
-    <%= link_to 'Edit', edit_profile_path(@profile), class: 'btn btn-warning col-1 mr-4' %>
-    <%= link_to 'Back', profiles_path, class: 'btn btn-outline-info col-1' %>
+
+  <div class='profile-sold'>
+      <h2 class='ml-5 row'>Sold Listings</h2>
+
+      <%= render 'sold-listings' %>
+
+  </div> <!-- close profile-sold -->
+    <% end %> <!-- close if else -->
+
+  <div class='profile-purchases'>
+    <h2 class='ml-5'>My purchases</h2>
+    <% if !current_user&.bought_cars.empty? %>
+      
+      <%= render 'purchases' %>
+
+    <% end %>
+  </div> <!-- close profile-purchases -->
+
+  <div class='row my-5 ml-4'>
+    <%= link_to 'Update Profile', edit_profile_path(@profile), class: 'btn btn-warning col-1 mr-4' %>
+    <%= link_to 'Delete Profile', @profile, method: :delete, data: {confirm: 'Are you sure you want to delete your profile?'} , class: 'btn btn-danger mr-3' %>
+    <%= link_to 'Back', listings_path, class: 'btn btn-outline-info col-1' %>
   </div>
 
 </div> <!-- close container -->

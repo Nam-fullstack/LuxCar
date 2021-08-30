@@ -1,3 +1,7 @@
+# =================================================
+#  This is not implemented/working. Please ignore.
+# =================================================
+
 class Conversation < ApplicationRecord
   # This setups up a self join within the Conversation model for the User model.
   # Allows for a user to be both the sender and receiver of messages.

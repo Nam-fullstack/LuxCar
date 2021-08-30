@@ -3,6 +3,8 @@
     <div class='row'>
       <div class='col-10'>
         <%= form.text_field :query, placeholder: 'Search for a car', class: 'form-control' %>
+        <!-- Sends the value for :option as "Title", don't see this, as we don't need user to select option 
+            since listing title has all the information in it. -->
         <%= form.hidden_field :option, :value => "Title" %>
       </div>
       <div class='col-2'>

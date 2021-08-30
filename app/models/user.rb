@@ -15,4 +15,11 @@ class User < ApplicationRecord
   has_many :events, through: :purchases
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+
+  # Creates profile when user signs up.
+  before_save :make_profile
+
+  def make_profile
+    self.build_profile unless self.profile
+  end
 end

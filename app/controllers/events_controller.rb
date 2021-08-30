@@ -79,7 +79,7 @@ class EventsController < ApplicationController
   def change_confirmed
     puts "\n\n\n\n this is the params passed to CHANGE_CONFIRMED \n"
     pp params
-    @event = Event.find_by(id: params[:id])
+    @event = Event.find(params[:id])
     @event.update(confirmed: true)
     puts "\n\n\n EVENT UPDATED WITH CONFIRMED: TRUE\n" 
     pp @event
@@ -153,7 +153,7 @@ class EventsController < ApplicationController
   # and returns true if this doesn't evaluate to nil.
   def seller_has_buyers
     !current_user.sold_cars.empty?
-    # [not operator]Purchase.find_by(seller_id: current_user.id).empty?      # same AR time in console.
+    # [negate operator]Purchase.find_by(seller_id: current_user.id).empty?      # same AR time in console.
   end
 
   def user_purchase
@@ -163,8 +163,8 @@ class EventsController < ApplicationController
   end
 
   def has_purchased
-    !current_user&.bought_cars.empty?                                     # 0.3ms
-    # [not operator]Purchase.find_by(buyer_id: current_user.id).empty?    # 0.3ms Same time, just easier to read
+    !current_user&.bought_cars.empty?                                        # 0.3ms
+    # [negate operator]Purchase.find_by(buyer_id: current_user.id).empty?    # 0.3ms Same time, just easier to read
 
   end
 
@@ -224,11 +224,11 @@ class EventsController < ApplicationController
     get_listing
     puts "\n\n ============ SET VARS: @listing_id: #{@listings || @listing} \n"
 
-    if has_purchased
-      @event = Event.where(purchase_id: @purchase.id).last
-    else
+    # if has_purchased
+    #   @event = Event.where(purchase_id: @purchase.id).last
+    # else
       @event = Event.find_by(id: params[:id])
-    end
+    # end
     puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n" if has_purchased
     # @event = Event.find_by_purchase_id(@purchase.id)
     puts "listing id: "

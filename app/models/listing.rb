@@ -6,11 +6,11 @@ class Listing < ApplicationRecord
   has_many :features, through: :listings_features, dependent: :destroy
   accepts_nested_attributes_for :listings_features
   has_many_attached :pictures
-  has_many :profiles, through: :watches
-  has_one :purchase, dependent: :destroy
-  belongs_to :state
   has_many :watches, dependent: :destroy
+  has_many :profiles, through: :watches
+  has_many :purchases, dependent: :destroy
   has_many :events, through: :purchase, dependent: :destroy
+  belongs_to :state
   has_one :make, through: :variant
   has_one :year, through: :variant  # makes year accessible from listing to sort by year
 
@@ -54,8 +54,10 @@ class Listing < ApplicationRecord
     return self.all
   end
 
-  # Filter listings by Make id. Association: Listing has a variant, 
-  # which belongs to a model, which belongs to a make.
+  # Filter listings by Make id, joins Listings to Makes through the association: 
+  # Selects Listings linked to variant using variant_id, joins to the model on model_id, joins
+  # to the make on make_id, where the make_id is the passed in value. So this just returns listings
+  # that have an associated make id of i.e. 1, aka Aston Martin. 
   def self.filter(make)
     if make
       return self.joins(variant: :make).where(make: { id: make })
@@ -64,6 +66,8 @@ class Listing < ApplicationRecord
     end
   end
 
+  # Gets the optional value passed in from the views for :sort in params from the Listings Controller
+  # Using a case statement, defines how to sort/order the listings. 
   def self.sorted(sort)
     case sort
     when 1

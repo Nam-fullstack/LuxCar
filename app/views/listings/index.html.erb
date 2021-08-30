@@ -1,20 +1,18 @@
-<p id='notice' class='alert-dismissible fade show'><%= notice %></p>
-
 <div class='container-fluid'>
 
   <%= render 'shared/listings-sidebar' %>
 
-  <div class='filters d-flex flex-direction-row row'>
-    <div class='search_filter col-2 mr-5'>
+  <div class='filters d-flex flex-direction-row container-fluid'>
+    <div class='search_filter col-4 col-sm-6 mr-5 mt-4'>
     
       <%= render 'shared/listings-search' %>
     
     </div>
-    
-    <div class='listings-sort col-2'>
+   
+    <div class='listings-sort col-4 col-sm-6 mt-4'>
 
       <%= render 'shared/listings-sortby' %>
-    
+   
     </div>
   </div>
 

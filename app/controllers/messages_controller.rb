@@ -1,3 +1,7 @@
+# =================================================
+#  This is not implemented/working. Please ignore.
+# =================================================
+
 class MessagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_conversation
@@ -28,7 +32,7 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:body, :user_id)
+    params.require(:message).permit(:body, :user_id, :conversation_id)
   end
 
   def set_conversation

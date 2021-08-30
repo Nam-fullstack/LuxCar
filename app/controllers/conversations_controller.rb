@@ -1,15 +1,20 @@
+# =================================================
+#  This is not implemented/working. Please ignore.
+# =================================================
+
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
   
   # Shows all conversations for the current user 
   def index
+    # Queries Conversations where the sender_id or the receiver_id corresponds with the current user's id. 
     @conversations = Conversation.where("sender_id = ? OR receiver_id = ?", current_user.id, current_user.id)
     @users = User.where.not(id: current_user.id) # User can't message themself
   end
 
   # Checks if conversation between sender and receiver already exists and assigns
   # it to @conversation, else, it creates a new conversation.
-  def create  
+  def create
     if Conversation.between(params[:sender_id], params[:receiver_id]).exists?  #.present => 900ms, .any => 100ms, .exists => 1ms  
        @conversation = Conversation.between(params[:sender_id], params[:receiver_id]).first
     else

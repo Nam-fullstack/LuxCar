@@ -2,7 +2,7 @@
   <div class='d-flex flex-column justify-content-center align-items-center'>
     <div>
       <% @events.each do |event| %>
-        <%= link_to "#{event.purchase.listing.title}", listing_path(event.purchase.listing) %>
+        <%= link_to "#{event.listing.title}", listing_path(event.listing) %>
         <div class='row mt-3'>
           <div class='col-2 mr-5'>
             <strong>Title: </strong>
@@ -16,7 +16,7 @@
             <strong>Address: </strong>
           </div>
           <div class='col-8'>
-            <%= "#{event.address} #{State.find(event.purchase.listing.state_id).name} #{event.postcode}" %>
+            <%= "#{event.address} #{State.find(event.listing.state_id).name} #{event.postcode}" %>
           </div>
         </div>
         <div class='row mt-3'>

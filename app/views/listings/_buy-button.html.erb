@@ -1,0 +1,21 @@
+<!-- ====================================================-->
+<!--                     User Logic                      -->
+<!-- ====================================================-->
+<!-- Buy button is disabled if the user is the listing owner or the user has paid the deposit -->
+<!-- The right side of the OR queries the Purchases by buyer_id that matches the current user's id and if any 
+    of those has a matching listing_id with the current listing, it disables the buy button so they can't
+    purchase it again or in this case, pay for another deposit to test drive if they've made a deposit already -->
+<% if current_user&.id == @listing.user.id || !current_user&.bought_cars&.find_by(listing_id: @listing.id).nil? %>
+  <button class='btn btn-secondary' disabled><%= "$#{number_with_delimiter(@listing.price / 100)}" %></button>
+<% elsif user_signed_in? && @listing.sold == false %>
+<!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX)
+    Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct 
+    sessionId. We've also got our stripe public key, so it's going to our stripe. Won't see the 
+    redirectToCheckout in the create_payment_intent.html.erb until everything we need to happen has happened.
+    We don't create a payment_intent until this button is clicked. -->
+  <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 100)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: 'btn btn-primary p-3' %>
+<% elsif @listing.sold == true %>
+  <button class='btn btn-secondary' disabled>SOLD</button>
+<% else %>
+  <%= button_to 'Log In to Buy', new_user_session_path, class: 'btn btn-info' %>
+<% end %>

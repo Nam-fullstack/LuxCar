@@ -12,6 +12,8 @@ module EventsHelper
     @event.update(confirmed: true)
   end
 
+  # Queries purchases where the buyer_id corresponds with the user's id, and then uses that purchase_id
+  # to query the Events table to find the relevant event and returns the event id. 
   def event_exists
     @purchase = Purchase.where(buyer_id: current_user.id).last
     @event = Event.find_by(purchase_id: @purchase.id)

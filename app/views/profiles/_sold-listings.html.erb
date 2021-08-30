@@ -1,0 +1,13 @@
+<div class='container'>
+  <!-- Query looks for user's sold cars by matching the seller_id in purchase table
+      with the user's id. Then just selects (or plucks) just the values from the 
+      listing_id column that corresponds out of the array of active records. 
+      Then for each listing, using the id, renders the listing if it is sold. -->
+  <% current_user.sold_cars.pluck(:listing_id).each do |ids| %>
+    <% Listing.where(id: ids).each do |listing| %>
+      <% if listing.sold %>
+        <%= render 'shared/listing-card', listing: listing %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div> <!-- close container -->

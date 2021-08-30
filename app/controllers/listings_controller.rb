@@ -14,10 +14,13 @@ class ListingsController < ApplicationController
     # Eager loads images, users, and states (not including variants since not accessing anything from that table).    
     puts "\n\n\n\n\n\n\n\n\n PARAMS ARE HERE: \n"
     pp params
-    @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)   
+    # Only does one query, if params :sort exists, otherwise defaults to the else query. This could be refactored.
     if params[:sort]
       @listings = Listing.sorted(params[:sort].to_i).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)
-    end 
+    else 
+      # Search method, invokes self.search method in Listing Model
+      @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)   
+    end
   end
 
   # def sorted
@@ -28,8 +31,7 @@ class ListingsController < ApplicationController
     render 'index'
   end
 
-  def show
-
+  def show 
   end
 
   def new
@@ -87,7 +89,7 @@ class ListingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_listing
-    puts "\n\n\n\n ################ This is the PARAMS: \n"
+    puts "\n\n\n\n ################ This is the PARAMS in SET_LISTING: \n"
     pp params
     puts "\n\n\n\n\n\n\n\n\n\n\n\n"
     @listing = Listing.find(params[:id])
@@ -95,7 +97,7 @@ class ListingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def listing_params
-    params.require(:listing).permit(:user_id, :variant_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, pictures: [], feature_ids: [])
+    params.require(:listing).permit(:id, :user_id, :variant_id, :title, :price, :mileage, :description, :state_id, :sold, :postcode, pictures: [], feature_ids: [])
   end
 
   def filter_params

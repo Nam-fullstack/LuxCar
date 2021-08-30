@@ -24,6 +24,7 @@
   <div class= 'sidebar container-fluid col-lg-16 p-2 mx-2 d-flex flex-column align-items-center'>
     <h1 class='mb-sm-2 mb-md-3 mt-sm-2 mt-md-4 text-center'><%=@listing.title %></h1>
     <div class='listing-specs container-fluid ml-5 d-flex flex-column'>
+    <!-- Displays all the details for the car -->
       <div class='details-wrapper container-fluid d-flex flex-column'>
         <div class='row mb-3'>
           <div class='col-sm-4 col-md-3 col-lg-2  col-xxl-1'>
@@ -48,7 +49,7 @@
             <strong>Year: </strong>
           </div>
           <div class='col-6'>
-            <%= "#{Year.find_by(id: @listing.variant.year_id).year}" %>
+            <%= "#{@listing.year.year}" %>
           </div>
         </div> <!-- close row -->
 
@@ -57,7 +58,7 @@
             <strong>Engine type: </strong>
           </div>
           <div class='col-6'>
-            <%= "#{Engine.find_by(id: @listing.variant.engine_id).name}" %>
+            <%= "#{@listing.variant.engine.name}" %>
           </div>
         </div> <!-- close row -->
 
@@ -75,7 +76,7 @@
             <strong>Body style: </strong>
           </div> 
           <div class='col-6'>
-            <%= "#{BodyType.find_by(id: @listing.variant.body_type_id).name}" %>
+            <%= "#{@listing.variant.body_type.name}" %>
           </div>
         </div> <!-- close row -->
 
@@ -84,7 +85,7 @@
             <strong>Doors: </strong>
           </div>
           <div class='col-6'>
-            <%= "#{Door.find_by(id: @listing.variant.door_id).name}" %>
+            <%= "#{@listing.variant.door.name}" %>
           </div>
         </div> <!-- close row -->
 
@@ -93,7 +94,7 @@
             <strong>Transmission: </strong>
           </div>
           <div class='col-6'>
-            <%= "#{Speed.find_by(id: @listing.variant.speed_id).name}-speed #{Transmission.find_by(id: @listing.variant.transmission_id).name}" %>
+            <%= "#{@listing.variant.speed.name}-speed #{@listing.variant.transmission.name}" %>
           </div>
         </div> <!-- close row -->
 
@@ -102,7 +103,7 @@
             <strong>Drive-type: </strong>
           </div>
           <div class='col-6'>
-            <%= "#{DriveType.find_by(id: @listing.variant.drive_type_id).name}" %>
+            <%= "#{@listing.variant.drive_type.name}" %>
           </div>
         </div> <!-- close row -->
 
@@ -111,7 +112,7 @@
             <strong>Fuel-type: </strong>
           </div>
           <div class='col-6'>
-            <%= "#{Fuel.find_by(id: @listing.variant.fuel_id).name}" %>
+            <%= "#{@listing.variant.fuel.name}" %>
           </div>
         </div> <!-- close row -->
 
@@ -148,28 +149,11 @@
       </div>
     </div> <!-- close listing-specs-container -->
 
-    <% if current_user&.id == @listing&.user.id %>
-    <!-- ====================================================-->
-    <!--                     User Logic                      -->
-    <!-- ====================================================-->
-      <!-- Buy button is disabled if the user is the listing owner -->
-      <button class='btn btn-secondary' disabled><%= "$#{number_with_delimiter(@listing.price / 100)}" %></button>
-    <% elsif user_signed_in? && @listing.sold == false %>
-      <!-- Goes to create_payment_intent_path, posts to something that renders JS using remote: true (AJAX) -->
-      <!-- Renders create_payment_intent.js.erb JS file, to redirect to our stripe checkout with the correct -->
-      <!-- sessionId. We've also got our stripe public key, so it's going to our stripe. -->
-      <!-- Won't see the redirectToCheckout in the create_payment_intent.html.erb until everything we need to happen has happened. -->
-      <!-- We don't create a payment_intent until this button is clicked. -->
-      <%= button_to "Buy: $#{number_with_delimiter(@listing.price / 100)}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: 'btn btn-primary p-3' %>
-    <% elsif @listing.sold == true %>
-      <button class='btn btn-secondary' disabled>SOLD</button>
-    <% else %>
-      <%= button_to 'Log In to Buy', new_user_session_path, class: 'btn btn-info' %>
-    <% end %>
+    <%= render 'buy-button' %>
 
     <div class='form-row mt-3'>
       <div class ='d-flex justify-content-evenly mb-3'>
-        <!-- putting if conditional outside of the link_to tags to reduce calls/processing -->
+        <!-- putting if conditional outside instead of inside the link_to tags to reduce calls/processing -->
         <% if current_user&.id == @listing&.user_id %>
           <%= link_to 'Edit', edit_listing_path(@listing.id), class: 'btn btn-warning mr-3' %>
           <%= link_to 'Delete', @listing, method: :delete, data: {confirm: 'Are you sure you want to delete your listing?'} , class: 'btn btn-danger mr-3' %>

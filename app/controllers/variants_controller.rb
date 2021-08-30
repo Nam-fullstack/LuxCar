@@ -1,5 +1,5 @@
 class VariantsController < ApplicationController
-  before_action :set_listing, only: %i[ edit update destroy ]
+  before_action :set_listing, only: %i[ edit update update_name destroy ]
   before_action :authenticate_user!
   before_action :authorize_user, only: %i[ edit update destroy ]
 
@@ -12,7 +12,7 @@ class VariantsController < ApplicationController
 
     respond_to do |format|
       if @variant.save
-        update_name(0)
+        update_name
         format.html { redirect_to new_listing_path, notice: "Your car variant was successfully created." }
         format.json { render :show, status: :created, location: @variant }
       else
@@ -28,7 +28,7 @@ class VariantsController < ApplicationController
   def update
     respond_to do |format|
       if @variant.update(variant_params)
-        update_name(1)
+        update_name
         format.html { redirect_to listing_path, notice: "Variant was successfully updated." }
         format.json { render :show, status: :ok, location: @variant }
       else
@@ -38,14 +38,13 @@ class VariantsController < ApplicationController
     end
   end
 
-  # Gets make form selection to pre-populate the associated Models that belongs to that Make.
-  def get_models
-    @make = Make.find_by_id params[:make_id]
-
-    puts "\n\n\n\n\n\n ################ MAKE: #{@make}"
-    @models = @make.models
-    puts "\n\n\n\n\n\n ################ MODELS: #{@models}"
-  end
+  # Gets make form selection to pre-populate the associated Models that belongs to that Make. 
+  # Was trying to have dynamic forms with AJAX, but coffee script doesn't work in Rails 6.
+  
+  # def get_models
+  #   @make = Make.find_by_id params[:make_id]
+  #   @models = @make.models
+  # end
 
   private
 
@@ -55,19 +54,26 @@ class VariantsController < ApplicationController
   end
 
   def authorize_user
-    if current_user.id != @listing.user.id
+    # Determines if the user id (in an array) matches the variant's user id, derived from
+    # variant -> listing -> user, and pluck selects just the user_id and returns the value in an array.
+    # Don't seem to be able to have access to @listings here. 
+    if [current_user.id] != @variant.listings.joins(:user).pluck(:user_id)
       flash[:error] = "Unauthorized Request!"
       redirect_to listings_path
     end
   end
 
   def set_listing
-    @listing = Listing.find_by_variant_id(params[:id])
-    # puts "\n\n\n\n this is the set_listing from params @listing #{@listing}"
-    @variant = Variant.find_by_id(params[:id])
+    @variant = Variant.find(params[:id])
+    puts "\n\n\n\n this is the set_listing from @variant: \n"
+    pp @variant
+
+    @listing = @variant.listings
+    puts "\n\n SET LISTINGS ###### @listing \n"
+    pp @listing
   end
 
-  def update_name(new_or_edit)
+  def update_name
     year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name
     model = Model.find(params[:variant][:model_id]).name
@@ -78,6 +84,14 @@ class VariantsController < ApplicationController
     engine = Engine.find(params[:variant][:engine_id]).name
     drive = DriveType.find(params[:variant][:drive_type_id]).name
     fuel = Fuel.find(params[:variant][:fuel_id]).name
+    
+    # Below, you can also do the same thing as above, which would be easier to read, but if the data was normalised even further
+    # it would probably be quicker to directly query the table iteslf to find the matching attribute_id and get it's name/value. 
+    # The AR time for each of these queries are 0.3ms for both methods with params and chaining from @variant. 
+    
+    # year = @variant.year.year
+    # make = @variant.make.name
+    # model = @variant.model.name     and so on..
 
     if trans == "Automatic"
       trans = "Auto"
@@ -85,11 +99,10 @@ class VariantsController < ApplicationController
       trans = "Man"
     end
 
-    case new_or_edit
-    when 0
-      Variant.last.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
-    when 1
-      @variant.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
-    end
+    # Updates the variant name, combining the year, make, model, displacement, engine, door, body type, speed, transmission, drive type, 
+    # and fuel together. This is just the general standard or naming convention for car variants in the automotive industry, unless the 
+    # manufacturer has a specific naming system for their variants in place. This may seem like duplication of data, and a bunch of 
+    # unnecessary database calls, but unless the user manually types the variant name out themselves, there's no other way. 
+    @variant.update(name: "#{year} #{make} #{model} #{params[:variant][:displacement]}L #{engine} #{door}dr #{body} #{speed}-sp #{trans} #{drive} #{fuel}")
   end
 end

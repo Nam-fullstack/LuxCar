@@ -1,4 +1,5 @@
 <div class='container'>
+  <!-- Queries all the listings that belongs to the user -->
   <% current_user.listings.each do |listing| %>
     <% if listing.sold == false %>
       <%= render 'shared/listing-card', listing: listing %>

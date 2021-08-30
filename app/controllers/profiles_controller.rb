@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
   before_action :authorize_user, only: %i[ edit destroy ]
 
   def show
-    if current_user.profile.id == params[:id].to_i
+    if current_user&.profile&.id == params[:id].to_i
       render 'profile_page' # shows the current user's profile
     else
       render 'show' # if not the current user
@@ -63,7 +63,11 @@ class ProfilesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_profile
-    @profile = Profile.find(params[:id])
+    if Profile.find_by_id(params[:id]).nil?
+      redirect_to new_profile_path
+    else
+      @profile = Profile.find(params[:id])
+    end
   end
 
   # Only allow a list of trusted parameters through.

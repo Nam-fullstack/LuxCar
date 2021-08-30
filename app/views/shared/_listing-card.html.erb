@@ -1,5 +1,5 @@
 <div class='card-container d-flex'>
-  <div class='card-listing-image-container row col-12 p-0 main-preview mb-4 mt-5'>
+  <div class='card-listing-image-container row col-12 p-0 main-preview mb-4 mt-5 ml-4'>
     <% if listing.pictures.attached? %>
       <%= link_to (image_tag(listing.pictures[0], width: '720', height: 'auto', class: 'card-image-size')), listing, class: 'listing-image' %>
     </div>
@@ -8,7 +8,7 @@
     <% end %>
   </div>  <!-- close card-listing-image-container -->
 
-  <div class='card-listing-container'>
+  <div class='card-listing-container ml-4'>
     <div class='card-listing-details row mt-3'>
       <div class='card-listing-title col'>
         <h3 class='mb-sm-2 mb-md-2'><%= link_to "#{listing.title}", listing %></h3>
@@ -17,7 +17,7 @@
 
     <div class='card-listing-action row d-flex justify-content-between'>
       <div class='card-listing-state col-2'>
-        <h3 class='card-listing-state'><%= State.find(listing.state_id).name %></h3>
+        <h3 class='card-listing-state'><%= listing.state.name %></h3>
       </div>
 
       <div class='card-listing-price col-6 col-sm-6 col-md-5 col-lg-4'>
@@ -25,27 +25,28 @@
       </div>
     </div>
       <!-- Messaging and View Listing buttons -->
-      <!-- User has to be signed in, and has to be different from seller to see Enquire button, and listing hasn't been sold -->
+      <!-- User has to be signed in, and has to be different from seller to see Enquire button, and listing hasn't been sold. -->
     <div class='action-buttons row d-flex justify-content-end'>
       <div class='col-2'>
       </div>
-      <div class='col-1'>
-        <% if current_user&.id != listing.user.id && !listing.sold %>
-          <%= button_to "Enquire", create_conversation_path(receiver_id: listing.user.id, sender_id: current_user.id), method: :post, class: 'btn btn-outline-info' %>
-        <% end %>
-      </div>
-      <div class='col-1 mr-2'>
-        <% if current_user&.id == listing.user.id && !listing.sold %>
-          <%= button_to "Edit", update_listing_path(listing.id), method: :get, params: { id: listing.id }, class: 'btn btn-outline-warning' %>
-        <% end %>
-      </div>
+      <!-- User can only have access to the View Event button if they have paid a deposit. Uses listings helper find_event method to
+          select event that belong to the user as a buyer and returns the event id. -->
+      <%= link_to "View Event", event_path(find_event), class: "btn btn-primary" if deposit_paid(listing) %>
+      <% if current_user&.id != listing.user.id && !listing.sold %>
+        <div class='col-2 mr-0'>
+          <%= button_to "Enquire", create_conversation_path(receiver_id: listing.user.id, sender_id: current_user&.id), method: :post, class: 'btn btn-outline-info' %>
+        </div>
+      <% end %>
+      <!-- If the listing belongs to the user and the listing isn't sold, then enables the user to edit the listing. -->
+      <% if current_user&.id == listing.user.id && !listing.sold %>
+        <div class='col-1 mr-4'>
+          <%= button_to "Edit", edit_listing_path(listing.id), method: :get, params: { id: listing.id }, class: 'btn btn-outline-warning' %>
+        </div>
+      <% end %>
       <div class='col-2 mr-5'>
         <!-- User doesn't have to be signed in to view listing -->
-        <%= button_to 'View Details', listing_path(listing.id), method: :get, params: { id: listing.id }, class: 'btn btn-primary ml-1 mr-4' %>
+        <%= button_to 'View Details', listing_path(listing.id), method: :get, params: { id: listing.id }, class: 'btn btn-primary mr-4' %>
       </div>
-    </div>
-    <div>
-      <% %>
-    </div>
+    </div> <!-- close action-buttons -->
   </div> <!-- close card-listing-action -->
 </div> <!-- card-listing-container -->
