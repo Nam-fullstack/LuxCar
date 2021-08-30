@@ -5,9 +5,6 @@ module ListingsHelper
   end
 
   def deposit_paid(listing)
-    puts "\n\n\n\n\n\n ######## listing in deposit_paid in helper is:\n"
-    pp listing
-    puts "\n\n\n"
     !listing.purchases.find_by(buyer_id: current_user&.id).nil?
   end
 

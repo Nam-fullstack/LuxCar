@@ -19,31 +19,18 @@ class EventsController < ApplicationController
   end
 
   def new
-
     @event = Event.new
-    puts " \n\n ############# NEW EVENT @purchase: "
-    pp @purchase
-    puts "\n\n"
   end
 
   def edit
-    puts "\n\n =========== EDIT PAGE: listing: #{@listing} ========\n\n @PURCHASE: \n"
-    pp @purchase
-    puts "\n\n @EVENT: \n"
-    pp @event
   end
 
   # ================== THIS COMMENT IS OLD ==========================
   # Creates new event with params from form, then adds sets the listing_id that was passed
   # in params from payments success.html.erb
   def create
-    puts "\n\nBELOW IS EVENT PARAMS \n\n"
-    pp event_params
     @event = Event.new(event_params)
-    puts "\n\n ===== this is the @purchase.id: \n\n"
-    pp @purchase.id
     @event.purchase_id = @purchase.id
-    puts "\n\n ====== DOES IT REGISTRER THE purchase_id IN CREATE NOW? purchase.id #{@purchase.id} \n LISTING.ID #{@listing}\n"
 
     respond_to do |format|
       if @event.save
@@ -77,20 +64,16 @@ class EventsController < ApplicationController
   end
 
   def change_confirmed
-    puts "\n\n\n\n this is the params passed to CHANGE_CONFIRMED \n"
-    pp params
     @event = Event.find(params[:id])
     @event.update(confirmed: true)
-    puts "\n\n\n EVENT UPDATED WITH CONFIRMED: TRUE\n" 
-    pp @event
+
     # redirect_to events_path
     redirect_back fallback_location: events_path, notice: 'Event has been confirmed.'
   end
 
   def no_event
     purchase = Purchase.where(buyer_id: current_user.id).last
-    puts "\n\n\n\n\n def no_event - purchase.last the last purchase"
-    pp purchase
+
     if purchase && Event.find_by(purchase_id: purchase.id).nil? 
       return true
     end
@@ -171,15 +154,6 @@ class EventsController < ApplicationController
   def set_purchase_listing
     user_purchase
     get_listing
-    puts "\n\n ============ SET PURCHASE: #{@purchase} and the listing ID: #{@listings || @listing} \n\n @purchase:"
-    pp @purchase
-    puts "\n @listings: "
-    pp @listings
-    puts "\n\n @listing: "
-    pp @listing
-
-    puts "\n\n @events:\n"
-    pp @events
   end
 
   # If the user isn't a seller or hasn't paid a deposit (has_purchased), then they are redirected to listings#index.
@@ -197,20 +171,14 @@ class EventsController < ApplicationController
   def set_event
     if is_seller && has_purchased
       seller_purchases = Event.where(purchase_id: current_user&.bought_cars.ids)                      # 0.3ms
-      # seller_purchases = Event.joins(:purchase).where(purchase: { buyer_id: current_user.id })    0.5ms
+      # seller_purchases = Event.joins(:purchase).where(purchase: { buyer_id: current_user.id })        0.5ms
 
       # @events already stores all the events(test drives) related to purchases that belong to the seller's listing(s) which
       # was assigned in authorize_seller method. If the seller makes any purchases, need to combine the events where the 
       # seller is going to test drive with the events where the seller has buyers test driving their listings. 
       # So need to show all the possible events linked to the user where they're the seller and events where they're 
       # the buyer as well. This is achieved using #or method, which is the same as #union.
-      puts "\n\n seller_purchases:\n"
-      pp seller_purchases
-      puts "\n\n combined\n"
-      pp @events.or(seller_purchases)
       @events = @events.or(seller_purchases)    # combines events where seller and events where buyer together
-      puts "\n\n COMBINED EVENTS:\n"
-      pp @events
     else
       @events = Event.where(purchase_id: @purchases.ids) if !is_seller && has_purchased
     end
@@ -218,22 +186,7 @@ class EventsController < ApplicationController
 
   def set_vars
     user_purchase
-    puts "\n\n\n ######### SET VARS THIS IS PP PURCHASE  ########## \n\n"
-    pp @purchase
-
     get_listing
-    puts "\n\n ============ SET VARS: @listing_id: #{@listings || @listing} \n"
-
-    # if has_purchased
-    #   @event = Event.where(purchase_id: @purchase.id).last
-    # else
-      @event = Event.find_by(id: params[:id])
-    # end
-    puts "\n\n ====== THIS IS THE @PURCHASE ID: #{@purchase.id} \n\n" if has_purchased
-    # @event = Event.find_by_purchase_id(@purchase.id)
-    puts "listing id: "
-    pp @listing
-    puts "\n\n and pp event below: #{@event} \n\n"
-    pp @event
+    @event = Event.find_by(id: params[:id])
   end
 end

@@ -40,7 +40,7 @@ class VariantsController < ApplicationController
 
   # Gets make form selection to pre-populate the associated Models that belongs to that Make. 
   # Was trying to have dynamic forms with AJAX, but coffee script doesn't work in Rails 6.
-  
+
   # def get_models
   #   @make = Make.find_by_id params[:make_id]
   #   @models = @make.models
@@ -65,14 +65,10 @@ class VariantsController < ApplicationController
 
   def set_listing
     @variant = Variant.find(params[:id])
-    puts "\n\n\n\n this is the set_listing from @variant: \n"
-    pp @variant
-
     @listing = @variant.listings
-    puts "\n\n SET LISTINGS ###### @listing \n"
-    pp @listing
   end
 
+  # Gets the name from each of the FK's tables to update the variant's name.
   def update_name
     year = Year.find(params[:variant][:year_id]).year
     make = Make.find(params[:variant][:make_id]).name

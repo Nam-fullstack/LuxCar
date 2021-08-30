@@ -26,8 +26,6 @@ module EventsHelper
   # therefore also need to have purchase evaluate to true as well.
   def no_event
     purchase = Purchase.where(buyer_id: current_user.id).last
-    puts "\n\n\n\n\n def no_event - purchase.last the last purchase"
-    pp purchase
     if purchase && Event.find_by(purchase_id: purchase.id).nil? 
       return true
     end

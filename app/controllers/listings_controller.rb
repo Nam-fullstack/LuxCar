@@ -12,8 +12,6 @@ class ListingsController < ApplicationController
 
   def index
     # Eager loads images, users, and states (not including variants since not accessing anything from that table).    
-    puts "\n\n\n\n\n\n\n\n\n PARAMS ARE HERE: \n"
-    pp params
     # Only does one query, if params :sort exists, otherwise defaults to the else query. This could be refactored.
     if params[:sort]
       @listings = Listing.sorted(params[:sort].to_i).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)
@@ -22,9 +20,6 @@ class ListingsController < ApplicationController
       @listings = Listing.search(params[:query], params[:option]).where(sold: false).includes(pictures_attachments: :blob).includes(:state).includes(:user)   
     end
   end
-
-  # def sorted
-  # end
 
   def filter
     @listings = Listing.filter(params[:make_id])
@@ -89,9 +84,6 @@ class ListingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_listing
-    puts "\n\n\n\n ################ This is the PARAMS in SET_LISTING: \n"
-    pp params
-    puts "\n\n\n\n\n\n\n\n\n\n\n\n"
     @listing = Listing.find(params[:id])
   end
 

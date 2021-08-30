@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
   before_action :authorize_user, only: %i[ edit destroy ]
 
   def show
-    if current_user&.profile&.id == params[:id].to_i
+    if current_user&.profile.id == params[:id].to_i
       render 'profile_page' # shows the current user's profile
     else
       render 'show' # if not the current user
